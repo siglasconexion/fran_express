@@ -3,15 +3,24 @@ import { suma } from './controladores/control.js'
 import { Sequelize, DataTypes, Op } from 'sequelize'
 import { 
   getUsers,
-  getUser
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser
  } from './controladores/control.js'
 import db from './db/conn.js'
+import bodyParser  from 'body-parser'
+
 const app = express()
 const port = 3000
-
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 app.get('/users', getUsers)
 app.get('/user', getUser)
+app.post('/user', createUser)
+app.put('/user', updateUser)
+app.delete('/user', deleteUser)
 
 // async (req, res) => { // rutas - routes
 //   console.log("Listar usuarios")
@@ -83,16 +92,6 @@ app.get('/user', getUser)
   
 //   res.json(resultado)
 // })
-
-app.post('/usuarios', (req, res) => { // rutas
-    console.log("Entrando por metodo post")
-    console.log("Creando usuario...")
-    let objeto = {
-        id: "1234",
-        nombre: "Fran"
-    }
-    res.json(objeto)
-  })
 
 app.listen(port, async() => {
   await db.sequelize
