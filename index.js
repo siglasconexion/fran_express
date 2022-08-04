@@ -10,11 +10,17 @@ import {
  } from './controladores/control.js'
 import db from './db/conn.js'
 import bodyParser  from 'body-parser'
+import cors from 'cors';
 
 const app = express()
 const port = 3000
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
+const corsOptions = {
+	origin: '*',
+	optionsSuccessStatus: 200
+};
+app.use(cors(corsOptions));
 
 app.get('/users', getUsers)
 app.get('/user', getUser)

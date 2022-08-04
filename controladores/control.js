@@ -4,12 +4,13 @@ export var suma = (a, b) => a + b
 export const getUsers = async (req, res) => { // rutas - routes
     const data = await User.findAll() // SELECT * FROM users
     if(data.length <= 0){
-      res.json({
+      res.status(204).json({
+        code : 204,
         message: 'Results not found'
       })
       return
     }
-   res.json(data)
+   res.status(200).json(data)
  }
 
  export const getUser = async (req, res) => { // rutas - routes
@@ -27,6 +28,7 @@ export const getUsers = async (req, res) => { // rutas - routes
  }
 
  export const createUser = async (req, res) => {
+  console.log("req.body",req.body)
   const createdUser = await User.create({ name: req.body.name })
   res.json({ message: createdUser })
  }
@@ -42,11 +44,17 @@ export const getUsers = async (req, res) => { // rutas - routes
  }
 
  export const deleteUser = async (req, res) => {
-  const id = req.body.id
-  await User.destroy({
-    where: {
-      id
-    }
-  });
-  res.json({ message: "User deleted successfully" })
+  try{
+
+    console.log(req.body)
+    const id = req.body.id
+    await User.destroy({
+      where: {
+        id
+      }
+    });
+    res.json({ message: "User deleted successfully" })
+  }catch(e){
+    console.log(e.stack)
+  }
  }
