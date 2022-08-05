@@ -3,11 +3,12 @@ import { suma } from './controladores/control.js'
 import { Sequelize, DataTypes, Op } from 'sequelize'
 import { 
   getUsers,
-  getUsersQuerySql,
   getUser,
   createUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  getUserQuerySql,
+  getDataExcel
  } from './controladores/control.js'
 import db from './db/conn.js'
 import bodyParser  from 'body-parser'
@@ -24,11 +25,13 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.get('/users', getUsers)
-app.get('/getUsersQuerySql', getUsersQuerySql)
+app.get('/getUserQuerySql', getUserQuerySql)
 app.get('/user', getUser)
 app.post('/user', createUser)
 app.put('/user', updateUser)
 app.delete('/user', deleteUser)
+app.get('/getDataExcel', getDataExcel)
+
 
 // async (req, res) => { // rutas - routes
 //   console.log("Listar usuarios")
