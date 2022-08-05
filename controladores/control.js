@@ -1,4 +1,7 @@
 import { User } from '../db/models/User.js'
+import db from '../db/conn.js'
+import xlsxj from 'xlsx-to-json'
+
 export var suma = (a, b) => a + b
 
 export const getUsers = async (req, res) => { // rutas - routes
@@ -12,6 +15,28 @@ export const getUsers = async (req, res) => { // rutas - routes
     }
    res.status(200).json(data)
  }
+
+ export const getUsersQuerySql = async (req, res) => { // rutas - routes
+  xlsxj({
+    input: "archivo_excel.xlsx", 
+    output: "convertido.json"
+  }, function(err, result) {
+    if(err) {
+      console.error(err);
+    }else {
+      console.log(result);
+    }
+  });
+  const data = await db.sequelize.query("SELECT * from users") // SELECT * FROM users
+  if(data.length <= 0){
+    res.status(204).json({
+      code : 204,
+      message: 'Results not found'
+    })
+    return
+  }
+ res.status(200).json(data)
+}
 
  export const getUser = async (req, res) => { // rutas - routes
     let unoSolo = await User.findAll({

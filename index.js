@@ -3,6 +3,7 @@ import { suma } from './controladores/control.js'
 import { Sequelize, DataTypes, Op } from 'sequelize'
 import { 
   getUsers,
+  getUsersQuerySql,
   getUser,
   createUser,
   updateUser,
@@ -23,6 +24,7 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.get('/users', getUsers)
+app.get('/getUsersQuerySql', getUsersQuerySql)
 app.get('/user', getUser)
 app.post('/user', createUser)
 app.put('/user', updateUser)
