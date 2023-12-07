@@ -77,11 +77,13 @@ import {
   updateUser,
   deleteUser,
   getUserQuerySql2,
+  login,
 } from "./controladores/control_user.js";
 
 import db from "./db/conn.js";
 import bodyParser from "body-parser";
 import cors from "cors";
+import { authenticateUser }  from "./middleware/auth.js";
 
 const app = express();
 const port = 3000;
@@ -164,11 +166,12 @@ app.delete("/stock", deleteStock);
 
 // Model user
 //app.get("/users", getUserQuerySql2);
-app.get("/users", getUsers);
+app.get("/users", authenticateUser, getUsers);
 app.get("/user", getUser);
 app.post("/user", createUser);
 app.put("/user", updateUser);
 app.delete("/user", deleteUser);
+app.post("/login", login);
 // end model user
 
 app.listen(port, async () => {

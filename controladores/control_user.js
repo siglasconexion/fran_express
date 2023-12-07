@@ -115,3 +115,20 @@ export const deleteUser = async (req, res) => {
     console.log(err.stack);
   }
 };
+
+export const login = (req, res) => {
+  // Aquí deberías realizar la lógica de autenticación del usuario
+  // Asumiremos que tienes un sistema de usuarios con contraseñas seguras almacenadas
+  const { username, password } = req.body;
+  // Verifica las credenciales (esto debe ser reemplazado con tu lógica de autenticación real)
+  if (username === 'usuario' && password === 'contraseña') {
+    // Genera un token JWT
+    const token = jwt.sign({ 
+        user: username
+    }, secretKey, { expiresIn: '1h' });
+
+    res.json({ token });
+  } else {
+    res.status(401).json({ message: 'Credenciales inválidas' });
+  }
+};
