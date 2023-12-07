@@ -1,42 +1,42 @@
 import db from "../conn.js";
 import { DataTypes } from "sequelize";
 
-export const User = db.sequelize.define(
-  "user",
+export const Stock_detail = db.sequelize.define(
+  "stock_detail",
   {
     // Model attributes are defined here
-    id_user: {
+    id_stock_detail: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    id_company_user: {
+    id_stock_stock_detail: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_type_user: {
+    id_item_stock_detail: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_status_user: {
+    id_place_stock_detail: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    name_user: {
-      type: DataTypes.STRING,
+    id_container_stock_detail: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
-    name_key_user: {
-      type: DataTypes.STRING,
+    qty_container_stock_detail: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
-    email_user: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    units_stock_detail: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
-    password_user: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    total_stock_detail: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
   },
   {

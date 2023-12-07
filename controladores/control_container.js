@@ -1,0 +1,101 @@
+import { Container } from "../db/models/container.js";
+import db from "../db/conn.js";
+import xlsxj from "xlsx-to-json";
+import fs from "fs";
+
+export const getContainers = async (req, res) => {
+  const data = await Container.findAll();
+  if (data.length <= 0) {
+    res.status(204).json({
+      code: 204,
+      message: "Results not found",
+    });
+    return;
+  }
+  res.status(200).json(data);
+};
+
+export const getContainer = async (req, res) => {
+  let resultGetOne = await Container.findAll({
+    where: {
+      id_container: req.body.id,
+    },
+  });
+  if (resultGetOne.length <= 0) {
+    res.json({
+      message: "Results not found",
+    });
+    return;
+  }
+  res.json(resultGetOne);
+};
+
+export const createContainer = async (req, res) => {
+  //console.log("req.body", req.body);
+  const resultNew = await Container.create({
+    id_status_container: req.body.idstatuscontainer,
+    id_company_container: req.body.idcompanycontainer,
+    id_family_container: req.body.idfamilycontainer,
+    name_container: req.body.namecontainer,
+    size_container: req.body.sizecontainer,
+    qty_container: req.body.qtycontainer,
+  });
+  Object.entries(resultNew).length === 0
+    ? res.json({ message: "Register is not created" })
+    : res.json({ message: resultNew });
+};
+export const updateContainer = async (req, res) => {
+  try {
+    const obj = req.body;
+    const id_container = req.body.id_container;
+    let resultUpdate = await Container.update(obj, {
+      where: {
+        id_container: id_container,
+      },
+    });
+    //res.json({ message: "User Update successfully" });
+    if (resultUpdate[0] === 1) {
+      res.status(200).json({
+        message: "Status Update successfully",
+        resultUpdate: resultUpdate,
+      });
+    } else {
+      throw { status: res.status, statusText: res.statusText };
+      res.status(400).json({
+        error: "valor demasiado grande",
+        message: "Status not successfully",
+        resultUpdate: resultUpdate,
+      });
+    }
+  } catch (err) {
+    res.status(400).json({
+      error: "valor demasiado grande",
+      message: "Status not successfully",
+    });
+    console.log(err.stack);
+    console.log("aca solo el error", err);
+  }
+};
+
+export const deleteContainer = async (req, res) => {
+  try {
+    console.log(req.body);
+    const id_container = req.body.id;
+    let resultDelete = await Container.destroy({
+      where: {
+        id_container,
+      },
+    });
+    resultDelete === 1
+      ? res.json({
+          message: "Status was deleted successfully",
+          resultDelete: resultDelete,
+        })
+      : res.json({
+          message: "Status Not deleted successfully",
+          resultdelete: resultDelete,
+        });
+  } catch (err) {
+    console.log(err.stack);
+  }
+};
