@@ -1,11 +1,17 @@
+import dotenv from "dotenv";
+dotenv.config();
 import { Sequelize, DataTypes, Op } from "sequelize";
 
 const db = {};
-
-db.sequelize = new Sequelize("inventory", "root", "IP0GZPWfyXEM7mkQ", {
-  host: "localhost",
-  dialect: "mysql",
-});
+db.sequelize = new Sequelize(
+  "inventory",
+  "root",
+  String(process.env.CLAVE_DB),
+  {
+    host: "localhost",
+    dialect: "mysql",
+  }
+);
 
 /* db.sequelize = new Sequelize(
   "inventory",

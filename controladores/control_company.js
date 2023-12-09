@@ -53,7 +53,7 @@ export const updateCompany = async (req, res) => {
     const id_company = req.body.id_company;
     let resultUpdate = await Company.update(obj, {
       where: {
-        id_company: id_company,
+        id_company,
       },
     });
     //res.json({ message: "User Update successfully" });
@@ -76,7 +76,7 @@ export const updateCompany = async (req, res) => {
       message: "Status not successfully",
     });
     console.log(err.stack);
-    console.log("aca solo el error", err);
+    //   console.log("aca solo el error", err);
   }
 };
 

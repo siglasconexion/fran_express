@@ -2,7 +2,8 @@ import { Current_inventory } from "../db/models/current_inventory.js";
 import db from "../db/conn.js";
 import xlsxj from "xlsx-to-json";
 import fs from "fs";
-
+import { request } from "http";
+import _ from "lodash";
 export const getCurrent_inventorys = async (req, res) => {
   const data = await Current_inventory.findAll();
   if (data.length <= 0) {
@@ -14,6 +15,8 @@ export const getCurrent_inventorys = async (req, res) => {
     });
     return;
   }
+  const jsonData = data.map((result) => result.toJSON());
+  console.log("akika backend ", jsonData);
   res.status(200).json(data);
 };
 
@@ -33,19 +36,24 @@ export const getCurrent_inventoryQuerySql2 = async (req, res) => {
 };
 
 export const getCurrent_inventory = async (req, res) => {
-  let resultGetOne = await Current_inventory.findAll({
+  //quitar _ y usar camelcase
+  console.log("ojo ver akika manin uno ", req.params);
+  let variable = req.params.variable;
+  console.log("ojo ver akika manin 2 ", req.query);
+  let resultGetOne = await Current_inventory.findOne({
     where: {
-      id_current_inventory: req.body.iditemcurrentinventory,
+      id_current_inventory: variable,
     },
   });
-  console.log("aca no veo nada", resultGetOne);
-  if (resultGetOne.length <= 0) {
-    res.json({
+  //console.log("aca no veo nada", resultGetOne);
+  if (_.isEmpty(resultGetOne)) {
+    return res.status(404).json({
       message: "Results not found",
+      otramas: " esto tambien ",
     });
-    return;
   }
-  res.json(resultGetOne);
+  //console.error("error del getone", resultGetOne);
+  return res.status(200).json(resultGetOne);
 };
 
 export const createCurrent_inventory = async (req, res) => {
@@ -88,7 +96,7 @@ export const updateCurrent_inventory = async (req, res) => {
       message: "Status not successfully",
     });
     console.log(err.stack);
-    console.log("aca solo el error", err);
+    //console.log("aca solo el error", err);
   }
 };
 

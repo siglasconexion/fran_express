@@ -83,7 +83,7 @@ import {
 import db from "./db/conn.js";
 import bodyParser from "body-parser";
 import cors from "cors";
-import { authenticateUser }  from "./middleware/auth.js";
+import { authenticateUser } from "./middleware/auth.js";
 
 const app = express();
 const port = 3000;
@@ -149,7 +149,7 @@ app.delete("/stock_detail", deleteStock_detail);
 // Model Current_inventory
 //app.get("/current_inventorys", getCurrent_inventoryQuerySql2);
 app.get("/current_inventorys", getCurrent_inventorys);
-app.get("/current_inventory", getCurrent_inventory);
+app.get("/current_inventory/:variable", getCurrent_inventory);
 app.post("/current_inventory", createCurrent_inventory);
 app.put("/current_inventory", updateCurrent_inventory);
 app.delete("/current_inventory", deleteCurrent_inventory);

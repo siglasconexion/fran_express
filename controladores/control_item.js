@@ -23,7 +23,7 @@ export const getItem = async (req, res) => {
       id_item: req.body.id,
     },
   });
-  console.log("aca no veo nada", resultGetOne);
+  //console.log("aca no veo nada", resultGetOne);
   if (resultGetOne.length <= 0) {
     res.json({
       message: "Results not found",

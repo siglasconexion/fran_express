@@ -73,7 +73,7 @@ export const updateContainer = async (req, res) => {
       message: "Status not successfully",
     });
     console.log(err.stack);
-    console.log("aca solo el error", err);
+    //console.log("aca solo el error", err);
   }
 };
 
