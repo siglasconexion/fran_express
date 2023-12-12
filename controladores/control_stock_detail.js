@@ -1,5 +1,7 @@
 import { Stock_detail } from "../db/models/stock_detail.js";
+import { Current_inventory } from "../db/models/current_inventory.js";
 import db from "../db/conn.js";
+import _ from "lodash";
 import xlsxj from "xlsx-to-json";
 import fs from "fs";
 
@@ -59,10 +61,58 @@ export const createStock_detail = async (req, res) => {
     units_stock_detail: req.body.unitsstockdetail,
     total_stock_detail: req.body.totalstockdetail,
   });
-  Object.entries(resultNew).length === 0
-    ? res.json({ message: "Register is not created" })
-    : res.json({ message: resultNew });
+  console.log("cheqar el bdy", req.body.iditemstockdetail);
+  const resultNew2 = await Current_inventory.findOne({
+    where: {
+      id_item_current_inventory: req.body.iditemstockdetail,
+    },
+  });
+  return res.status(200).json(resultNew2);
+
+  const resultNew3 = 0;
+  if (_.isEmpty(resultNew2)) {
+    resultNew3 = await Current_inventory.create({
+      id_stock_current_inventory: req.body.idstockstockdetail,
+      id_item_current_inventory: req.body.iditemstockdetail,
+      total_current_inventory: req.body.totalstockdetail,
+    });
+
+    Object.entries(resultNew3).length === 0
+      ? res.json({ message: "Register is not created" })
+      : res.json({ message: resultNew3 });
+    //return // aqui retornamos la respuesta al from del create
+  }
+  //console.log("variable prueba ", prueba);
+  //console.log("total Viejo", totalViejo);
+  let totalFinal = req.body.totalstockdetail + totalViejo;
+  let obj = {
+    id_stock_current_inventory: req.body.idstockstockdetail,
+    id_item_current_inventory: req.body.iditemstockdetail,
+    total_current_inventory: totalFinal,
+  };
+  const resultUpdate = await Current_inventory.update(obj, {
+    where: {
+      id_item_current_inventory: req.body.iditemstockdetail,
+    },
+  });
+  if (resultUpdate[0] === 1) {
+    res.status(200).json({
+      message: "Status Update successfully",
+      resultUpdate: resultUpdate,
+    });
+  } else {
+    //throw { status: res.status, statusText: res.statusText };
+    res.status(400).json({
+      error: "valor demasiado grande",
+      message: "Status not successfully",
+      resultUpdate: resultUpdate,
+    });
+  }
+
+  // actualizo la tabla
+  // respondo al from
 };
+
 export const updateStock_detail = async (req, res) => {
   try {
     const obj = req.body;
@@ -79,7 +129,7 @@ export const updateStock_detail = async (req, res) => {
         resultUpdate: resultUpdate,
       });
     } else {
-      throw { status: res.status, statusText: res.statusText };
+      //throw { status: res.status, statusText: res.statusText };
       res.status(400).json({
         error: "valor demasiado grande",
         message: "Status not successfully",

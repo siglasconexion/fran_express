@@ -46,14 +46,20 @@ export const getCurrent_inventory = async (req, res) => {
     },
   });
   //console.log("aca no veo nada", resultGetOne);
+
   if (_.isEmpty(resultGetOne)) {
     return res.status(404).json({
       message: "Results not found",
       otramas: " esto tambien ",
+      success: false,
     });
   }
+  let prueba = "pasarla";
+  let prueba2 = [1, 2, 3, 4, 5];
+
   //console.error("error del getone", resultGetOne);
-  return res.status(200).json(resultGetOne);
+  //return res.status(200).json({ ...resultGetOne.toJSON(), success: true });
+  return res.status(200).json({ resultGetOne, success: true, prueba, prueba2 });
 };
 
 export const createCurrent_inventory = async (req, res) => {
