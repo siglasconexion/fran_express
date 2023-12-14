@@ -80,7 +80,7 @@ export const createStock_detail = async (req, res) => {
     await Stock_detail.create({
       // const resultNew =
       id_stock_stock_detail: req.body.idstockstockdetail,
-      id_item_stock_detailsdasdfasdfasd: req.body.iditemstockdetail,
+      id_item_stock_detail: req.body.iditemstockdetail,
       id_place_stock_detail: req.body.idplacestockdetail,
       id_container_stock_detail: req.body.idcontainerstockdetail,
       qty_container_stock_detail: req.body.qtycontainerstockdetail,
@@ -95,12 +95,10 @@ export const createStock_detail = async (req, res) => {
       },
     });
     let convertResultNew2 = resultNew2?.toJSON(); // let variable = .toJSON
-    let previousTotal = convertResultNew2.total_current_inventory;
-    //return res.status(200).json(resultNew2);
-    let resultNew3 = 0; // estaba declarada con const y no se podia reasignar abajo  cheaear porque la defini
+    //let resultNew3 = 0; // estaba declarada con const y no se podia reasignar abajo  cheaear porque la defini
     if (_.isEmpty(convertResultNew2)) {
       // resultNew2
-      resultNew3 = await Current_inventory.create({
+      const resultNew3 = await Current_inventory.create({
         id_stock_current_inventory: req.body.idstockstockdetail,
         id_item_current_inventory: req.body.iditemstockdetail,
         total_current_inventory: req.body.totalstockdetail,
@@ -111,6 +109,9 @@ export const createStock_detail = async (req, res) => {
         : res.json({ message: resultNew3 });
       return; // aqui retornamos la respuesta al from del create
     }
+    let previousTotal = convertResultNew2.total_current_inventory;
+    //return res.status(200).json(resultNew2);
+
     let totalNew = parseInt(req.body.totalstockdetail) + previousTotal;
     /* console.log(totalNew);
     console.log(previousTotal);
@@ -186,12 +187,15 @@ export const deleteStock_detail = async (req, res) => {
     console.log(req.body);
     const id_stock_detail = req.body.id;
     const id_stock_stock_detail = req.body.idstock;
+    const total_stock_detail = req.body.total;
     let resultDelete = await Stock_detail.destroy({
       where: {
         id_stock_detail,
         id_stock_stock_detail,
       },
     });
+    /* 
+//aca hacia el return solo cuando eliminaba en la tabla stock_detail
     resultDelete === 1
       ? res.json({
           message: "Status was deleted successfully",
@@ -201,6 +205,15 @@ export const deleteStock_detail = async (req, res) => {
           message: "Status Not deleted successfully",
           resultdelete: resultDelete,
         });
+*/
+    // aca consulto primero
+    const resultNew2 = await Current_inventory.findOne({
+      where: {
+        id_item_current_inventory: req.body.iditem,
+      },
+    });
+    let convertResultNew2 = resultNew2?.toJSON(); // let variable = .toJSON
+    // aca sigo capturando el total que tiene el result y comparando con lo que le voy a restar para con eso ver si actualizo o elimino con un condicional y medio guevo!!!!!!!
   } catch (err) {
     console.log(err.stack);
   }
