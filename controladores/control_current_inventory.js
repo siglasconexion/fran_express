@@ -35,7 +35,7 @@ export const getCurrent_inventoryQuerySql2 = async (req, res) => {
     variable4
   );
   const data = await db.sequelize.query(
-    `SELECT  total_current_inventory, name_item, code_item from current_inventory INNER JOIN item on current_inventory.id_item_current_inventory=item.id_item where id_stock_current_inventory = ${variable4}  order by id_familia`
+    `SELECT  total_current_inventory, name_item, code_item from current_inventory INNER JOIN item on current_inventory.id_item_current_inventory=item.id_item where id_stock_current_inventory = ${variable4} `
   ); //
   if (data.length <= 0) {
     res.status(204).json({
