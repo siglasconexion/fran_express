@@ -4,11 +4,11 @@ import { Sequelize, DataTypes, Op } from "sequelize";
 
 const db = {};
 db.sequelize = new Sequelize(
-  "inventory",
-  "root",
-  String(process.env.CLAVE_DB),
+  process.env.NAME_DATABASE,
+  process.env.USER_DATABASE,
+  process.env.CLAVE_DB,
   {
-    host: "localhost",
+    host: process.env.HOST,
     dialect: "mysql",
   }
 );

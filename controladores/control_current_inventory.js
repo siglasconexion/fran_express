@@ -4,6 +4,8 @@ import xlsxj from "xlsx-to-json";
 import fs from "fs";
 import { request } from "http";
 import _ from "lodash";
+import puppeteer from 'puppeteer';
+
 export const getCurrent_inventorys = async (req, res) => {
   const data = await Current_inventory.findAll();
   if (data.length <= 0) {
@@ -129,14 +131,75 @@ export const deleteCurrent_inventory = async (req, res) => {
     });
     resultDelete === 1
       ? res.json({
-          message: "Status was deleted successfully",
-          resultDelete: resultDelete,
-        })
+        message: "Status was deleted successfully",
+        resultDelete: resultDelete,
+      })
       : res.json({
-          message: "Status Not deleted successfully",
-          resultdelete: resultDelete,
-        });
+        message: "Status Not deleted successfully",
+        resultdelete: resultDelete,
+      });
   } catch (err) {
     console.log(err.stack);
+  }
+};
+
+
+export const generatePDF = async function (req, res) {
+  const { base64Content } = req.body;
+
+  if (!base64Content) {
+    return res.status(400).send('Contenido base64 no proporcionado en el cuerpo de la solicitud.');
+  }
+  const htmlBody = Buffer.from(base64Content, 'base64').toString('utf-8');
+  // Iniciar el navegador Puppeteer en el nuevo modo headless
+  const browser = await puppeteer.launch({ headless: 'new' });
+  try {
+    // Abrir una nueva página
+    const page = await browser.newPage();
+    // Configurar estilos de página para asegurar que cada página tenga un encabezado y un pie de página
+    await page.addStyleTag({
+      content: `
+        @page {
+          margin: 0px;
+          width:100%;
+          size: A4;
+          @top-center {
+            content: element(header);
+          }
+          @bottom-center {
+            content: element(footer);
+          }
+        }
+        #header {
+          text-align: center;
+          font-size: 12px;
+        }
+        #footer {
+          text-align: center;
+          font-size: 12px;
+        }
+      `
+    });
+    // Configurar el contenido de la página
+    await page.setContent(htmlBody);
+    // Generar el PDF
+    const pdfBuffer = await page.pdf({
+      printBackground: true, // Incluir estilos de fondo
+      margin: {
+        top: '80px', // Altura del encabezado
+        bottom: '100px' // Altura del pie de página
+      }
+    });
+    // Configurar la respuesta HTTP
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', 'inline; filename="example.pdf"');
+    res.send(pdfBuffer);
+
+  } catch (error) {
+    console.error('Error al generar el PDF:', error);
+    res.status(500).send('Error interno al generar el PDF');
+  } finally {
+    // Cerrar el navegador después de completar la operación
+    await browser.close();
   }
 };
