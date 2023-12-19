@@ -147,8 +147,8 @@ app.delete("/stock_detail", deleteStock_detail);
 // end model Stock_detail
 
 // Model Current_inventory
-//app.get("/current_inventorys", getCurrent_inventoryQuerySql2);
-app.get("/current_inventorys", getCurrent_inventorys);
+app.get("/current_inventorys/:varible", getCurrent_inventoryQuerySql2);
+//app.get("/current_inventorys", getCurrent_inventorys);
 app.get("/current_inventory/:variable", getCurrent_inventory);
 app.post("/current_inventory", createCurrent_inventory);
 app.put("/current_inventory", updateCurrent_inventory);

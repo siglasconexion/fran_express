@@ -213,7 +213,51 @@ export const deleteStock_detail = async (req, res) => {
       },
     });
     let convertResultNew2 = resultNew2?.toJSON(); // let variable = .toJSON
-    // aca sigo capturando el total que tiene el result y comparando con lo que le voy a restar para con eso ver si actualizo o elimino con un condicional y medio guevo!!!!!!!
+    console.log(
+      "aca chequeo la cunsulta antes de cualquier cosa",
+      convertResultNew2
+    );
+    console.log(req.body.iditem);
+    if (!_.isEmpty(convertResultNew2)) {
+      console.log("ojo esta lleno");
+      let previousTotal = convertResultNew2.total_current_inventory;
+      let totalNew = previousTotal - parseInt(req.body.total);
+      if (totalNew <= 0) {
+        let resultDelete = await Current_inventory.destroy({
+          where: {
+            id_item_current_inventory: req.body.iditem,
+            id_stock_current_inventory: req.body.idstock,
+          },
+        });
+        // aca borro de current_inventory
+        return res.json();
+      }
+      //aca actualizo  con total new
+      console.log("aca actualizo");
+
+      let obj = {
+        id_stock_current_inventory: req.body.idstock,
+        id_item_current_inventory: req.body.iditem,
+        total_current_inventory: totalNew,
+      };
+      const resultUpdate = await Current_inventory.update(obj, {
+        where: {
+          id_item_current_inventory: req.body.iditem,
+        },
+      });
+      if (resultUpdate[0] === 1) {
+        res.status(200).json({
+          message: "Status Update successfully",
+          resultUpdate: resultUpdate,
+        });
+      } else {
+        res.status(400).json({
+          error: "valor demasiado grande",
+          message: "Status not successfully",
+          resultUpdate: resultUpdate,
+        });
+      }
+    }
   } catch (err) {
     console.log(err.stack);
   }

@@ -22,8 +22,20 @@ export const getCurrent_inventorys = async (req, res) => {
 
 export const getCurrent_inventoryQuerySql2 = async (req, res) => {
   // rutas - routes
+  let variable33 = req.params.variable;
+  let variable2 = req.params;
+  let variable3 = Object.values(variable2);
+  let variable4 = variable3[0];
+  console.log(
+    "HEY CA LA VARIABLE",
+    variable33,
+    req.params,
+    variable2,
+    variable3,
+    variable4
+  );
   const data = await db.sequelize.query(
-    "SELECT  id_stock_detail, id_item_stock_detail, id_container_stock_detail, id_place_stock_detail, id_stock_stock_detail, qty_container_stock_detail, units_stock_detail, total_stock_detail, name_item, code_item, name_container, qty_container FROM `stock_detail` INNER join item on stock_detail.id_item_stock_detail=item.id_item INNER JOIN container on stock_detail.id_container_stock_detail=id_container"
+    `SELECT  total_current_inventory, name_item, code_item from current_inventory INNER JOIN item on current_inventory.id_item_current_inventory=item.id_item where id_stock_current_inventory = ${variable4}  order by id_familia`
   ); //
   if (data.length <= 0) {
     res.status(204).json({
