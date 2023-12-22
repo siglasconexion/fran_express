@@ -149,7 +149,7 @@ app.delete("/stock_detail", deleteStock_detail);
 
 // Model Current_inventory
 app.get("/current_inventorys/:varible", getCurrent_inventoryQuerySql2);
-app.post('/generate-pdf', generatePDF);// prueba
+app.post('/generate-pdf', generatePDF);// prueb
 //app.get("/current_inventorys", getCurrent_inventorys);
 app.get("/current_inventory/:variable", getCurrent_inventory);
 app.post("/current_inventory", createCurrent_inventory);
