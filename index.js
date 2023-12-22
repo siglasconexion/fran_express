@@ -1,6 +1,8 @@
 import express from "express";
 //import { suma } from "./controladores/control_family.js";
 import { Sequelize, DataTypes, Op } from "sequelize";
+const router = express.Router();
+
 import {
   getFamilys,
   getFamily,
@@ -97,84 +99,85 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Model family
-app.get("/familys", getFamilys);
-app.get("/family", getFamily);
-app.post("/family", createFamily);
-app.put("/family", updateFamily);
-app.delete("/family", deleteFamily);
-//app.get("/getDataExcel", getDataExcel);
-//app.get("/getUserQuerySql", getUserQuerySql);
+router.get("/familys", getFamilys);
+router.get("/family", getFamily);
+router.post("/family", createFamily);
+router.put("/family", updateFamily);
+router.delete("/family", deleteFamily);
+//router.get("/getDataExcel", getDataExcel);
+//router.get("/getUserQuerySql", getUserQuerySql);
 // end Model family
 
 // Model status
-app.get("/status", getStatus);
-app.get("/statu", getStatu);
-app.post("/statu", createStatu);
-app.put("/statu", updateStatu);
-app.delete("/statu", deleteStatu);
+router.get("/status", getStatus);
+router.get("/statu", getStatu);
+router.post("/statu", createStatu);
+router.put("/statu", updateStatu);
+router.delete("/statu", deleteStatu);
 // end model status
 
 // Model company
-app.get("/companys", getCompanys);
-app.get("/company", getCompany);
-app.post("/company", createCompany);
-app.put("/company", updateCompany);
-app.delete("/company", deleteCompany);
+router.get("/companys", getCompanys);
+router.get("/company", getCompany);
+router.post("/company", createCompany);
+router.put("/company", updateCompany);
+router.delete("/company", deleteCompany);
 // end model company
 
 // Model container
-app.get("/containers", getContainers);
-app.get("/container", getContainer);
-app.post("/container", createContainer);
-app.put("/container", updateContainer);
-app.delete("/container", deleteContainer);
+router.get("/containers", getContainers);
+router.get("/container", getContainer);
+router.post("/container", createContainer);
+router.put("/container", updateContainer);
+router.delete("/container", deleteContainer);
 // end model container
 
 // Model Item
-app.get("/items", getItems);
-app.get("/item", getItem);
-app.post("/item", createItem);
-app.put("/item", updateItem);
-app.delete("/item", deleteItem);
+router.get("/items", getItems);
+router.get("/item", getItem);
+router.post("/item", createItem);
+router.put("/item", updateItem);
+router.delete("/item", deleteItem);
 // end model item
 
 // Model Stock_detail
-app.get("/stock_details", getStock_detailQuerySql2);
-//app.get("/stock_details", getStock_details);
-app.get("/stock_detail", getStock_detail);
-app.post("/stock_detail", createStock_detail);
-app.put("/stock_detail", updateStock_detail);
-app.delete("/stock_detail", deleteStock_detail);
+router.get("/stock_details", getStock_detailQuerySql2);
+//router.get("/stock_details", getStock_details);
+router.get("/stock_detail", getStock_detail);
+router.post("/stock_detail", createStock_detail);
+router.put("/stock_detail", updateStock_detail);
+router.delete("/stock_detail", deleteStock_detail);
 // end model Stock_detail
 
 // Model Current_inventory
-app.get("/current_inventorys/:varible", getCurrent_inventoryQuerySql2);
-app.post('/generate-pdf', generatePDF);// prueb
-//app.get("/current_inventorys", getCurrent_inventorys);
-app.get("/current_inventory/:variable", getCurrent_inventory);
-app.post("/current_inventory", createCurrent_inventory);
-app.put("/current_inventory", updateCurrent_inventory);
-app.delete("/current_inventory", deleteCurrent_inventory);
+router.get("/current_inventorys/:varible", getCurrent_inventoryQuerySql2);
+router.post('/generate-pdf', generatePDF);// prueb
+//router.get("/current_inventorys", getCurrent_inventorys);
+router.get("/current_inventory/:variable", getCurrent_inventory);
+router.post("/current_inventory", createCurrent_inventory);
+router.put("/current_inventory", updateCurrent_inventory);
+router.delete("/current_inventory", deleteCurrent_inventory);
 // end model Current_inventory
 
 // Model stock
-//app.get("/stoks", getStockQuerySql2);
-app.get("/stocks", getStocks);
-app.get("/stock", getStock);
-app.post("/stock", createStock);
-app.put("/stock", updateStock);
-app.delete("/stock", deleteStock);
+//router.get("/stoks", getStockQuerySql2);
+router.get("/stocks", getStocks);
+router.get("/stock", getStock);
+router.post("/stock", createStock);
+router.put("/stock", updateStock);
+router.delete("/stock", deleteStock);
 // end model stock
 
 // Model user
-//app.get("/users", getUserQuerySql2);
-app.get("/users", authenticateUser, getUsers);
-app.get("/user", getUser);
-app.post("/user", createUser);
-app.put("/user", updateUser);
-app.delete("/user", deleteUser);
-app.post("/login", login);
+//router.get("/users", getUserQuerySql2);
+router.get("/users", authenticateUser, getUsers);
+router.get("/user", getUser);
+router.post("/user", createUser);
+router.put("/user", updateUser);
+router.delete("/user", deleteUser);
+router.post("/login", login);
 // end model user
+app.use('/api', router);
 
 app.listen(port, async () => {
   await db.sequelize;
