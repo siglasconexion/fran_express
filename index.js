@@ -177,7 +177,7 @@ router.put("/user", updateUser);
 router.delete("/user", deleteUser);
 router.post("/login", login);
 // end model user
-app.use('/api', router);
+app.use('/api/', router);
 
 app.listen(port, async () => {
   await db.sequelize;
