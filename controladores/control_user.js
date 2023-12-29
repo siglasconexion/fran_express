@@ -1,4 +1,4 @@
-import { User } from "../db/models/user.js";
+import { User } from "../db/models/User.js";
 import db from "../db/conn.js";
 import xlsxj from "xlsx-to-json";
 import fs from "fs";
