@@ -4,7 +4,7 @@ import xlsxj from "xlsx-to-json";
 import fs from "fs";
 import { request } from "http";
 import _ from "lodash";
-import puppeteer from 'puppeteer';
+import puppeteer from "puppeteer";
 
 export const getCurrent_inventorys = async (req, res) => {
   const data = await Current_inventory.findAll();
@@ -24,6 +24,7 @@ export const getCurrent_inventorys = async (req, res) => {
 
 export const getCurrent_inventoryQuerySql2 = async (req, res) => {
   // rutas - routes
+  let variablefinal = req.params.variable;
   let variable33 = req.params.variable;
   let variable2 = req.params;
   let variable3 = Object.values(variable2);
@@ -34,10 +35,12 @@ export const getCurrent_inventoryQuerySql2 = async (req, res) => {
     req.params,
     variable2,
     variable3,
-    variable4
+    variable4,
+    variablefinal
   );
+  console.log("variable sola del objeto params", variablefinal);
   const data = await db.sequelize.query(
-    `SELECT  total_current_inventory, name_item, code_item from current_inventory INNER JOIN item on current_inventory.id_item_current_inventory=item.id_item where id_stock_current_inventory = ${variable4} `
+    `SELECT  total_current_inventory, name_item, id_family_item, name_family, code_item from current_inventory INNER JOIN item on current_inventory.id_item_current_inventory=item.id_item INNER JOIN family on item.id_family_item=family.id_family where current_inventory.id_stock_current_inventory = ${variable4} ORDER BY name_family,name_item`
   ); //
   if (data.length <= 0) {
     res.status(204).json({
@@ -131,28 +134,29 @@ export const deleteCurrent_inventory = async (req, res) => {
     });
     resultDelete === 1
       ? res.json({
-        message: "Status was deleted successfully",
-        resultDelete: resultDelete,
-      })
+          message: "Status was deleted successfully",
+          resultDelete: resultDelete,
+        })
       : res.json({
-        message: "Status Not deleted successfully",
-        resultdelete: resultDelete,
-      });
+          message: "Status Not deleted successfully",
+          resultdelete: resultDelete,
+        });
   } catch (err) {
     console.log(err.stack);
   }
 };
 
-
 export const generatePDF = async function (req, res) {
   const { base64Content } = req.body;
 
   if (!base64Content) {
-    return res.status(400).send('Contenido base64 no proporcionado en el cuerpo de la solicitud.');
+    return res
+      .status(400)
+      .send("Contenido base64 no proporcionado en el cuerpo de la solicitud.");
   }
-  const htmlBody = Buffer.from(base64Content, 'base64').toString('utf-8');
+  const htmlBody = Buffer.from(base64Content, "base64").toString("utf-8");
   // Iniciar el navegador Puppeteer en el nuevo modo headless
-  const browser = await puppeteer.launch({ headless: 'new' });
+  const browser = await puppeteer.launch({ headless: "new" });
   try {
     // Abrir una nueva página
     const page = await browser.newPage();
@@ -178,7 +182,7 @@ export const generatePDF = async function (req, res) {
           text-align: center;
           font-size: 12px;
         }
-      `
+      `,
     });
     // Configurar el contenido de la página
     await page.setContent(htmlBody);
@@ -186,18 +190,17 @@ export const generatePDF = async function (req, res) {
     const pdfBuffer = await page.pdf({
       printBackground: true, // Incluir estilos de fondo
       margin: {
-        top: '80px', // Altura del encabezado
-        bottom: '100px' // Altura del pie de página
-      }
+        top: "80px", // Altura del encabezado
+        bottom: "100px", // Altura del pie de página
+      },
     });
     // Configurar la respuesta HTTP
-    res.setHeader('Content-Type', 'application/pdf');
-    res.setHeader('Content-Disposition', 'inline; filename="example.pdf"');
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader("Content-Disposition", 'inline; filename="example.pdf"');
     res.send(pdfBuffer);
-
   } catch (error) {
-    console.error('Error al generar el PDF:', error);
-    res.status(500).send('Error interno al generar el PDF');
+    console.error("Error al generar el PDF:", error);
+    res.status(500).send("Error interno al generar el PDF");
   } finally {
     // Cerrar el navegador después de completar la operación
     await browser.close();
