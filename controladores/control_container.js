@@ -36,6 +36,7 @@ export const createContainer = async (req, res) => {
     id_status_container: req.body.idstatuscontainer,
     id_company_container: req.body.idcompanycontainer,
     id_family_container: req.body.idfamilycontainer,
+    id_measure_oz_container: req.body.idmeasureozcontainer,
     name_container: req.body.namecontainer,
     size_container: req.body.sizecontainer,
     qty_container: req.body.qtycontainer,

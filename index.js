@@ -83,6 +83,15 @@ import {
   login,
 } from "./controladores/control_user.js";
 
+import {
+  getMeasure_ozs,
+  //getMeasures,
+  createMeasure_oz,
+  updateMeasure_oz,
+  deleteMeasure_oz,
+  getMeasure_ozQuerySql2,
+} from "./controladores/control_measure_oz.js";
+
 import db from "./db/conn.js";
 import bodyParser from "body-parser";
 import cors from "cors";
@@ -177,6 +186,16 @@ router.put("/user", updateUser);
 router.delete("/user", deleteUser);
 router.post("/login", login);
 // end model user
+
+// Model Measure_oz
+router.get("/measure_ozs", getMeasure_ozQuerySql2);
+//;
+router.get("/measures", getMeasure_ozs);
+router.post("/measure_oz", createMeasure_oz);
+router.put("/measure_oz", updateMeasure_oz);
+router.delete("/measure_oz", deleteMeasure_oz);
+// end model Measure_oz
+
 app.use("/api/", router);
 
 app.listen(port, async () => {

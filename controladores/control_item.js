@@ -43,6 +43,7 @@ export const createItem = async (req, res) => {
     id_company_item: req.body.idcompanyitem,
     id_family_item: req.body.idfamilyitem,
     id_container_item: req.body.idcontaineritem,
+    id_measure_oz_item: req.body.idmeasureozitem,
     qty_item: req.body.qtyitem,
     stock_item: req.body.stockitem,
     sku_short_item: req.body.skushortitem,

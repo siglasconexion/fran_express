@@ -22,6 +22,10 @@ export const Container = db.sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    id_measure_oz_container: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     name_container: {
       type: DataTypes.STRING,
       allowNull: false,

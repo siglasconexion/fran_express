@@ -26,6 +26,10 @@ export const Item = db.sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    id_measure_oz_item: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     code_item: {
       type: DataTypes.STRING,
       allowNull: false,
