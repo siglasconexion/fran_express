@@ -98,7 +98,7 @@ import cors from "cors";
 import { authenticateUser } from "./middleware/auth.js";
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = 3001;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const corsOptions = {
