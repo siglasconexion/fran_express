@@ -1,4 +1,5 @@
 import { Current_inventory } from "../db/models/current_inventory.js";
+import { QueryTypes } from "sequelize";
 import db from "../db/conn.js";
 import xlsxj from "xlsx-to-json";
 import fs from "fs";
@@ -40,7 +41,8 @@ export const getCurrent_inventoryQuerySql2 = async (req, res) => {
   );
   console.log("variable sola del objeto params", variablefinal);
   const data = await db.sequelize.query(
-    `SELECT  total_current_inventory, name_item, id_family_item, name_family, code_item from current_inventory INNER JOIN item on current_inventory.id_item_current_inventory=item.id_item INNER JOIN family on item.id_family_item=family.id_family where current_inventory.id_stock_current_inventory = ${variable4} ORDER BY name_family ASC`
+    `SELECT  total_current_inventory, name_item, id_family_item, name_family, code_item from current_inventory INNER JOIN item on current_inventory.id_item_current_inventory=item.id_item INNER JOIN family on item.id_family_item=family.id_family where current_inventory.id_stock_current_inventory = ${variable4} ORDER BY name_family, name_item`,
+    { type: QueryTypes.SELECT }
   ); //
   if (data.length <= 0) {
     res.status(204).json({

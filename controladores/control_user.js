@@ -8,7 +8,7 @@ export const getUsers = async (req, res) => {
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,
-      message: "Results not foundssdsdasdasd",
+      message: "Results not found",
       statusText: "nuevo mensaje",
       ok: "false",
     });
@@ -121,14 +121,18 @@ export const login = (req, res) => {
   // Asumiremos que tienes un sistema de usuarios con contraseñas seguras almacenadas
   const { username, password } = req.body;
   // Verifica las credenciales (esto debe ser reemplazado con tu lógica de autenticación real)
-  if (username === 'usuario' && password === 'contraseña') {
+  if (username === "usuario" && password === "contraseña") {
     // Genera un token JWT
-    const token = jwt.sign({ 
-        user: username
-    }, secretKey, { expiresIn: '1h' });
+    const token = jwt.sign(
+      {
+        user: username,
+      },
+      secretKey,
+      { expiresIn: "1h" }
+    );
 
     res.json({ token });
   } else {
-    res.status(401).json({ message: 'Credenciales inválidas' });
+    res.status(401).json({ message: "Credenciales inválidas" });
   }
 };
