@@ -84,6 +84,15 @@ import {
 } from "./controladores/control_user.js";
 
 import {
+  getType_users,
+  getType_user,
+  createType_user,
+  updateType_user,
+  deleteType_user,
+  getType_userQuerySql2,
+} from "./controladores/control_type_user.js";
+
+import {
   getMeasure_ozs,
   //getMeasures,
   createMeasure_oz,
@@ -179,13 +188,23 @@ router.delete("/stock", deleteStock);
 
 // Model user
 //router.get("/users", getUserQuerySql2);
-router.get("/users", authenticateUser, getUsers);
+//router.get("/users", authenticateUser, getUsers);
+router.get("/users", getUsers);
 router.get("/user", getUser);
 router.post("/user", createUser);
 router.put("/user", updateUser);
 router.delete("/user", deleteUser);
 router.post("/login", login);
 // end model user
+
+// Model type_user
+//router.get("/typeusers", getTypeuserQuerySql2);
+router.get("/type_users", getType_users);
+router.get("/type_user", getType_user);
+router.post("/type_user", createType_user);
+router.put("/type_user", updateType_user);
+router.delete("/type_user", deleteType_user);
+// end model type_user
 
 // Model Measure_oz
 router.get("/measure_ozs", getMeasure_ozQuerySql2);

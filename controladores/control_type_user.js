@@ -1,10 +1,10 @@
-import { User } from "../db/models/user.js";
+import { Type_user } from "../db/models/type_user.js";
 import db from "../db/conn.js";
 import xlsxj from "xlsx-to-json";
 import fs from "fs";
 
-export const getUsers = async (req, res) => {
-  const data = await User.findAll();
+export const getType_users = async (req, res) => {
+  const data = await Type_user.findAll();
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,
@@ -17,9 +17,9 @@ export const getUsers = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getUserQuerySql2 = async (req, res) => {
+export const getType_userQuerySql2 = async (req, res) => {
   // rutas - routes
-  const data = await db.sequelize.query("SELECT  * from user"); //
+  const data = await db.sequelize.query("SELECT  * from type_user"); //
   if (data.length <= 0) {
     res.status(204).json({
       code: 204,
@@ -30,10 +30,10 @@ export const getUserQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getUser = async (req, res) => {
-  let resultGetOne = await User.findAll({
+export const getType_user = async (req, res) => {
+  let resultGetOne = await Type_user.findAll({
     where: {
-      id_user: req.body.id,
+      id_type_user: req.body.id,
     },
   });
   //console.log("aca no veo nada", resultGetOne);
@@ -46,8 +46,8 @@ export const getUser = async (req, res) => {
   res.json(resultGetOne);
 };
 
-export const createUser = async (req, res) => {
-  const resultNew = await User.create({
+export const createType_user = async (req, res) => {
+  const resultNew = await Type_user.create({
     id_company_user: req.body.idcompanyuser,
     id_type_user: req.body.idtypeuser,
     id_status_user: req.body.idstatususer,
@@ -60,13 +60,13 @@ export const createUser = async (req, res) => {
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
 };
-export const updateUser = async (req, res) => {
+export const updateType_user = async (req, res) => {
   try {
     const obj = req.body;
-    const id_user = req.body.id_user;
-    let resultUpdate = await User.update(obj, {
+    const id_type_user = req.body.id_type_user;
+    let resultUpdate = await Type_user.update(obj, {
       where: {
-        id_user: id_user,
+        id_type_user: id_type_user,
       },
     });
     //res.json({ message: "User Update successfully" });
@@ -93,13 +93,13 @@ export const updateUser = async (req, res) => {
   }
 };
 
-export const deleteUser = async (req, res) => {
+export const deleteType_user = async (req, res) => {
   try {
     console.log(req.body);
-    const id_user = req.body.id;
+    const id_type_user = req.body.id;
     let resultDelete = await User.destroy({
       where: {
-        id_user,
+        id_type_user,
       },
     });
     resultDelete === 1
