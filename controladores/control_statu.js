@@ -1,9 +1,9 @@
-import { Statu } from "../db/models/statu.js";
-import db from "../db/conn.js";
-import xlsxj from "xlsx-to-json";
-import fs from "fs";
+const { Statu } = require("../db/models/statu.js");
+const db = require("../db/conn.js");
+const xlsxj = require("xlsx-to-json");
+const fs = require("fs");
 
-export const getStatus = async (req, res) => {
+const getStatus = async (req, res) => {
   const data = await Statu.findAll();
   if (data.length <= 0) {
     res.status(204).json({
@@ -15,7 +15,7 @@ export const getStatus = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getStatu = async (req, res) => {
+const getStatu = async (req, res) => {
   let resultGetOne = await Statu.findAll({
     where: {
       id_status: req.body.id,
@@ -30,8 +30,7 @@ export const getStatu = async (req, res) => {
   res.json(resultGetOne);
 };
 
-export const createStatu = async (req, res) => {
-  //console.log("req.body", req.body);
+const createStatu = async (req, res) => {
   const resultNew = await Statu.create({
     id_company_status: req.body.idcompanystatus,
     description_status: req.body.descriptionstatus,
@@ -40,7 +39,8 @@ export const createStatu = async (req, res) => {
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
 };
-export const updateStatu = async (req, res) => {
+
+const updateStatu = async (req, res) => {
   try {
     const obj = req.body;
     const id_status = req.body.id_status;
@@ -49,7 +49,6 @@ export const updateStatu = async (req, res) => {
         id_status: id_status,
       },
     });
-    //res.json({ message: "User Update successfully" });
     if (resultUpdate[0] === 1) {
       res.status(200).json({
         message: "Status Update successfully",
@@ -73,7 +72,7 @@ export const updateStatu = async (req, res) => {
   }
 };
 
-export const deleteStatu = async (req, res) => {
+const deleteStatu = async (req, res) => {
   try {
     console.log(req.body);
     const id_status = req.body.id;
@@ -94,4 +93,12 @@ export const deleteStatu = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
+};
+
+module.exports = {
+  getStatus,
+  getStatu,
+  createStatu,
+  updateStatu,
+  deleteStatu,
 };

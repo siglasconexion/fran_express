@@ -1,12 +1,12 @@
-import { Current_inventory } from "../db/models/current_inventory.js";
-import db from "../db/conn.js";
-import xlsxj from "xlsx-to-json";
-import fs from "fs";
-import { request } from "http";
-import _ from "lodash";
-import puppeteer from "puppeteer";
+const { Current_inventory } = require("../db/models/current_inventory.js");
+const db = require("../db/conn.js");
+const xlsxj = require("xlsx-to-json");
+const fs = require("fs");
+const { request } = require("http");
+const _ = require("lodash");
+const puppeteer = require("puppeteer");
 
-export const getCurrent_inventorys = async (req, res) => {
+const getCurrent_inventorys = async (req, res) => {
   const data = await Current_inventory.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -22,7 +22,7 @@ export const getCurrent_inventorys = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getCurrent_inventoryQuerySql2 = async (req, res) => {
+const getCurrent_inventoryQuerySql2 = async (req, res) => {
   // rutas - routes
   let variablefinal = req.params.variable;
   let variable33 = req.params.variable;
@@ -52,7 +52,7 @@ export const getCurrent_inventoryQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getCurrent_inventory = async (req, res) => {
+const getCurrent_inventory = async (req, res) => {
   //quitar _ y usar camelcase
   console.log("ojo ver akika manin uno ", req.params);
   let variable = req.params.variable;
@@ -79,7 +79,7 @@ export const getCurrent_inventory = async (req, res) => {
   return res.status(200).json({ resultGetOne, success: true, prueba, prueba2 });
 };
 
-export const createCurrent_inventory = async (req, res) => {
+const createCurrent_inventory = async (req, res) => {
   //console.log("req.body", req.body);
   const resultNew = await Current_inventory.create({
     id_stock_current_inventory: req.body.idstockcurrentinventory,
@@ -90,7 +90,8 @@ export const createCurrent_inventory = async (req, res) => {
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
 };
-export const updateCurrent_inventory = async (req, res) => {
+
+const updateCurrent_inventory = async (req, res) => {
   try {
     const obj = req.body;
     const id_current_inventory = req.body.id_current_inventory;
@@ -123,7 +124,7 @@ export const updateCurrent_inventory = async (req, res) => {
   }
 };
 
-export const deleteCurrent_inventory = async (req, res) => {
+const deleteCurrent_inventory = async (req, res) => {
   try {
     console.log(req.body);
     const id_item_current_inventory = req.body.id;
@@ -146,7 +147,7 @@ export const deleteCurrent_inventory = async (req, res) => {
   }
 };
 
-export const generatePDF = async function (req, res) {
+const generatePDF = async function (req, res) {
   const { base64Content } = req.body;
 
   if (!base64Content) {
@@ -205,4 +206,14 @@ export const generatePDF = async function (req, res) {
     // Cerrar el navegador después de completar la operación
     await browser.close();
   }
+};
+
+module.exports = {
+  getCurrent_inventorys,
+  getCurrent_inventoryQuerySql2,
+  getCurrent_inventory,
+  createCurrent_inventory,
+  updateCurrent_inventory,
+  deleteCurrent_inventory,
+  generatePDF,
 };

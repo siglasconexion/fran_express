@@ -1,9 +1,9 @@
 // authMiddleware.js
-import jwt from 'jsonwebtoken';
+const jwt = require('jsonwebtoken');
 
 const secretKey = 'tu_clave_secreta'; // Cambia esto por una clave secreta más segura
 
-export const authenticateUser = (req, res, next) => {
+exports.authenticateUser = (req, res, next) => {
   // Obtener el token de la cabecera de autorización (Bearer token)
   const authHeader = req.headers.authorization;
 

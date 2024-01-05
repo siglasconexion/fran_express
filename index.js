@@ -1,9 +1,10 @@
-import express from "express";
-//import { suma } from "./controladores/control_family.js";
-import { Sequelize, DataTypes, Op } from "sequelize";
-const router = express.Router();
+const express = require("express");
+const { Sequelize, DataTypes, Op } = require("sequelize");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const { authenticateUser } = require("./middleware/auth.js");
 
-import {
+const {
   getFamilys,
   getFamily,
   createFamily,
@@ -11,50 +12,50 @@ import {
   deleteFamily,
   getUserQuerySql,
   getDataExcel,
-} from "./controladores/control_family.js";
+} = require("./controladores/control_family.js");
 
-import {
+const {
   getStatus,
   getStatu,
   createStatu,
   updateStatu,
   deleteStatu,
-} from "./controladores/control_statu.js";
+} = require("./controladores/control_statu.js");
 
-import {
+const {
   getCompanys,
   getCompany,
   createCompany,
   updateCompany,
   deleteCompany,
-} from "./controladores/control_company.js";
+} = require("./controladores/control_company.js");
 
-import {
+const {
   getContainers,
   getContainer,
   createContainer,
   updateContainer,
   deleteContainer,
-} from "./controladores/control_container.js";
+} = require("./controladores/control_container.js");
 
-import {
+const {
   getItems,
   getItem,
   createItem,
   updateItem,
   deleteItem,
-} from "./controladores/control_item.js";
+} = require("./controladores/control_item.js");
 
-import {
-  getStock_details, // esta asi porque uso otra funcion
+const {
+  getStock_details,
   getStock_detail,
   createStock_detail,
   updateStock_detail,
   deleteStock_detail,
   getStock_detailQuerySql2,
-} from "./controladores/control_stock_detail.js";
+} = require("./controladores/control_stock_detail.js");
 
-import {
+const {
   getCurrent_inventorys,
   getCurrent_inventory,
   createCurrent_inventory,
@@ -62,18 +63,18 @@ import {
   deleteCurrent_inventory,
   getCurrent_inventoryQuerySql2,
   generatePDF,
-} from "./controladores/control_current_inventory.js";
+} = require("./controladores/control_current_inventory.js");
 
-import {
+const {
   getStocks,
   getStock,
   createStock,
   updateStock,
   deleteStock,
   getStockQuerySql2,
-} from "./controladores/control_stock.js";
+} = require("./controladores/control_stock.js");
 
-import {
+const {
   getUsers,
   getUser,
   createUser,
@@ -81,24 +82,22 @@ import {
   deleteUser,
   getUserQuerySql2,
   login,
-} from "./controladores/control_user.js";
+} = require("./controladores/control_user.js");
 
-import {
+const {
   getMeasure_ozs,
-  //getMeasures,
   createMeasure_oz,
   updateMeasure_oz,
   deleteMeasure_oz,
   getMeasure_ozQuerySql2,
-} from "./controladores/control_measure_oz.js";
+} = require("./controladores/control_measure_oz.js");
 
-import db from "./db/conn.js";
-import bodyParser from "body-parser";
-import cors from "cors";
-import { authenticateUser } from "./middleware/auth.js";
+const db = require("./db/conn.js");
 
+const router = express.Router();
 const app = express();
 const port = 3001;
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 const corsOptions = {

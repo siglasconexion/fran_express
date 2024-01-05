@@ -1,7 +1,7 @@
-import db from "../conn.js";
-import { DataTypes } from "sequelize";
+const db = require("../conn.js");
+const { DataTypes } = require("sequelize");
 
-export const Stock = db.sequelize.define("stock", {
+const Stock = db.sequelize.define("stock", {
   // Model attributes are defined here
   id_stock: {
     type: DataTypes.INTEGER,
@@ -31,3 +31,7 @@ export const Stock = db.sequelize.define("stock", {
     type: DataTypes.STRING,
   },
 });
+
+module.exports = {
+  Stock
+};

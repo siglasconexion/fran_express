@@ -1,9 +1,9 @@
-import { Item } from "../db/models/item.js";
-import db from "../db/conn.js";
-import xlsxj from "xlsx-to-json";
-import fs from "fs";
+const { Item } = require("../db/models/item.js");
+const db = require("../db/conn.js");
+const xlsxj = require("xlsx-to-json");
+const fs = require("fs");
 
-export const getItems = async (req, res) => {
+const getItems = async (req, res) => {
   const data = await Item.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -17,13 +17,12 @@ export const getItems = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getItem = async (req, res) => {
+const getItem = async (req, res) => {
   let resultGetOne = await Item.findAll({
     where: {
       id_item: req.body.id,
     },
   });
-  //console.log("aca no veo nada", resultGetOne);
   if (resultGetOne.length <= 0) {
     res.json({
       message: "Results not found",
@@ -33,8 +32,7 @@ export const getItem = async (req, res) => {
   res.json(resultGetOne);
 };
 
-export const createItem = async (req, res) => {
-  //console.log("req.body", req.body);
+const createItem = async (req, res) => {
   const resultNew = await Item.create({
     id_status_item: req.body.idstatusitem,
     code_item: req.body.codeitem,
@@ -53,7 +51,8 @@ export const createItem = async (req, res) => {
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
 };
-export const updateItem = async (req, res) => {
+
+const updateItem = async (req, res) => {
   try {
     const obj = req.body;
     const id_item = req.body.id_item;
@@ -62,7 +61,6 @@ export const updateItem = async (req, res) => {
         id_item: id_item,
       },
     });
-    //res.json({ message: "User Update successfully" });
     if (resultUpdate[0] === 1) {
       res.status(200).json({
         message: "Status Update successfully",
@@ -86,9 +84,8 @@ export const updateItem = async (req, res) => {
   }
 };
 
-export const deleteItem = async (req, res) => {
+const deleteItem = async (req, res) => {
   try {
-    console.log(req.body);
     const id_item = req.body.id;
     let resultDelete = await Item.destroy({
       where: {
@@ -107,4 +104,12 @@ export const deleteItem = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
+};
+
+module.exports = {
+  getItems,
+  getItem,
+  createItem,
+  updateItem,
+  deleteItem,
 };

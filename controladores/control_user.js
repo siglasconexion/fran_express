@@ -1,9 +1,8 @@
-import { User } from "../db/models/User.js";
-import db from "../db/conn.js";
-import xlsxj from "xlsx-to-json";
-import fs from "fs";
+const { User } = require("../db/models/User.js");
+const db = require("../db/conn.js");
+const jwt = require('jsonwebtoken');
 
-export const getUsers = async (req, res) => {
+const getUsers = async (req, res) => {
   const data = await User.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -17,8 +16,7 @@ export const getUsers = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getUserQuerySql2 = async (req, res) => {
-  // rutas - routes
+const getUserQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query("SELECT  * from user"); //
   if (data.length <= 0) {
     res.status(204).json({
@@ -30,13 +28,12 @@ export const getUserQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getUser = async (req, res) => {
+const getUser = async (req, res) => {
   let resultGetOne = await User.findAll({
     where: {
       id_user: req.body.id,
     },
   });
-  //console.log("aca no veo nada", resultGetOne);
   if (resultGetOne.length <= 0) {
     res.json({
       message: "Results not found",
@@ -46,8 +43,8 @@ export const getUser = async (req, res) => {
   res.json(resultGetOne);
 };
 
-export const createUser = async (req, res) => {
-  const resultNew = await Stock.create({
+const createUser = async (req, res) => {
+  const resultNew = await User.create({
     id_company_user: req.body.idcompanyuser,
     id_type_user: req.body.idtypeuser,
     id_status_user: req.body.idstatususer,
@@ -60,7 +57,8 @@ export const createUser = async (req, res) => {
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
 };
-export const updateUser = async (req, res) => {
+
+const updateUser = async (req, res) => {
   try {
     const obj = req.body;
     const id_user = req.body.id_user;
@@ -69,7 +67,6 @@ export const updateUser = async (req, res) => {
         id_user: id_user,
       },
     });
-    //res.json({ message: "User Update successfully" });
     if (resultUpdate[0] === 1) {
       res.status(200).json({
         message: "Status Update successfully",
@@ -93,7 +90,7 @@ export const updateUser = async (req, res) => {
   }
 };
 
-export const deleteUser = async (req, res) => {
+const deleteUser = async (req, res) => {
   try {
     console.log(req.body);
     const id_user = req.body.id;
@@ -116,7 +113,7 @@ export const deleteUser = async (req, res) => {
   }
 };
 
-export const login = (req, res) => {
+const login = (req, res) => {
   // Aquí deberías realizar la lógica de autenticación del usuario
   // Asumiremos que tienes un sistema de usuarios con contraseñas seguras almacenadas
   const { username, password } = req.body;
@@ -131,4 +128,14 @@ export const login = (req, res) => {
   } else {
     res.status(401).json({ message: 'Credenciales inválidas' });
   }
+};
+
+module.exports = {
+  getUsers,
+  getUserQuerySql2,
+  getUser,
+  createUser,
+  updateUser,
+  deleteUser,
+  login,
 };

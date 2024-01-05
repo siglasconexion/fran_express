@@ -1,7 +1,7 @@
-import db from "../conn.js";
-import { DataType, DataTypes } from "sequelize";
+const db = require("../conn.js");
+const { DataTypes } = require("sequelize");
 
-export const Container = db.sequelize.define("container", {
+const Container = db.sequelize.define("container", {
   // Model attributes are defined here
   id_container: {
     type: DataTypes.INTEGER,
@@ -29,3 +29,7 @@ export const Container = db.sequelize.define("container", {
     allowNull: false,
   },
 });
+
+module.exports = {
+  Container
+};

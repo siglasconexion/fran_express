@@ -1,9 +1,9 @@
-import { Company } from "../db/models/company.js";
-import db from "../db/conn.js";
-import xlsxj from "xlsx-to-json";
-import fs from "fs";
+const { Company } = require("../db/models/company.js");
+const db = require("../db/conn.js");
+const xlsxj = require("xlsx-to-json");
+const fs = require("fs");
 
-export const getCompanys = async (req, res) => {
+const getCompanys = async (req, res) => {
   const data = await Company.findAll();
   if (data.length <= 0) {
     res.status(204).json({
@@ -15,7 +15,7 @@ export const getCompanys = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getCompany = async (req, res) => {
+const getCompany = async (req, res) => {
   let resultGetOne = await Company.findAll({
     where: {
       id_status: req.body.id,
@@ -30,7 +30,7 @@ export const getCompany = async (req, res) => {
   res.json(resultGetOne);
 };
 
-export const createCompany = async (req, res) => {
+const createCompany = async (req, res) => {
   //console.log("req.body", req.body);
   const resultNew = await Company.create({
     id_status_company: req.body.idstatuscompany,
@@ -47,7 +47,8 @@ export const createCompany = async (req, res) => {
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
 };
-export const updateCompany = async (req, res) => {
+
+const updateCompany = async (req, res) => {
   try {
     const obj = req.body;
     const id_company = req.body.id_company;
@@ -80,7 +81,7 @@ export const updateCompany = async (req, res) => {
   }
 };
 
-export const deleteCompany = async (req, res) => {
+const deleteCompany = async (req, res) => {
   try {
     console.log(req.body);
     const id_company = req.body.id;
@@ -101,4 +102,12 @@ export const deleteCompany = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
+};
+
+module.exports = {
+  getCompanys,
+  getCompany,
+  createCompany,
+  updateCompany,
+  deleteCompany,
 };

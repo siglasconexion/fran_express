@@ -1,6 +1,6 @@
-import dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
-import { Sequelize, DataTypes, Op } from "sequelize";
+const { Sequelize, DataTypes, Op } = require("sequelize");
 
 const db = {};
 db.sequelize = new Sequelize(
@@ -13,16 +13,6 @@ db.sequelize = new Sequelize(
   }
 );
 
-/* db.sequelize = new Sequelize(
-  "inventory",
-  "inventory",
-  "Fran_**_1234_bd_nube$",
-  {
-    host: "159.65.241.58",
-    dialect: "mysql",
-  }
-); */
-
 (async () => {
   try {
     await db.sequelize.authenticate();
@@ -32,4 +22,4 @@ db.sequelize = new Sequelize(
   }
 })();
 
-export default db;
+module.exports = db;

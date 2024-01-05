@@ -1,13 +1,10 @@
-import { Measure_oz } from "../db/models/measure_oz.js";
-import db from "../db/conn.js";
-import xlsxj from "xlsx-to-json";
-import fs from "fs";
+const { Measure_oz } = require("../db/models/measure_oz.js");
+const db = require("../db/conn.js");
+const xlsxj = require("xlsx-to-json");
+const fs = require("fs");
 
-//export var suma = (a, b) => a + b;
-
-export const getMeasure_ozs = async (req, res) => {
-  // rutas - routes
-  const data = await Measure_oz.findAll(); // SELECT * FROM users
+const getMeasure_ozs = async (req, res) => {
+  const data = await Measure_oz.findAll();
   if (data.length <= 0) {
     res.status(204).json({
       code: 204,
@@ -18,9 +15,8 @@ export const getMeasure_ozs = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getMeasure_ozQuerySql2 = async (req, res) => {
-  // rutas - routes
-  const data = await db.sequelize.query("SELECT * FROM measure_oz"); // SELECT * FROM users
+const getMeasure_ozQuerySql2 = async (req, res) => {
+  const data = await db.sequelize.query("SELECT * FROM measure_oz");
   if (data.length <= 0) {
     res.status(204).json({
       code: 204,
@@ -31,12 +27,10 @@ export const getMeasure_ozQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getMeasure_oz = async (req, res) => {
-  // rutas - routes
+const getMeasure_oz = async (req, res) => {
   let resultGetOne = await Measure_oz.findAll({
     where: {
       id_measure_oz: req.body.id,
-      //id_family: 10,
     },
   });
   if (resultGetOne.length <= 0) {
@@ -48,8 +42,7 @@ export const getMeasure_oz = async (req, res) => {
   res.json(resultGetOne);
 };
 
-export const createMeasure_oz = async (req, res) => {
-  //console.log("req.body", req.body);
+const createMeasure_oz = async (req, res) => {
   const resultNew = await Measure_oz.create({
     id_company_measure_oz: req.body.idcompanymeasureoz,
     id_status_measure_oz: req.body.idstatusmeasureoz,
@@ -59,15 +52,14 @@ export const createMeasure_oz = async (req, res) => {
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
 };
-export const updateMeasure_oz = async (req, res) => {
+
+const updateMeasure_oz = async (req, res) => {
   const obj = req.body;
-  //console.log(req.body.id);
   let resultUpdate = await Measure_oz.update(obj, {
     where: {
       id_measure_oz: req.body.id_measure_oz,
     },
   });
-  //console.log(actualizar);
   resultUpdate[0] === 1
     ? res.json({
         message: "Measure_oz Updated successfully",
@@ -79,9 +71,8 @@ export const updateMeasure_oz = async (req, res) => {
       });
 };
 
-export const deleteMeasure_oz = async (req, res) => {
+const deleteMeasure_oz = async (req, res) => {
   try {
-    console.log(req.body);
     const id_measure_oz = req.body.id;
     let resultDelete = await Measure_oz.destroy({
       where: {
@@ -103,7 +94,7 @@ export const deleteMeasure_oz = async (req, res) => {
   }
 };
 
-export const getDataExcel = async (req, res) => {
+const getDataExcel = async (req, res) => {
   try {
     xlsxj(
       {
@@ -132,4 +123,14 @@ export const getDataExcel = async (req, res) => {
   } catch (e) {
     console.log(e.stack);
   }
+};
+
+module.exports = {
+  getMeasure_ozs,
+  getMeasure_ozQuerySql2,
+  getMeasure_oz,
+  createMeasure_oz,
+  updateMeasure_oz,
+  deleteMeasure_oz,
+  getDataExcel,
 };

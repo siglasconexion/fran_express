@@ -1,9 +1,7 @@
-import { Stock } from "../db/models/stock.js";
-import db from "../db/conn.js";
-import xlsxj from "xlsx-to-json";
-import fs from "fs";
+const { Stock } = require("../db/models/stock.js");
+const db = require("../db/conn.js");
 
-export const getStocks = async (req, res) => {
+const getStocks = async (req, res) => {
   const data = await Stock.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -17,8 +15,7 @@ export const getStocks = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getStockQuerySql2 = async (req, res) => {
-  // rutas - routes
+const getStockQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query("SELECT  * from stock"); //
   if (data.length <= 0) {
     res.status(204).json({
@@ -30,24 +27,16 @@ export const getStockQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getStock = async (req, res) => {
+const getStock = async (req, res) => {
   let resultGetOne = await Stock.findAll({
     where: {
       id_status_stock: 1,
     },
   });
-  //console.log("aca no veo nada", resultGetOne);
-  //if (resultGetOne.length <= 0) {
-  //  res.json({
-  message: "Results not found",
-    // });
-    //  return;
-    // }
-    res.json(resultGetOne);
-  // res.json(resultGetOne, "otra cosa");
+  res.json(resultGetOne);
 };
 
-export const createStock = async (req, res) => {
+const createStock = async (req, res) => {
   const resultNew = await Stock.create({
     id_company_stock: req.body.idcompanystock,
     id_status_stock: req.body.idstatusstock,
@@ -60,7 +49,8 @@ export const createStock = async (req, res) => {
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
 };
-export const updateStock = async (req, res) => {
+
+const updateStock = async (req, res) => {
   try {
     const obj = req.body;
     const id_stock = req.body.id_stock;
@@ -69,7 +59,6 @@ export const updateStock = async (req, res) => {
         id_stock: id_stock,
       },
     });
-    //res.json({ message: "User Update successfully" });
     if (resultUpdate[0] === 1) {
       res.status(200).json({
         message: "Status Update successfully",
@@ -93,7 +82,7 @@ export const updateStock = async (req, res) => {
   }
 };
 
-export const deleteStock = async (req, res) => {
+const deleteStock = async (req, res) => {
   try {
     console.log(req.body);
     const id_stock = req.body.id;
@@ -114,4 +103,13 @@ export const deleteStock = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
+};
+
+module.exports = {
+  getStocks,
+  getStockQuerySql2,
+  getStock,
+  createStock,
+  updateStock,
+  deleteStock,
 };

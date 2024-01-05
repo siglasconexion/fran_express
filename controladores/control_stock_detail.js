@@ -1,11 +1,10 @@
-import { Stock_detail } from "../db/models/stock_detail.js";
-import { Current_inventory } from "../db/models/current_inventory.js";
-import db from "../db/conn.js";
-import _ from "lodash";
-import xlsxj from "xlsx-to-json";
-import fs from "fs";
+const { Stock_detail, Current_inventory } = require("../db/models/stock_detail.js");
+const db = require("../db/conn.js");
+const _ = require("lodash");
+const xlsxj = require("xlsx-to-json");
+const fs = require("fs");
 
-export const getStock_details = async (req, res) => {
+const getStock_details = async (req, res) => {
   const data = await Stock_detail.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -19,11 +18,10 @@ export const getStock_details = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getStock_detailQuerySql2 = async (req, res) => {
-  // rutas - routes
+const getStock_detailQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query(
     "SELECT  id_stock_detail, id_item_stock_detail, id_container_stock_detail, id_place_stock_detail, id_stock_stock_detail, qty_container_stock_detail, units_stock_detail, total_stock_detail, name_item, code_item, name_container, qty_container FROM `stock_detail` INNER join item on stock_detail.id_item_stock_detail=item.id_item INNER JOIN container on stock_detail.id_container_stock_detail=id_container ORDER BY stock_detail.id_stock_detail "
-  ); //
+  );
   if (data.length <= 0) {
     res.status(204).json({
       code: 204,
@@ -34,13 +32,12 @@ export const getStock_detailQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getStock_detail = async (req, res) => {
+const getStock_detail = async (req, res) => {
   let resultGetOne = await Stock_detail.findAll({
     where: {
       id_stock_detail: req.body.id,
     },
   });
-  //console.log("aca no veo nada", resultGetOne);
   if (resultGetOne.length <= 0) {
     res.json({
       message: "Results not found",
@@ -50,35 +47,9 @@ export const getStock_detail = async (req, res) => {
   res.json(resultGetOne);
 };
 
-/*
-const create_stock_detail = async (req) => {
+const createStock_detail = async (req, res) => {
   try {
     await Stock_detail.create({
-      // const resultNew =
-      id_stock_stock_detail: req.body.idstockstockdetail,
-      id_item_stock_detailsdasdfasdfasd: req.body.iditemstockdetail,
-      id_place_stock_detail: req.body.idplacestockdetail,
-      id_container_stock_detail: req.body.idcontainerstockdetail,
-      qty_container_stock_detail: req.body.qtycontainerstockdetail,
-      units_stock_detail: req.body.unitsstockdetail,
-      total_stock_detail: req.body.totalstockdetail,
-    });
-  } catch (error) {
-    // definir objeto de retorno 
-  }
-};
-export const createStock_detail = async (req, res) => {
-  //console.log("req.body", req.body);
-  try {
-   let resultadocreate = await create_stock_detail(req);
-
- */
-
-export const createStock_detail = async (req, res) => {
-  //console.log("req.body", req.body);
-  try {
-    await Stock_detail.create({
-      // const resultNew =
       id_stock_stock_detail: req.body.idstockstockdetail,
       id_item_stock_detail: req.body.iditemstockdetail,
       id_place_stock_detail: req.body.idplacestockdetail,
@@ -88,16 +59,13 @@ export const createStock_detail = async (req, res) => {
       total_stock_detail: req.body.totalstockdetail,
     });
 
-    //console.log("cheqar el bdy", req.body.iditemstockdetail);
     const resultNew2 = await Current_inventory.findOne({
       where: {
         id_item_current_inventory: req.body.iditemstockdetail,
       },
     });
-    let convertResultNew2 = resultNew2?.toJSON(); // let variable = .toJSON
-    //let resultNew3 = 0; // estaba declarada con const y no se podia reasignar abajo  cheaear porque la defini
+    let convertResultNew2 = resultNew2?.toJSON();
     if (_.isEmpty(convertResultNew2)) {
-      // resultNew2
       const resultNew3 = await Current_inventory.create({
         id_stock_current_inventory: req.body.idstockstockdetail,
         id_item_current_inventory: req.body.iditemstockdetail,
@@ -107,15 +75,11 @@ export const createStock_detail = async (req, res) => {
       Object.entries(resultNew3).length === 0
         ? res.json({ message: "Register is not created" })
         : res.json({ message: resultNew3 });
-      return; // aqui retornamos la respuesta al from del create
+      return;
     }
-    let previousTotal = convertResultNew2.total_current_inventory;
-    //return res.status(200).json(resultNew2);
 
+    let previousTotal = convertResultNew2.total_current_inventory;
     let totalNew = parseInt(req.body.totalstockdetail) + previousTotal;
-    /* console.log(totalNew);
-    console.log(previousTotal);
-    console.log(totalNew, previousTotal); */
 
     let obj = {
       id_stock_current_inventory: req.body.idstockstockdetail,
@@ -145,11 +109,9 @@ export const createStock_detail = async (req, res) => {
     console.log("aca el error erros", error.errors);
     console.log("aqui va el error de la funcion Create_stock_detail", error);
   }
-  // actualizo la tabla
-  // respondo al from
 };
 
-export const updateStock_detail = async (req, res) => {
+const updateStock_detail = async (req, res) => {
   try {
     const obj = req.body;
     const id_stock_detail = req.body.id_stock_detail;
@@ -158,14 +120,12 @@ export const updateStock_detail = async (req, res) => {
         id_stock_detail: id_stock_detail,
       },
     });
-    //res.json({ message: "User Update successfully" });
     if (resultUpdate[0] === 1) {
       res.status(200).json({
         message: "Status Update successfully",
         resultUpdate: resultUpdate,
       });
     } else {
-      //throw { status: res.status, statusText: res.statusText };
       res.status(400).json({
         error: "valor demasiado grande",
         message: "Status not successfully",
@@ -182,7 +142,7 @@ export const updateStock_detail = async (req, res) => {
   }
 };
 
-export const deleteStock_detail = async (req, res) => {
+const deleteStock_detail = async (req, res) => {
   try {
     console.log(req.body);
     const id_stock_detail = req.body.id;
@@ -194,32 +154,14 @@ export const deleteStock_detail = async (req, res) => {
         id_stock_stock_detail,
       },
     });
-    /* 
-//aca hacia el return solo cuando eliminaba en la tabla stock_detail
-    resultDelete === 1
-      ? res.json({
-          message: "Status was deleted successfully",
-          resultDelete: resultDelete,
-        })
-      : res.json({
-          message: "Status Not deleted successfully",
-          resultdelete: resultDelete,
-        });
-*/
-    // aca consulto primero
+
     const resultNew2 = await Current_inventory.findOne({
       where: {
         id_item_current_inventory: req.body.iditem,
       },
     });
-    let convertResultNew2 = resultNew2?.toJSON(); // let variable = .toJSON
-    console.log(
-      "aca chequeo la cunsulta antes de cualquier cosa",
-      convertResultNew2
-    );
-    console.log(req.body.iditem);
+    let convertResultNew2 = resultNew2?.toJSON();
     if (!_.isEmpty(convertResultNew2)) {
-      console.log("ojo esta lleno");
       let previousTotal = convertResultNew2.total_current_inventory;
       let totalNew = previousTotal - parseInt(req.body.total);
       if (totalNew <= 0) {
@@ -229,12 +171,8 @@ export const deleteStock_detail = async (req, res) => {
             id_stock_current_inventory: req.body.idstock,
           },
         });
-        // aca borro de current_inventory
         return res.json();
       }
-      //aca actualizo  con total new
-      console.log("aca actualizo");
-
       let obj = {
         id_stock_current_inventory: req.body.idstock,
         id_item_current_inventory: req.body.iditem,
@@ -261,4 +199,13 @@ export const deleteStock_detail = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
+};
+
+module.exports = {
+  getStock_details,
+  getStock_detailQuerySql2,
+  getStock_detail,
+  createStock_detail,
+  updateStock_detail,
+  deleteStock_detail,
 };
