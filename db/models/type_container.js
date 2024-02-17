@@ -1,30 +1,30 @@
 const db = require("../conn.js");
 const { DataTypes } = require("sequelize");
 
-const Family = db.sequelize.define(
-  "family",
+const Type_container = db.sequelize.define(
+  "type_container",
   {
     // Model attributes are defined here
-    id_family: {
+    id_type_container: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    id_company_family: {
+    id_company_type_container: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      // allowNull defaults to true
+    },
+    id_status_type_container: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_status_family: {
+    id_container_type_container: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_department_family: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    name_family: {
+    description_type_container: {
       type: DataTypes.STRING,
-      allowNull: false,
     },
   },
   {
@@ -33,5 +33,5 @@ const Family = db.sequelize.define(
 );
 
 module.exports = {
-  Family,
+  Type_container,
 };

@@ -1,54 +1,42 @@
 const db = require("../conn.js");
 const { DataTypes } = require("sequelize");
 
-const Container = db.sequelize.define(
-  "container",
+const Stock_detail_item = db.sequelize.define(
+  "stock_detail_item",
   {
     // Model attributes are defined here
-    id_container: {
+    id_stock_detail_item: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    id_status_container: {
+    id_stock_stock_detail_item: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_company_container: {
+    id_item_stock_detail_item: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_family_container: {
+    id_place_stock_detail_item: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_measure_container: {
+    id_container_stock_detail_item: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_department_container: {
+    qty_container_stock_detail_item: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    name_container: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    size_container: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    qty_container: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    container_tare: {
-      type: DataTypes.STRING,
+    units_stock_detail_item: {
+      type: DataTypes.INTEGER,
       allowNull: true,
     },
-    is_helper_container: {
+    total_stock_detail_item: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
   },
   {
@@ -57,5 +45,5 @@ const Container = db.sequelize.define(
 );
 
 module.exports = {
-  Container,
+  Stock_detail_item,
 };

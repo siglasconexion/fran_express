@@ -1,13 +1,16 @@
-const { Current_inventory } = require("../db/models/current_inventory.js");
+const {
+  Current_inventory_e_oil,
+} = require("../db/models/current_inventory_e_oil.js");
 const db = require("../db/conn.js");
+const { QueryTypes } = require("sequelize");
 const xlsxj = require("xlsx-to-json");
 const fs = require("fs");
 const { request } = require("http");
 const _ = require("lodash");
 const puppeteer = require("puppeteer");
 
-const getCurrent_inventorys = async (req, res) => {
-  const data = await Current_inventory.findAll();
+const getCurrent_inventorys_e_oil = async (req, res) => {
+  const data = await Current_inventory_e_oil.findAll();
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,
@@ -22,7 +25,7 @@ const getCurrent_inventorys = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getCurrent_inventoryQuerySql2 = async (req, res) => {
+const getCurrent_inventory_e_oilQuerySql2 = async (req, res) => {
   // rutas - routes
   let variablefinal = req.params.variable;
   let variable33 = req.params.variable;
@@ -40,7 +43,8 @@ const getCurrent_inventoryQuerySql2 = async (req, res) => {
   );
   console.log("variable sola del objeto params", variablefinal);
   const data = await db.sequelize.query(
-    `SELECT  total_current_inventory, name_item, id_family_item, name_family, code_item from current_inventory INNER JOIN item on current_inventory.id_item_current_inventory=item.id_item INNER JOIN family on item.id_family_item=family.id_family where current_inventory.id_stock_current_inventory = ${variable4} ORDER BY name_family ASC`
+    `SELECT  total_current_inventory_e_oil, name_essential_oil, id_family_essential_oil, name_family, code_essential_oil from current_inventory_e_oil INNER JOIN essential_oil on current_inventory_e_oil.id_e_oil_current_inventory_e_oil=essential_oil.id_essential_oil INNER JOIN family on essential_oil.id_family_essential_oil=family.id_family where current_inventory_e_oil.id_stock_current_inventory_e_oil = ${variable4} ORDER BY name_family, name_essential_oil`,
+    { type: QueryTypes.SELECT }
   ); //
   if (data.length <= 0) {
     res.status(204).json({
@@ -52,14 +56,14 @@ const getCurrent_inventoryQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getCurrent_inventory = async (req, res) => {
+const getCurrent_inventory_e_oil = async (req, res) => {
   //quitar _ y usar camelcase
   console.log("ojo ver akika manin uno ", req.params);
   let variable = req.params.variable;
   console.log("ojo ver akika manin 2 ", req.query);
-  let resultGetOne = await Current_inventory.findOne({
+  let resultGetOne = await Current_inventory_e_oil.findOne({
     where: {
-      id_current_inventory: variable,
+      id_current_inventory_e_oil: variable,
     },
   });
   //console.log("aca no veo nada", resultGetOne);
@@ -79,25 +83,25 @@ const getCurrent_inventory = async (req, res) => {
   return res.status(200).json({ resultGetOne, success: true, prueba, prueba2 });
 };
 
-const createCurrent_inventory = async (req, res) => {
+const createCurrent_inventory_e_oil = async (req, res) => {
   //console.log("req.body", req.body);
-  const resultNew = await Current_inventory.create({
-    id_stock_current_inventory: req.body.idstockcurrentinventory,
-    id_item_current_inventory: req.body.iditemcurrentinventory,
-    total_current_inventory: req.body.totalcurrentinventory,
+  const resultNew = await Current_inventory_e_oil.create({
+    id_stock_current_inventory_e_oil: req.body.idstockcurrentinventoryeoil,
+    id_e_oil_current_inventory_e_oil: req.body.ideoilcurrentinventoryeoil,
+    total_current_inventory_e_oil: req.body.totalcurrentinventorye_oil,
   });
   Object.entries(resultNew).length === 0
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
 };
 
-const updateCurrent_inventory = async (req, res) => {
+const updateCurrent_inventory_e_oil = async (req, res) => {
   try {
     const obj = req.body;
-    const id_current_inventory = req.body.id_current_inventory;
-    let resultUpdate = await Current_inventory.update(obj, {
+    const id_current_inventory_e_oil = req.body.id_current_inventory_e_oil;
+    let resultUpdate = await Current_inventory_e_oil.update(obj, {
       where: {
-        id_current_inventory: id_current_inventory,
+        id_current_inventory_e_oil: id_current_inventory_e_oil,
       },
     });
     //res.json({ message: "User Update successfully" });
@@ -124,13 +128,13 @@ const updateCurrent_inventory = async (req, res) => {
   }
 };
 
-const deleteCurrent_inventory = async (req, res) => {
+const deleteCurrent_inventory_e_oil = async (req, res) => {
   try {
     console.log(req.body);
-    const id_item_current_inventory = req.body.id;
-    let resultDelete = await Current_inventory.destroy({
+    const id_e_oil_current_inventory_e_oil = req.body.id;
+    let resultDelete = await Current_inventory_e_oil.destroy({
       where: {
-        id_item_current_inventory,
+        id_e_oil_current_inventory_e_oil,
       },
     });
     resultDelete === 1
@@ -147,7 +151,7 @@ const deleteCurrent_inventory = async (req, res) => {
   }
 };
 
-const generatePDF = async function (req, res) {
+const generatePDF2 = async function (req, res) {
   const { base64Content } = req.body;
 
   if (!base64Content) {
@@ -209,11 +213,11 @@ const generatePDF = async function (req, res) {
 };
 
 module.exports = {
-  getCurrent_inventorys,
-  getCurrent_inventoryQuerySql2,
-  getCurrent_inventory,
-  createCurrent_inventory,
-  updateCurrent_inventory,
-  deleteCurrent_inventory,
-  generatePDF,
+  getCurrent_inventorys_e_oil,
+  getCurrent_inventory_e_oilQuerySql2,
+  getCurrent_inventory_e_oil,
+  createCurrent_inventory_e_oil,
+  updateCurrent_inventory_e_oil,
+  deleteCurrent_inventory_e_oil,
+  generatePDF2,
 };

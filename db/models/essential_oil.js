@@ -1,54 +1,58 @@
 const db = require("../conn.js");
 const { DataTypes } = require("sequelize");
 
-const Container = db.sequelize.define(
-  "container",
+const Essential_oil = db.sequelize.define(
+  "essential_oil",
   {
     // Model attributes are defined here
-    id_container: {
+    id_essential_oil: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    id_status_container: {
+    id_company_essential_oil: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_company_container: {
+    id_status_essential_oil: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_family_container: {
+    id_container_essential_oil_one: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_measure_container: {
+    id_container_essential_oil_two: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_department_container: {
+    id_helper_container_essential_oil: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    name_container: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    size_container: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    qty_container: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    container_tare: {
-      type: DataTypes.STRING,
       allowNull: true,
     },
-    is_helper_container: {
+    id_measure_essential_oil: {
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    id_family_essential_oil: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    code_essential_oil: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    name_essential_oil: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    stock_essential_oil_one: {
+      type: DataTypes.DECIMAL,
+      allowNull: true,
+    },
+    stock_essential_oil_two: {
+      type: DataTypes.DECIMAL,
+      allowNull: true,
     },
   },
   {
@@ -57,5 +61,5 @@ const Container = db.sequelize.define(
 );
 
 module.exports = {
-  Container,
+  Essential_oil,
 };

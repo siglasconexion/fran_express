@@ -1,25 +1,29 @@
 const db = require("../conn.js");
 const { DataTypes } = require("sequelize");
 
-const Current_inventory = db.sequelize.define(
-  "current_inventory",
+const Measure = db.sequelize.define(
+  "measure",
   {
     // Model attributes are defined here
-    id_current_inventory: {
+    id_measure: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    id_stock_current_inventory: {
+    id_company_measure: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_item_current_inventory: {
+    id_status_measure: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    total_current_inventory: {
+    id_department_measure: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    name_measure: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },
@@ -29,5 +33,5 @@ const Current_inventory = db.sequelize.define(
 );
 
 module.exports = {
-  Current_inventory
+  Measure,
 };

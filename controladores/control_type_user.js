@@ -1,8 +1,9 @@
-const { Stock } = require("../db/models/stock.js");
+const { Type_user } = require("../db/models/type_user.js");
 const db = require("../db/conn.js");
+const jwt = require("jsonwebtoken");
 
-const getStocks = async (req, res) => {
-  const data = await Stock.findAll();
+const getType_users = async (req, res) => {
+  const data = await Type_user.findAll();
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,
@@ -15,8 +16,8 @@ const getStocks = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStockQuerySql2 = async (req, res) => {
-  const data = await db.sequelize.query("SELECT  * from stock"); //
+const getType_userQuerySql2 = async (req, res) => {
+  const data = await db.sequelize.query("SELECT  * from type_user"); //
   if (data.length <= 0) {
     res.status(204).json({
       code: 204,
@@ -27,36 +28,39 @@ const getStockQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock = async (req, res) => {
-  let resultGetOne = await Stock.findAll({
+const getType_user = async (req, res) => {
+  let resultGetOne = await Type_user.findAll({
     where: {
-      id_status_stock: 1,
+      id_type_user: req.body.id,
     },
   });
+  if (resultGetOne.length <= 0) {
+    res.json({
+      message: "Results not found",
+    });
+    return;
+  }
   res.json(resultGetOne);
 };
 
-const createStock = async (req, res) => {
-  const resultNew = await Stock.create({
-    id_company_stock: req.body.idcompanystock,
-    id_status_stock: req.body.idstatusstock,
-    id_user_stock: req.body.iduserstock,
-    start_date_stock: req.body.startdatestock,
-    end_date_stock: req.body.enddatestock,
-    comment_stock: req.body.commentstock,
+const createType_user = async (req, res) => {
+  const resultNew = await Type_user.create({
+    id_company_type_user: req.body.idcompanytypeuser,
+    id_status_type_user: req.body.idstatustypeuser,
+    description_type_user: req.body.descriptiontypeuser,
   });
   Object.entries(resultNew).length === 0
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
 };
 
-const updateStock = async (req, res) => {
+const updateType_user = async (req, res) => {
   try {
     const obj = req.body;
-    const id_stock = req.body.id_stock;
-    let resultUpdate = await Stock.update(obj, {
+    const id_type_user = req.body.id_type_user;
+    let resultUpdate = await User.update(obj, {
       where: {
-        id_stock: id_stock,
+        id_type_user: id_type_user,
       },
     });
     if (resultUpdate[0] === 1) {
@@ -82,13 +86,13 @@ const updateStock = async (req, res) => {
   }
 };
 
-const deleteStock = async (req, res) => {
+const deleteType_user = async (req, res) => {
   try {
     console.log(req.body);
-    const id_stock = req.body.id;
-    let resultDelete = await Stock.destroy({
+    const id_type_user = req.body.id;
+    let resultDelete = await Type_user.destroy({
       where: {
-        id_stock,
+        id_type_user,
       },
     });
     resultDelete === 1
@@ -106,10 +110,10 @@ const deleteStock = async (req, res) => {
 };
 
 module.exports = {
-  getStocks,
-  getStockQuerySql2,
-  getStock,
-  createStock,
-  updateStock,
-  deleteStock,
+  getType_users,
+  getType_userQuerySql2,
+  getType_user,
+  createType_user,
+  updateType_user,
+  deleteType_user,
 };

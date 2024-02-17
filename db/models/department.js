@@ -1,38 +1,30 @@
 const db = require("../conn.js");
 const { DataTypes } = require("sequelize");
 
-const Stock = db.sequelize.define(
-  "stock",
+const Department = db.sequelize.define(
+  "department",
   {
     // Model attributes are defined here
-    id_stock: {
+    id_department: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    id_company_stock: {
+    id_company_department: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_status_stock: {
+    id_status_department: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_user_stock: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    start_date_stock: {
-      type: DataTypes.DATE,
-      allowNull: true,
-    },
-    end_date_stock: {
-      type: DataTypes.DATE,
-      defaultValue: null,
-    },
-    comment_stock: {
+    department_name: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
+    },
+    department_table_name: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   },
   {
@@ -41,5 +33,5 @@ const Stock = db.sequelize.define(
 );
 
 module.exports = {
-  Stock
+  Department,
 };

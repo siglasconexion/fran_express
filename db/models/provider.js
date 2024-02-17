@@ -1,54 +1,58 @@
 const db = require("../conn.js");
 const { DataTypes } = require("sequelize");
 
-const Container = db.sequelize.define(
-  "container",
+const Provider = db.sequelize.define(
+  "provider",
   {
     // Model attributes are defined here
-    id_container: {
+    id_provider: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    id_status_container: {
+    id_company_provider: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_company_container: {
+    id_status_provider: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_family_container: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    id_measure_container: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    id_department_container: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    name_container: {
+    provider_code: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    size_container: {
+    provider_name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    qty_container: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    container_tare: {
+    provider_address: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    is_helper_container: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+    provider_zip_code: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    provider_city: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    provider_state: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    provider_unit: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    provider_email: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    provider_phone_number: {
+      type: DataTypes.STRING,
+      allowNull: true,
     },
   },
   {
@@ -57,5 +61,5 @@ const Container = db.sequelize.define(
 );
 
 module.exports = {
-  Container,
+  Provider,
 };

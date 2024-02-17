@@ -1,10 +1,10 @@
-const { Measure_oz } = require("../db/models/measure_oz.js");
+const { Measure } = require("../db/models/measure.js");
 const db = require("../db/conn.js");
 const xlsxj = require("xlsx-to-json");
 const fs = require("fs");
 
-const getMeasure_ozs = async (req, res) => {
-  const data = await Measure_oz.findAll();
+const getMeasures = async (req, res) => {
+  const data = await Measure.findAll();
   if (data.length <= 0) {
     res.status(204).json({
       code: 204,
@@ -15,8 +15,8 @@ const getMeasure_ozs = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getMeasure_ozQuerySql2 = async (req, res) => {
-  const data = await db.sequelize.query("SELECT * FROM measure_oz");
+const getMeasureQuerySql2 = async (req, res) => {
+  const data = await db.sequelize.query("SELECT * FROM measure");
   if (data.length <= 0) {
     res.status(204).json({
       code: 204,
@@ -27,10 +27,10 @@ const getMeasure_ozQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getMeasure_oz = async (req, res) => {
-  let resultGetOne = await Measure_oz.findAll({
+const getMeasure = async (req, res) => {
+  let resultGetOne = await Measure.findAll({
     where: {
-      id_measure_oz: req.body.id,
+      id_measure: req.body.id,
     },
   });
   if (resultGetOne.length <= 0) {
@@ -42,22 +42,23 @@ const getMeasure_oz = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createMeasure_oz = async (req, res) => {
-  const resultNew = await Measure_oz.create({
-    id_company_measure_oz: req.body.idcompanymeasureoz,
-    id_status_measure_oz: req.body.idstatusmeasureoz,
-    name_measure_oz: req.body.namemeasureoz,
+const createMeasure = async (req, res) => {
+  const resultNew = await Measure.create({
+    id_company_measure: req.body.idcompanymeasure,
+    id_status_measure: req.body.idstatusmeasure,
+    id_department_measure: req.body.iddepartmentmeasure,
+    name_measure: req.body.namemeasure,
   });
   Object.entries(resultNew).length === 0
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
 };
 
-const updateMeasure_oz = async (req, res) => {
+const updateMeasure = async (req, res) => {
   const obj = req.body;
-  let resultUpdate = await Measure_oz.update(obj, {
+  let resultUpdate = await Measure.update(obj, {
     where: {
-      id_measure_oz: req.body.id_measure_oz,
+      id_measure: req.body.id_measure,
     },
   });
   resultUpdate[0] === 1
@@ -71,12 +72,12 @@ const updateMeasure_oz = async (req, res) => {
       });
 };
 
-const deleteMeasure_oz = async (req, res) => {
+const deleteMeasure = async (req, res) => {
   try {
-    const id_measure_oz = req.body.id;
-    let resultDelete = await Measure_oz.destroy({
+    const id_measure = req.body.id;
+    let resultDelete = await Measure.destroy({
       where: {
-        id_measure_oz,
+        id_measure,
       },
     });
     resultDelete === 1
@@ -126,11 +127,11 @@ const getDataExcel = async (req, res) => {
 };
 
 module.exports = {
-  getMeasure_ozs,
-  getMeasure_ozQuerySql2,
-  getMeasure_oz,
-  createMeasure_oz,
-  updateMeasure_oz,
-  deleteMeasure_oz,
+  getMeasures,
+  getMeasureQuerySql2,
+  getMeasure,
+  createMeasure,
+  updateMeasure,
+  deleteMeasure,
   getDataExcel,
 };

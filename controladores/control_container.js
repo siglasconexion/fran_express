@@ -36,10 +36,13 @@ const createContainer = async (req, res) => {
     id_status_container: req.body.idstatuscontainer,
     id_company_container: req.body.idcompanycontainer,
     id_family_container: req.body.idfamilycontainer,
-    id_measure_oz_container: req.body.idmeasureozcontainer,
+    id_measure_container: req.body.idmeasurecontainer,
+    id_department_container: req.body.iddepartmentcontainer,
     name_container: req.body.namecontainer,
     size_container: req.body.sizecontainer,
     qty_container: req.body.qtycontainer,
+    container_tare: req.body.containertare,
+    is_helper_container: req.body.ishelpercontainer,
   });
   Object.entries(resultNew).length === 0
     ? res.json({ message: "Register is not created" })
@@ -47,6 +50,7 @@ const createContainer = async (req, res) => {
 };
 
 const updateContainer = async (req, res) => {
+  console.log("req.body", req.body);
   try {
     const obj = req.body;
     const id_container = req.body.id_container;

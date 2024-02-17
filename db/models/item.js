@@ -26,7 +26,7 @@ const Item = db.sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_measure_oz_item: {
+    id_measure_item: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -65,5 +65,5 @@ const Item = db.sequelize.define(
 );
 
 module.exports = {
-  Item
+  Item,
 };

@@ -1,10 +1,10 @@
-const { Family } = require("../db/models/Family.js");
+const { Department } = require("../db/models/department.js");
 const db = require("../db/conn.js");
 const xlsxj = require("xlsx-to-json");
 const fs = require("fs");
 
-const getFamilys = async (req, res) => {
-  const data = await Family.findAll();
+const getDepartments = async (req, res) => {
+  const data = await Department.findAll();
   if (data.length <= 0) {
     res.status(204).json({
       code: 204,
@@ -15,8 +15,8 @@ const getFamilys = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getUserQuerySql = async (req, res) => {
-  const data = await db.sequelize.query("SELECT * FROM users");
+const getDepartmentQuerySql = async (req, res) => {
+  const data = await db.sequelize.query("SELECT * FROM department");
   if (data.length <= 0) {
     res.status(204).json({
       code: 204,
@@ -27,10 +27,10 @@ const getUserQuerySql = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getFamily = async (req, res) => {
-  let resultGetOne = await Family.findAll({
+const getDepartment = async (req, res) => {
+  let resultGetOne = await Department.findAll({
     where: {
-      id_family: req.body.id,
+      id_department: req.body.id,
     },
   });
   if (resultGetOne.length <= 0) {
@@ -42,23 +42,22 @@ const getFamily = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createFamily = async (req, res) => {
-  const resultNew = await Family.create({
-    id_company_family: req.body.idcompanyfamily,
-    id_status_family: req.body.idstatusfamily,
-    id_department_family: req.body.iddepartmentfamily,
-    name_family: req.body.namefamily,
+const createDepartment = async (req, res) => {
+  const resultNew = await Department.create({
+    id_company_department: req.body.idcompanydepartment,
+    id_status_department: req.body.idstatusdepartment,
+    department_name: req.body.departmentname,
   });
   Object.entries(resultNew).length === 0
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
 };
 
-const updateFamily = async (req, res) => {
+const updateDepartment = async (req, res) => {
   const obj = req.body;
-  let resultUpdate = await Family.update(obj, {
+  let resultUpdate = await Department.update(obj, {
     where: {
-      id_family: req.body.id_family,
+      id_department: req.body.id_department,
     },
   });
   resultUpdate[0] === 1
@@ -72,12 +71,12 @@ const updateFamily = async (req, res) => {
       });
 };
 
-const deleteFamily = async (req, res) => {
+const deleteDepartment = async (req, res) => {
   try {
-    const id_family = req.body.id;
-    let resultDelete = await Family.destroy({
+    const id_department = req.body.id;
+    let resultDelete = await Department.destroy({
       where: {
-        id_family,
+        id_department,
       },
     });
     resultDelete === 1
@@ -127,11 +126,11 @@ const getDataExcel = async (req, res) => {
 };
 
 module.exports = {
-  getFamilys,
-  getUserQuerySql,
-  getFamily,
-  createFamily,
-  updateFamily,
-  deleteFamily,
+  getDepartments,
+  getDepartmentQuerySql,
+  getDepartment,
+  createDepartment,
+  updateDepartment,
+  deleteDepartment,
   getDataExcel,
 };

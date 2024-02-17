@@ -47,32 +47,32 @@ const {
 } = require("./controladores/control_item.js");
 
 const {
-  getStock_details,
-  getStock_detail,
-  createStock_detail,
-  updateStock_detail,
-  deleteStock_detail,
-  getStock_detailQuerySql2,
-} = require("./controladores/control_stock_detail.js");
+  getStock_details_item,
+  getStock_detail_item,
+  createStock_detail_item,
+  updateStock_detail_item,
+  deleteStock_detail_item,
+  getStock_detail_itemQuerySql2,
+} = require("./controladores/control_stock_detail_item.js");
 
 const {
-  getCurrent_inventorys,
-  getCurrent_inventory,
-  createCurrent_inventory,
-  updateCurrent_inventory,
-  deleteCurrent_inventory,
-  getCurrent_inventoryQuerySql2,
+  getCurrent_inventorys_item,
+  getCurrent_inventory_item,
+  createCurrent_inventory_item,
+  updateCurrent_inventory_item,
+  deleteCurrent_inventory_item,
+  getCurrent_inventory_itemQuerySql2,
   generatePDF,
-} = require("./controladores/control_current_inventory.js");
+} = require("./controladores/control_current_inventory_item.js");
 
 const {
-  getStocks,
-  getStock,
-  createStock,
-  updateStock,
-  deleteStock,
-  getStockQuerySql2,
-} = require("./controladores/control_stock.js");
+  getStocks_item,
+  getStock_item,
+  createStock_item,
+  updateStock_item,
+  deleteStock_item,
+  getStock_itemQuerySql2,
+} = require("./controladores/control_stock_item.js");
 
 const {
   getUsers,
@@ -85,12 +85,74 @@ const {
 } = require("./controladores/control_user.js");
 
 const {
-  getMeasure_ozs,
-  createMeasure_oz,
-  updateMeasure_oz,
-  deleteMeasure_oz,
-  getMeasure_ozQuerySql2,
-} = require("./controladores/control_measure_oz.js");
+  getType_users,
+  getType_user,
+  createType_user,
+  updateType_user,
+  deleteType_user,
+  getType_usersQuerySql2,
+} = require("./controladores/control_type_user.js");
+
+const {
+  getMeasures,
+  createMeasure,
+  updateMeasure,
+  deleteMeasure,
+  getMeasureQuerySql2,
+} = require("./controladores/control_measure.js");
+
+const {
+  getEssential_oils,
+  getEssential_oil,
+  createEssential_oil,
+  updateEssential_oil,
+  deleteEssential_oil,
+} = require("./controladores/control_essential_oil.js");
+
+const {
+  getDepartments,
+  getDepartment,
+  createDepartment,
+  updateDepartment,
+  deleteDepartment,
+} = require("./controladores/control_department.js");
+
+const {
+  getOil_inputs,
+  getOil_input,
+  getOil_inputQuerySql2,
+  createOil_input,
+  updateOil_input,
+  deleteOil_input,
+} = require("./controladores/control_oil_input.js");
+
+const {
+  getStocks_e_oil,
+  getStock_e_oil,
+  createStock_e_oil,
+  updateStock_e_oil,
+  deleteStock_e_oil,
+  getStock_e_oilQuerySql2,
+} = require("./controladores/control_stock_e_oil.js");
+
+const {
+  getCurrent_inventorys_e_oil,
+  getCurrent_inventory_e_oil,
+  createCurrent_inventory_e_oil,
+  updateCurrent_inventory_e_oil,
+  deleteCurrent_inventory_e_oil,
+  getCurrent_inventory_e_oilQuerySql2,
+  generatePDF2,
+} = require("./controladores/control_current_inventory_e_oil.js");
+
+const {
+  getStock_details_e_oil,
+  getStock_detail_e_oil,
+  createStock_detail_e_oil,
+  updateStock_detail_e_oil,
+  deleteStock_detail_e_oil,
+  getStock_detail_e_oilQuerySql2,
+} = require("./controladores/control_stock_detail_e_oil.js");
 
 const db = require("./db/conn.js");
 
@@ -148,37 +210,41 @@ router.put("/item", updateItem);
 router.delete("/item", deleteItem);
 // end model item
 
-// Model Stock_detail
-router.get("/stock_details", getStock_detailQuerySql2);
-//router.get("/stock_details", getStock_details);
-router.get("/stock_detail", getStock_detail);
-router.post("/stock_detail", createStock_detail);
-router.put("/stock_detail", updateStock_detail);
-router.delete("/stock_detail", deleteStock_detail);
-// end model Stock_detail
+// Model Stock_detail_item
+router.get("/stock_details_item", getStock_detail_itemQuerySql2);
+//router.get("/stock_details_item", getStock_details_item);
+router.get("/stock_detail_item", getStock_detail_item);
+router.post("/stock_detail_item", createStock_detail_item);
+router.put("/stock_detail_item", updateStock_detail_item);
+router.delete("/stock_detail_item", deleteStock_detail_item);
+// end model Stock_detail_item
 
-// Model Current_inventory
-router.get("/current_inventorys/:variable", getCurrent_inventoryQuerySql2);
+// Model Current_inventory_item
+router.get(
+  "/current_inventorys_item/:variable",
+  getCurrent_inventory_itemQuerySql2
+);
 router.post("/generate-pdf", generatePDF); // prueb
-//router.get("/current_inventorys", getCurrent_inventorys);
-router.get("/current_inventory/:variable", getCurrent_inventory);
-router.post("/current_inventory", createCurrent_inventory);
-router.put("/current_inventory", updateCurrent_inventory);
-router.delete("/current_inventory", deleteCurrent_inventory);
-// end model Current_inventory
+//router.get("/current_inventorys_item", getCurrent_inventorys_item);
+router.get("/current_inventory_item/:variable", getCurrent_inventory_item);
+router.post("/current_inventory_item", createCurrent_inventory_item);
+router.put("/current_inventory_item", updateCurrent_inventory_item);
+router.delete("/current_inventory_item", deleteCurrent_inventory_item);
+// end model Current_inventory_item
 
-// Model stock
-//router.get("/stoks", getStockQuerySql2);
-router.get("/stocks", getStocks);
-router.get("/stock", getStock);
-router.post("/stock", createStock);
-router.put("/stock", updateStock);
-router.delete("/stock", deleteStock);
-// end model stock
+// Model stock_item
+//router.get("/stoks", getStock_itemQuerySql2);
+router.get("/stocks_item", getStocks_item);
+router.get("/stock_item", getStock_item);
+router.post("/stock_item", createStock_item);
+router.put("/stock_item", updateStock_item);
+router.delete("/stock_item", deleteStock_item);
+// end model stock_item
 
 // Model user
 //router.get("/users", getUserQuerySql2);
-router.get("/users", authenticateUser, getUsers);
+//router.get("/users", authenticateUser, getUsers);
+router.get("/users", getUsers);
 router.get("/user", getUser);
 router.post("/user", createUser);
 router.put("/user", updateUser);
@@ -186,14 +252,91 @@ router.delete("/user", deleteUser);
 router.post("/login", login);
 // end model user
 
-// Model Measure_oz
-router.get("/measure_ozs", getMeasure_ozQuerySql2);
+// Model type_user
+//router.get("/type_users", gettype_userQuerySql2);
+router.get("/type_users", getType_users);
+router.get("/type_user", getType_user);
+router.post("/type_user", createType_user);
+router.put("/type_user", updateType_user);
+router.delete("/type_user", deleteType_user);
+// end model type_user
+
+// Model Measure
+///router.get("/measure_ozs", getMeasure_ozQuerySql2);
 //;
-router.get("/measures", getMeasure_ozs);
-router.post("/measure_oz", createMeasure_oz);
-router.put("/measure_oz", updateMeasure_oz);
-router.delete("/measure_oz", deleteMeasure_oz);
-// end model Measure_oz
+router.get("/measures", getMeasures);
+router.post("/measure", createMeasure);
+router.put("/measure", updateMeasure);
+router.delete("/measure", deleteMeasure);
+// end model Measure
+
+// Model Essential_oil
+router.get("/essential_oils", getEssential_oils);
+router.get("/essential_oil", getEssential_oil);
+router.post("/essential_oil", createEssential_oil);
+router.put("/essential_oil", updateEssential_oil);
+router.delete("/essential_oil", deleteEssential_oil);
+// end model Essential_oil
+
+// Model E_oil_family
+
+// end model E_oil_family
+
+// Model E_oil_container
+
+// end model E_oil_container
+
+// Model E_oil_measure
+
+// end model E_oil_measure
+
+// Model department
+router.get("/departments", getDepartments);
+router.get("/department", getDepartment);
+router.post("/department", createDepartment);
+router.put("/department", updateDepartment);
+router.delete("/department", deleteDepartment);
+// end model department
+
+// Model oil_input
+router.get("/oil_inputs", getOil_inputs);
+router.get("/oil_input", getOil_input);
+router.get("/oil_input_query", getOil_inputQuerySql2);
+router.post("/oil_input", createOil_input);
+router.put("/oil_input", updateOil_input);
+router.delete("/oil_input", deleteOil_input);
+// end model oil_input
+
+// Model stock_e_oil
+//router.get("/stoks", getStock_e_oilQuerySql2);
+router.get("/stocks_e_oil", getStocks_e_oil);
+router.get("/stock_e_oil", getStock_e_oil);
+router.post("/stock_e_oil", createStock_e_oil);
+router.put("/stock_e_oil", updateStock_e_oil);
+router.delete("/stock_e_oil", deleteStock_e_oil);
+// end model stock_e_oil
+
+// Model Current_inventory_e_oil
+router.get(
+  "/current_inventorys_e_oil/:variable",
+  getCurrent_inventory_e_oilQuerySql2
+);
+router.post("/generate-pdf", generatePDF2); // prueb
+//router.get("/current_inventorys_e_oil, getCurrent_inventorys_e_oil);
+router.get("/current_inventory_e_oil/:variable", getCurrent_inventory_e_oil);
+router.post("/current_inventory_e_oil", createCurrent_inventory_e_oil);
+router.put("/current_inventory_e_oil", updateCurrent_inventory_e_oil);
+router.delete("/current_inventory_e_oil", deleteCurrent_inventory_e_oil);
+// end model Current_inventory_e_oil
+
+// Model Stock_detail_e_oil
+router.get("/stock_details_e_oil", getStock_detail_e_oilQuerySql2);
+//router.get("/stock_details_e_oil", getStock_details_e_oil);
+router.get("/stock_detail_e_oil/:variable", getStock_detail_e_oil);
+router.post("/stock_detail_e_oil", createStock_detail_e_oil);
+router.put("/stock_detail_e_oil", updateStock_detail_e_oil);
+router.delete("/stock_detail_e_oil", deleteStock_detail_e_oil);
+// end model Stock_detail_e_oil
 
 app.use("/api/", router);
 

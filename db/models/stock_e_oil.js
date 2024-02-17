@@ -1,30 +1,38 @@
 const db = require("../conn.js");
 const { DataTypes } = require("sequelize");
 
-const Family = db.sequelize.define(
-  "family",
+const Stock_e_oil = db.sequelize.define(
+  "stock_e_oil",
   {
     // Model attributes are defined here
-    id_family: {
+    id_stock_e_oil: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    id_company_family: {
+    id_company_stock_e_oil: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_status_family: {
+    id_status_stock_e_oil: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_department_family: {
+    id_user_stock_e_oil: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    name_family: {
+    start_date_stock_e_oil: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    end_date_stock_e_oil: {
+      type: DataTypes.DATE,
+      defaultValue: null,
+    },
+    comment_stock_e_oil: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
   },
   {
@@ -33,5 +41,5 @@ const Family = db.sequelize.define(
 );
 
 module.exports = {
-  Family,
+  Stock_e_oil,
 };
