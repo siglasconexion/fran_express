@@ -46,6 +46,10 @@ const Container = db.sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    container_tare_lbs: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     is_helper_container: {
       type: DataTypes.INTEGER,
       allowNull: false,

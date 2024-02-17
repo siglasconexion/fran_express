@@ -42,6 +42,7 @@ const createContainer = async (req, res) => {
     size_container: req.body.sizecontainer,
     qty_container: req.body.qtycontainer,
     container_tare: req.body.containertare,
+    container_tare_lbs: req.body.containertarelbs,
     is_helper_container: req.body.ishelpercontainer,
   });
   Object.entries(resultNew).length === 0
