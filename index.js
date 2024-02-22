@@ -63,6 +63,7 @@ const {
   deleteCurrent_inventory_item,
   getCurrent_inventory_itemQuerySql2,
   generatePDF,
+  generateNewPDF,
 } = require("./controladores/control_current_inventory_item.js");
 
 const {
@@ -225,6 +226,7 @@ router.get(
   getCurrent_inventory_itemQuerySql2
 );
 router.post("/generate-pdf", generatePDF); // prueb
+router.get("/generate-new-pdf", generateNewPDF); // prueb
 //router.get("/current_inventorys_item", getCurrent_inventorys_item);
 router.get("/current_inventory_item/:variable", getCurrent_inventory_item);
 router.post("/current_inventory_item", createCurrent_inventory_item);

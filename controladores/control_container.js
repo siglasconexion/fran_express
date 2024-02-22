@@ -43,7 +43,7 @@ const createContainer = async (req, res) => {
     qty_container: req.body.qtycontainer,
     container_tare: req.body.containertare,
     container_tare_lbs: req.body.containertarelbs,
-    is_helper_container: req.body.ishelpercontainer,
+    is_helper_container: req.body.helpercontainer,
   });
   Object.entries(resultNew).length === 0
     ? res.json({ message: "Register is not created" })

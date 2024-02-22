@@ -8,6 +8,7 @@ const fs = require("fs");
 const { request } = require("http");
 const _ = require("lodash");
 const puppeteer = require("puppeteer");
+const jsPDF = require("jspdf");
 
 const getCurrent_inventorys_item = async (req, res) => {
   const data = await Current_inventory_item.findAll();
@@ -212,6 +213,17 @@ const generatePDF = async function (req, res) {
   }
 };
 
+const generateNewPDF = async function (req, res) {
+  function convertirPDF() {
+    const doc = new jsPDF();
+
+    doc.text("Hello world!", 10, 80);
+    doc.save("a4.pdf");
+  }
+
+  convertirPDF();
+};
+
 module.exports = {
   getCurrent_inventorys_item,
   getCurrent_inventory_itemQuerySql2,
@@ -220,4 +232,5 @@ module.exports = {
   updateCurrent_inventory_item,
   deleteCurrent_inventory_item,
   generatePDF,
+  generateNewPDF,
 };

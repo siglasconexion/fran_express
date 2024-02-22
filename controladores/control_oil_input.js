@@ -20,7 +20,7 @@ const getOil_inputs = async (req, res) => {
 
 const getOil_inputQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query(
-    `SELECT id_oil_input,id_essential_oil_oil_input,id_container_oil_input,quantity_received_oil_input,date_received_oil_input,comment_oil_input, in_use_oil_input, stock_oil_input, name_essential_oil, name_container, container_tare FROM oil_input INNER JOIN essential_oil on oil_input.id_essential_oil_oil_input=essential_oil.id_essential_oil INNER JOIN container on oil_input.id_container_oil_input=container.id_container ORDER BY id_oil_input`,
+    `SELECT id_oil_input,id_essential_oil_oil_input,id_container_oil_input,quantity_received_oil_input,date_received_oil_input,comment_oil_input, in_use_oil_input, stock_oil_input, container_weight_oil_input, name_essential_oil, name_container FROM oil_input INNER JOIN essential_oil on oil_input.id_essential_oil_oil_input=essential_oil.id_essential_oil INNER JOIN container on oil_input.id_container_oil_input=container.id_container ORDER BY id_oil_input`,
     { type: QueryTypes.SELECT }
   );
   if (data.length <= 0) {
