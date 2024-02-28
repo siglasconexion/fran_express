@@ -8,7 +8,7 @@ const fs = require("fs");
 const { request } = require("http");
 const _ = require("lodash");
 const puppeteer = require("puppeteer");
-const jsPDF = require("jspdf");
+// const jsPDF = require("jspdf");
 
 const getCurrent_inventorys_item = async (req, res) => {
   const data = await Current_inventory_item.findAll();
@@ -173,6 +173,7 @@ const generatePDF = async function (req, res) {
           margin: 0px;
           width:100%;
           size: A4;
+          font-size: 18px;
           @top-center {
             content: element(header);
           }
@@ -196,8 +197,10 @@ const generatePDF = async function (req, res) {
     const pdfBuffer = await page.pdf({
       printBackground: true, // Incluir estilos de fondo
       margin: {
-        top: "80px", // Altura del encabezado
-        bottom: "100px", // Altura del pie de página
+        //top: "80px", // Altura del encabezado
+        //bottom: "100px", // Altura del pie de página
+        top: "20px", // Altura del encabezado
+        bottom: "10px", // Altura del pie de página
       },
     });
     // Configurar la respuesta HTTP
@@ -214,14 +217,14 @@ const generatePDF = async function (req, res) {
 };
 
 const generateNewPDF = async function (req, res) {
-  function convertirPDF() {
+  /*  function convertirPDF() {
     const doc = new jsPDF();
 
     doc.text("Hello world!", 10, 80);
     doc.save("a4.pdf");
   }
 
-  convertirPDF();
+  convertirPDF(); */
 };
 
 module.exports = {

@@ -1,4 +1,5 @@
 const { Oil_input } = require("../db/models/oil_input.js");
+const { Essential_oil } = require("../db/models/essential_oil.js");
 const { QueryTypes } = require("sequelize");
 const db = require("../db/conn.js");
 const xlsxj = require("xlsx-to-json");
@@ -60,10 +61,62 @@ const createOil_input = async (req, res) => {
     finish_oil_input: req.body.finishoilinput,
     stock_oil_input: req.body.stockoilinput,
     comment_oil_input: req.body.commentoilinput,
+    in_use_oil_input: req.body.inuseoilinput,
   });
-  Object.entries(resultNew).length === 0
-    ? res.json({ message: "Register is not created" })
-    : res.json({ message: resultNew });
+  if (Object.entries(resultNew).length === 0) {
+    res.json({ message: "Register is not created" });
+  } else {
+    //: res.json({ message: resultNew });
+    const resultNew2 = await Essential_oil.findOne({
+      where: {
+        id_essential_oil: req.body.idessentialoiloilinput,
+      },
+    });
+    let convertResultNew2 = resultNew2?.toJSON();
+    let previousStock = convertResultNew2.stock_essential_oil_one;
+    if (previousStock === null) {
+      previousStock = 0;
+    }
+
+    let totalStock =
+      parseFloat(req.body.stockoilinput) + parseFloat(previousStock);
+    console.log(
+      "previousStock",
+      previousStock,
+      "stockoilinput",
+      req.body.stockoilinput,
+      "totalStock",
+      totalStock,
+      "idessentialoiloilinput",
+      req.body.idessentialoiloilinput
+    );
+    let obj = {
+      stock_essential_oil_one: totalStock,
+    };
+    const resultUpdate = await Essential_oil.update(obj, {
+      where: {
+        id_essential_oil: req.body.idessentialoiloilinput,
+      },
+    });
+    if (resultUpdate[0] === 1) {
+      res.status(200).json({
+        message: "Status Update successfully",
+        resultUpdate: resultUpdate,
+      });
+    } else {
+      res.status(400).json({
+        error: "valor demasiado grande",
+        message: "Status not successfully",
+        resultUpdate: resultUpdate,
+      });
+    }
+    /* } catch (error) {
+    console.log("aquir muestra la descripcion de error message", error.message);
+    console.log("aquir el error stack", error.stack);
+    console.log("aca el error erros", error.errors);
+    console.log("aqui va el error de la funcion Create_stock_detail", error);
+  } */
+  }
 };
 
 const updateOil_input = async (req, res) => {
@@ -115,6 +168,49 @@ const deleteOil_input = async (req, res) => {
           message: "Status Not deleted successfully",
           resultdelete: resultDelete,
         });
+    const resultNew2 = await Essential_oil.findOne({
+      where: {
+        id_essential_oil: req.body.idessentialoil,
+      },
+    });
+    let convertResultNew2 = resultNew2?.toJSON();
+    let previousStock = convertResultNew2.stock_essential_oil_one;
+    if (previousStock === null) {
+      previousStock = 0;
+    }
+
+    let totalStock =
+      parseFloat(previousStock) - parseFloat(req.body.stockoilinput);
+    console.log(
+      "previousStock",
+      previousStock,
+      "stockoilinput",
+      req.body.stockoilinput,
+      "totalStock",
+      totalStock,
+      "idessentialoiloilinput",
+      req.body.idessentialoiloilinput
+    );
+    let obj = {
+      stock_essential_oil_one: totalStock,
+    };
+    const resultUpdate = await Essential_oil.update(obj, {
+      where: {
+        id_essential_oil: req.body.idessentialoiloilinput,
+      },
+    });
+    if (resultUpdate[0] === 1) {
+      res.status(200).json({
+        message: "Status Update successfully",
+        resultUpdate: resultUpdate,
+      });
+    } else {
+      res.status(400).json({
+        error: "valor demasiado grande",
+        message: "Status not successfully",
+        resultUpdate: resultUpdate,
+      });
+    }
   } catch (err) {
     console.log(err.stack);
   }

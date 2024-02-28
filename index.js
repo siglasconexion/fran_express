@@ -159,7 +159,7 @@ const db = require("./db/conn.js");
 
 const router = express.Router();
 const app = express();
-const port = 3001;
+const port = 3002;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
