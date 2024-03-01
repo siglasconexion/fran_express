@@ -179,24 +179,24 @@ const deleteOil_input = async (req, res) => {
       previousStock = 0;
     }
 
-    let totalStock =
+    let actualStock =
       parseFloat(previousStock) - parseFloat(req.body.stockoilinput);
     console.log(
       "previousStock",
       previousStock,
       "stockoilinput",
       req.body.stockoilinput,
-      "totalStock",
-      totalStock,
-      "idessentialoiloilinput",
-      req.body.idessentialoiloilinput
+      "actualStock",
+      actualStock,
+      "req.body.idessentialoil",
+      req.body.idessentialoil
     );
     let obj = {
-      stock_essential_oil_one: totalStock,
+      stock_essential_oil_one: actualStock,
     };
     const resultUpdate = await Essential_oil.update(obj, {
       where: {
-        id_essential_oil: req.body.idessentialoiloilinput,
+        id_essential_oil: req.body.idessentialoil,
       },
     });
     if (resultUpdate[0] === 1) {
