@@ -68,6 +68,7 @@ const getStock_detail_e_oil = async (req, res) => {
 };
 
 const createStock_detail_e_oil = async (req, res) => {
+  //  if (req.body.idhelpercontainerstockdetaileoil)
   try {
     await Stock_detail_e_oil.create({
       id_stock_stock_detail_e_oil: req.body.idstockstockdetaileoil,

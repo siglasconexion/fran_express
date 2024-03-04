@@ -30,6 +30,14 @@ const Oil_input = db.sequelize.define(
       type: DataTypes.DECIMAL,
       allowNull: false,
     },
+    units_received_oil_input: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    tare_unit_oil_input: {
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+    },
     date_received_oil_input: {
       type: DataTypes.DATE,
       allowNull: false,
