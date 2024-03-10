@@ -1,4 +1,7 @@
 const { Stock_e_oil } = require("../db/models/stock_e_oil.js");
+const { Stock_detail_e_oil } = require("../db/models/stock_detail_e_oil.js");
+const { Oil_input } = require("../db/models/oil_input.js");
+const { Essential_oil } = require("../db/models/essential_oil.js");
 const db = require("../db/conn.js");
 
 const getStocks_e_oil = async (req, res) => {
@@ -104,6 +107,7 @@ const deleteStock_e_oil = async (req, res) => {
     console.log(err.stack);
   }
 };
+const getStock_e_oil_closed = async (req, res) => {};
 
 module.exports = {
   getStocks_e_oil,
@@ -112,4 +116,5 @@ module.exports = {
   createStock_e_oil,
   updateStock_e_oil,
   deleteStock_e_oil,
+  getStock_e_oil_closed,
 };

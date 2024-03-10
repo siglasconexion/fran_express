@@ -34,6 +34,10 @@ const Stock_detail_e_oil = db.sequelize.define(
       type: DataTypes.DECIMAL,
       allowNull: false,
     },
+    spent_stock_detail_e_oil: {
+      type: DataTypes.DECIMAL,
+      allowNull: true,
+    },
     qty_container_two_stock_detail_e_oil: {
       type: DataTypes.DECIMAL,
       allowNull: true,

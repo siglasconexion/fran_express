@@ -81,6 +81,7 @@ const createStock_detail_e_oil = async (req, res) => {
         req.body.idhelpercontainerstockdetaileoil,
       qty_container_one_stock_detail_e_oil:
         req.body.qtycontaineronestockdetaileoil,
+      spent_stock_detail_e_oil: req.body.spentstockdetaileoil,
       qty_container_two_stock_detail_e_oil:
         req.body.qtycontainertwostockdetaileoil,
       qty_helper_container_stock_detail_e_oil:
@@ -187,17 +188,17 @@ const deleteStock_detail_e_oil = async (req, res) => {
       },
     });
     if (resultDelete === 1) {
-      res.status(200).json({
+      /*       res.status(200).json({
         message: "Status Update successfully",
         resultDelete: resultDelete,
-      });
+      }); */
     } else {
       console.log("cono porque entre akika");
-      res.status(400).json({
+      /*      res.status(400).json({
         error: "valor demasiado grande",
         message: "Status not successfully",
         resultDelete: resultDelete,
-      });
+      }); */
     }
     let resultDelete2 = await Current_inventory_e_oil.destroy({
       where: {

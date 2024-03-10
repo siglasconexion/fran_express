@@ -133,6 +133,7 @@ const {
   createStock_e_oil,
   updateStock_e_oil,
   deleteStock_e_oil,
+  getStock_e_oil_closed,
   getStock_e_oilQuerySql2,
 } = require("./controladores/control_stock_e_oil.js");
 
@@ -143,6 +144,7 @@ const {
   updateCurrent_inventory_e_oil,
   deleteCurrent_inventory_e_oil,
   getCurrent_inventory_e_oilQuerySql2,
+  getCurrent_inventory_e_oildetailQuerySql2,
   generatePDF2,
 } = require("./controladores/control_current_inventory_e_oil.js");
 
@@ -311,6 +313,7 @@ router.delete("/oil_input", deleteOil_input);
 
 // Model stock_e_oil
 //router.get("/stoks", getStock_e_oilQuerySql2);
+router.get("/stocks_e_oil_closed/:variable", getStock_e_oil_closed);
 router.get("/stocks_e_oil", getStocks_e_oil);
 router.get("/stock_e_oil", getStock_e_oil);
 router.post("/stock_e_oil", createStock_e_oil);
@@ -324,7 +327,10 @@ router.get(
   getCurrent_inventory_e_oilQuerySql2
 );
 router.post("/generate-pdf", generatePDF2); // prueb
-//router.get("/current_inventorys_e_oil, getCurrent_inventorys_e_oil);
+router.get(
+  "/current_inventorys_e_oil_detail",
+  getCurrent_inventory_e_oildetailQuerySql2
+);
 router.get("/current_inventory_e_oil/:variable", getCurrent_inventory_e_oil);
 router.post("/current_inventory_e_oil", createCurrent_inventory_e_oil);
 router.put("/current_inventory_e_oil", updateCurrent_inventory_e_oil);

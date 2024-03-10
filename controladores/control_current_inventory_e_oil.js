@@ -1,6 +1,4 @@
-const {
-  Current_inventory_e_oil,
-} = require("../db/models/current_inventory_e_oil.js");
+const { Oil_input } = require("../db/models/oil_input.js");
 const db = require("../db/conn.js");
 const { QueryTypes } = require("sequelize");
 const xlsxj = require("xlsx-to-json");
@@ -24,6 +22,8 @@ const getCurrent_inventorys_e_oil = async (req, res) => {
   console.log("akika backend ", jsonData);
   res.status(200).json(data);
 };
+
+getCurrent_inventorys_e_oil;
 
 const getCurrent_inventory_e_oilQuerySql2 = async (req, res) => {
   // rutas - routes
@@ -62,6 +62,45 @@ const getCurrent_inventory_e_oilQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
+//*****************************
+const getCurrent_inventory_e_oildetailQuerySql2 = async (req, res) => {
+  // rutas - routes
+  /* let variablefinal = req.params.variable;
+  let variable33 = req.params.variable;
+  let variable2 = req.params;
+  let variable3 = Object.values(variable2);
+  let variable4 = variable3[0];
+  console.log(
+    "HEY CA LA VARIABLE",
+    variable33,
+    req.params,
+    variable2,
+    variable3,
+    variable4,
+    variablefinal
+  ); */
+  /*
+   */
+
+  //console.log("variable sola del objeto params", variablefinal);
+  const data = await db.sequelize.query(
+    `SELECT id_essential_oil_oil_input as id_e_oil, quantity_received_oil_input as qty, date_received_oil_input as received, in_use_oil_input as in_use, stock_oil_input as stock, comment_oil_input as comment, name_essential_oil as name FROM oil_input INNER JOIN essential_oil on id_essential_oil_oil_input = id_essential_oil ORDER BY name`,
+    {
+      type: QueryTypes.SELECT,
+    }
+  ); //
+  if (data.length <= 0) {
+    res.status(204).json({
+      code: 204,
+      message: "Results not found",
+    });
+    return;
+  }
+  console.log("json", data);
+  res.status(200).json(data);
+};
+
+//**********************************
 const getCurrent_inventory_e_oil = async (req, res) => {
   //quitar _ y usar camelcase
   console.log("ojo ver akika manin uno ", req.params);
@@ -221,6 +260,7 @@ const generatePDF2 = async function (req, res) {
 module.exports = {
   getCurrent_inventorys_e_oil,
   getCurrent_inventory_e_oilQuerySql2,
+  getCurrent_inventory_e_oildetailQuerySql2,
   getCurrent_inventory_e_oil,
   createCurrent_inventory_e_oil,
   updateCurrent_inventory_e_oil,
