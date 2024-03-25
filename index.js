@@ -157,6 +157,14 @@ const {
   getStock_detail_e_oilQuerySql2,
 } = require("./controladores/control_stock_detail_e_oil.js");
 
+const {
+  getLabels,
+  getLabel,
+  createLabel,
+  updateLabel,
+  deleteLabel,
+} = require("./controladores/control_label.js");
+
 const db = require("./db/conn.js");
 
 const router = express.Router();
@@ -345,6 +353,14 @@ router.post("/stock_detail_e_oil", createStock_detail_e_oil);
 router.put("/stock_detail_e_oil", updateStock_detail_e_oil);
 router.delete("/stock_detail_e_oil", deleteStock_detail_e_oil);
 // end model Stock_detail_e_oil
+
+// Model Label
+router.get("/labels", getLabels);
+router.get("/label", getLabel);
+router.post("/label", createLabel);
+router.put("/label", updateLabel);
+router.delete("/label", deleteLabel);
+// end model label
 
 app.use("/api/", router);
 

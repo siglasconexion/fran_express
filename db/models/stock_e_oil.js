@@ -34,6 +34,10 @@ const Stock_e_oil = db.sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    closed_stock_e_oil: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
   },
   {
     freezeTableName: true,
