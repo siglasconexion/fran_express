@@ -165,6 +165,60 @@ const {
   deleteLabel,
 } = require("./controladores/control_label.js");
 
+const {
+  getBags,
+  getBag,
+  createBag,
+  updateBag,
+  deleteBag,
+} = require("./controladores/control_bag.js");
+
+const {
+  getPakages,
+  getPakage,
+  createPakage,
+  updatePakage,
+  deletePakage,
+} = require("./controladores/control_pakage.js");
+
+const {
+  getLabel_inputs,
+  getLabel_input,
+  getLabel_inputQuerySql2,
+  createLabel_input,
+  updateLabel_input,
+  deleteLabel_input,
+} = require("./controladores/control_label_input.js");
+
+const {
+  getStocks_label,
+  getStock_label,
+  createStock_label,
+  updateStock_label,
+  deleteStock_label,
+  getStock_label_closed,
+  getStock_labelQuerySql2,
+} = require("./controladores/control_stock_label.js");
+
+const {
+  getStock_details_label,
+  getStock_detail_label,
+  createStock_detail_label,
+  updateStock_detail_label,
+  deleteStock_detail_label,
+  getStock_detail_labelQuerySql2,
+} = require("./controladores/control_stock_detail_label.js");
+
+const {
+  getCurrent_inventorys_label,
+  getCurrent_inventory_label,
+  createCurrent_inventory_label,
+  updateCurrent_inventory_label,
+  deleteCurrent_inventory_label,
+  getCurrent_inventory_labelQuerySql2,
+  getCurrent_inventory_labeldetailQuerySql2,
+} = require("./controladores/control_current_inventory_label.js");
+
 const db = require("./db/conn.js");
 
 const router = express.Router();
@@ -361,6 +415,66 @@ router.post("/label", createLabel);
 router.put("/label", updateLabel);
 router.delete("/label", deleteLabel);
 // end model label
+
+// Model Bag
+router.get("/bags", getBags);
+router.get("/bag", getBag);
+router.post("/bag", createBag);
+router.put("/bag", updateBag);
+router.delete("/bag", deleteBag);
+// end model Bag
+
+// Model Pakage
+router.get("/pakages", getPakages);
+router.get("/pakage", getPakage);
+router.post("/pakage", createPakage);
+router.put("/pakage", updatePakage);
+router.delete("/pakage", deletePakage);
+// end model Pakage
+
+// Model label_input
+router.get("/label_inputs", getLabel_inputs);
+router.get("/label_input", getLabel_input);
+router.get("/label_input_query", getLabel_inputQuerySql2);
+router.post("/label_input", createLabel_input);
+router.put("/label_input", updateLabel_input);
+router.delete("/label_input", deleteLabel_input);
+// end model label_input
+
+// Model stock_label
+//router.get("/stoks", getStock_labelQuerySql2);
+router.get("/stocks_label_closed/:variable", getStock_label_closed);
+router.get("/stocks_label", getStocks_label);
+router.get("/stock_label", getStock_label);
+router.post("/stock_label", createStock_label);
+router.put("/stock_label", updateStock_label);
+router.delete("/stock_label", deleteStock_label);
+// end model stock_label
+
+// Model Stock_detail_label
+router.get("/stock_details_label", getStock_detail_laabelQuerySql2);
+//router.get("/stock_details_label", getStock_details_label);
+router.get("/stock_detail_label/:variable", getStock_detail_label);
+router.post("/stock_detail_label", createStock_detail_label);
+router.put("/stock_detail_label", updateStock_detail_label);
+router.delete("/stock_detail_label", deleteStock_detail_label);
+// end model Stock_detail_label
+
+// Model Current_inventory_label
+router.get(
+  "/current_inventorys_label/:variable",
+  getCurrent_inventory_labelQuerySql2
+);
+//router.post("/generate-pdf", generatePDF2); // prueb
+router.get(
+  "/current_inventorys_label_detail",
+  getCurrent_inventory_labeldetailQuerySql2
+);
+router.get("/current_inventory_label/:variable", getCurrent_inventory_label);
+router.post("/current_inventory_label", createCurrent_inventory_label);
+router.put("/current_inventory_label", updateCurrent_inventory_label);
+router.delete("/current_inventory_label", deleteCurrent_inventory_label);
+// end model Current_inventory_label
 
 app.use("/api/", router);
 

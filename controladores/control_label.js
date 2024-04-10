@@ -1,7 +1,4 @@
 const { Label } = require("../db/models/label.js");
-const db = require("../db/conn.js");
-const xlsxj = require("xlsx-to-json");
-const fs = require("fs");
 
 const getLabels = async (req, res) => {
   const data = await Label.findAll();
@@ -20,7 +17,7 @@ const getLabels = async (req, res) => {
 const getLabel = async (req, res) => {
   let resultGetOne = await Label.findAll({
     where: {
-      id_item: req.body.id,
+      id_label: req.body.id,
     },
   });
   if (resultGetOne.length <= 0) {
@@ -39,7 +36,7 @@ const createLabel = async (req, res) => {
     id_measure_label: req.body.idmeasurelabel,
     id_family_label: req.body.idfamilylabel,
     code_label: req.body.codelabel,
-    code_two_label: req.body.codetwo,
+    code_two_label: req.body.codetwolabel,
     name_label: req.body.namelabel,
     name_complement_label: req.body.namecomplementlabel,
     stock_label: req.body.stocklabel,
@@ -52,6 +49,18 @@ const createLabel = async (req, res) => {
     weight_label: req.body.weightlabel,
     weight_support_label: req.body.weightsupportlabel,
   });
+  /*   let id_item = req.body.iditem;
+  let skularge = req.body.skulargelabel;
+  const obj2 = {
+    id_item: req.body.iditem,
+    sku_large_item: req.body.skulargelabel,
+  };
+  const resultUpdate2 = await Item.update(obj2, {
+    where: {
+      id_item: id_item,
+    },
+  });
+ */
   Object.entries(resultNew).length === 0
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });

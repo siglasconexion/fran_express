@@ -1,12 +1,12 @@
-const { Stock_e_oil } = require("../db/models/stock_e_oil.js");
-const { Stock_detail_e_oil } = require("../db/models/stock_detail_e_oil.js");
-const { Oil_input } = require("../db/models/oil_input.js");
-const { Essential_oil } = require("../db/models/essential_oil.js");
+const { Stock_label } = require("../db/models/stock_label.js");
+//const { Stock_detail_e_oil } = require("../db/models/stock_detail_e_oil.js");
+//const { Oil_input } = require("../db/models/oil_input.js");
+//const { Essential_oil } = require("../db/models/essential_oil.js");
 const { QueryTypes } = require("sequelize");
 const db = require("../db/conn.js");
 
-const getStocks_e_oil = async (req, res) => {
-  const data = await Stock_e_oil.findAll();
+const getStocks_label = async (req, res) => {
+  const data = await Stock_label.findAll();
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,
@@ -19,8 +19,8 @@ const getStocks_e_oil = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_e_oilQuerySql2 = async (req, res) => {
-  const data = await db.sequelize.query("SELECT  * from stock_e_oil"); //
+const getStock_labelQuerySql2 = async (req, res) => {
+  const data = await db.sequelize.query("SELECT  * from stock_label"); //
   if (data.length <= 0) {
     res.status(204).json({
       code: 204,
@@ -31,36 +31,36 @@ const getStock_e_oilQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_e_oil = async (req, res) => {
-  let resultGetOne = await Stock_e_oil.findAll({
+const getStock_label = async (req, res) => {
+  let resultGetOne = await Stock_label.findAll({
     where: {
-      id_status_stock_e_oil: 1,
+      id_status_stock_label: 1,
     },
   });
   res.json(resultGetOne);
 };
 
-const createStock_e_oil = async (req, res) => {
-  const resultNew = await Stock_e_oil.create({
-    id_company_stock_e_oil: req.body.idcompanystockeoil,
-    id_status_stock_e_oil: req.body.idstatusstockeoil,
-    id_user_stock_e_oil: req.body.iduserstockeoil,
-    start_date_stock_e_oil: req.body.startdatestockeoil,
-    end_date_stock_e_oil: req.body.enddatestockeoil,
-    comment_stock_e_oil: req.body.commentstockeoil,
+const createStock_label = async (req, res) => {
+  const resultNew = await Stock_label.create({
+    id_company_stock_label: req.body.idcompanystocklabel,
+    id_status_stock_label: req.body.idstatusstocklabel,
+    id_user_stock_label: req.body.iduserstocklabel,
+    start_date_stock_label: req.body.startdatestocklabel,
+    end_date_stock_label: req.body.enddatestocklabel,
+    comment_stock_label: req.body.commentstocklabel,
   });
   Object.entries(resultNew).length === 0
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
 };
 
-const updateStock_e_oil = async (req, res) => {
+const updateStock_label = async (req, res) => {
   try {
     const obj = req.body;
-    const id_stock_e_oil = req.body.id_stock_e_oil;
+    const id_stock_label = req.body.id_stock_label;
     let resultUpdate = await Stock_e_oil.update(obj, {
       where: {
-        id_stock_e_oil: id_stock_e_oil,
+        id_stock_label: id_stock_label,
       },
     });
     if (resultUpdate[0] === 1) {
@@ -86,13 +86,13 @@ const updateStock_e_oil = async (req, res) => {
   }
 };
 
-const deleteStock_e_oil = async (req, res) => {
+const deleteStock_label = async (req, res) => {
   try {
     console.log(req.body);
-    const id_stock_e_oil = req.body.id;
-    let resultDelete = await Stock_e_oil.destroy({
+    const id_stock_label = req.body.id;
+    let resultDelete = await Stock_label.destroy({
       where: {
-        id_stock_e_oil,
+        id_stock_label,
       },
     });
     resultDelete === 1
@@ -108,7 +108,9 @@ const deleteStock_e_oil = async (req, res) => {
     console.log(err.stack);
   }
 };
-const getStock_e_oil_closed = async (req, res) => {
+
+const getStock_label_closed = async (req, res) => {
+  // ojo corregir este cierre para el cierre
   let fecha = new Date();
   let año = fecha.getFullYear();
   let mes = ("0" + (fecha.getMonth() + 1)).slice(-2); // Se agrega 1 porque los meses van de 0 a 11
@@ -287,11 +289,11 @@ const getStock_e_oil_closed = async (req, res) => {
 };
 
 module.exports = {
-  getStocks_e_oil,
-  getStock_e_oilQuerySql2,
-  getStock_e_oil,
-  createStock_e_oil,
-  updateStock_e_oil,
-  deleteStock_e_oil,
-  getStock_e_oil_closed,
+  getStocks_label,
+  getStock_labelQuerySql2,
+  getStock_label,
+  createStock_label,
+  updateStock_label,
+  deleteStock_label,
+  getStock_label_closed,
 };

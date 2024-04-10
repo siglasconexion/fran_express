@@ -1,14 +1,13 @@
 const {
-  Current_inventory_e_oil,
-} = require("../db/models/current_inventory_e_oil.js");
+  Current_inventory_label,
+} = require("../db/models/current_inventory_label.js");
 const db = require("../db/conn.js");
 const { QueryTypes } = require("sequelize");
 const { request } = require("http");
 const _ = require("lodash");
-const puppeteer = require("puppeteer");
 
-const getCurrent_inventorys_e_oil = async (req, res) => {
-  const data = await Current_inventory_e_oil.findAll();
+const getCurrent_inventorys_label = async (req, res) => {
+  const data = await Current_inventory_label.findAll();
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,
@@ -23,9 +22,9 @@ const getCurrent_inventorys_e_oil = async (req, res) => {
   res.status(200).json(data);
 };
 
-getCurrent_inventorys_e_oil;
+getCurrent_inventorys_label;
 
-const getCurrent_inventory_e_oilQuerySql2 = async (req, res) => {
+const getCurrent_inventory_labelQuerySql2 = async (req, res) => {
   // rutas - routes
   let variablefinal = req.params.variable;
   let variable33 = req.params.variable;
@@ -49,7 +48,7 @@ const getCurrent_inventory_e_oilQuerySql2 = async (req, res) => {
 
   console.log("variable sola del objeto params", variablefinal);
   const data = await db.sequelize.query(
-    `SELECT  total_current_inventory_e_oil, name_essential_oil, id_family_essential_oil, name_family, code_essential_oil from current_inventory_e_oil INNER JOIN essential_oil on current_inventory_e_oil.id_e_oil_current_inventory_e_oil=essential_oil.id_essential_oil INNER JOIN family on essential_oil.id_family_essential_oil=family.id_family where current_inventory_e_oil.id_stock_current_inventory_e_oil = ${variable4} ORDER BY name_family, name_essential_oil`,
+    `SELECT  total_current_inventory_label, name_label, id_family_label, name_family, code_label from current_inventory_label INNER JOIN label on current_inventory_label.id_label_current_inventory_label=label.id_label INNER JOIN family on label.id_family_label=family.id_family where current_inventory_labl.id_stock_current_inventory_label = ${variable4} ORDER BY name_family, name_label`,
     { type: QueryTypes.SELECT }
   ); //
   if (data.length <= 0) {
@@ -63,7 +62,7 @@ const getCurrent_inventory_e_oilQuerySql2 = async (req, res) => {
 };
 
 //*****************************
-const getCurrent_inventory_e_oildetailQuerySql2 = async (req, res) => {
+const getCurrent_inventory_labeldetailQuerySql2 = async (req, res) => {
   // rutas - routes
   /* let variablefinal = req.params.variable;
   let variable33 = req.params.variable;
@@ -84,7 +83,7 @@ const getCurrent_inventory_e_oildetailQuerySql2 = async (req, res) => {
 
   //console.log("variable sola del objeto params", variablefinal);
   const data = await db.sequelize.query(
-    `SELECT id_essential_oil_oil_input as id_e_oil, quantity_received_oil_input as qty, date_received_oil_input as received, in_use_oil_input as in_use, stock_oil_input as stock, comment_oil_input as comment, name_essential_oil as name FROM oil_input INNER JOIN essential_oil on id_essential_oil_oil_input = id_essential_oil ORDER BY name,received`,
+    `SELECT id_label_label_input as id_label, quantity_received_label_input as qty, date_received_label_input as received, stock_label_input as stock, comment_label_input as comment, name_label as name FROM label_input INNER JOIN label on id_label_label_input = id_label ORDER BY name,received`,
     {
       type: QueryTypes.SELECT,
     }
@@ -101,14 +100,14 @@ const getCurrent_inventory_e_oildetailQuerySql2 = async (req, res) => {
 };
 
 //**********************************
-const getCurrent_inventory_e_oil = async (req, res) => {
+const getCurrent_inventory_label = async (req, res) => {
   //quitar _ y usar camelcase
   console.log("ojo ver akika manin uno ", req.params);
   let variable = req.params.variable;
   console.log("ojo ver akika manin 2 ", req.query);
-  let resultGetOne = await Current_inventory_e_oil.findOne({
+  let resultGetOne = await Current_inventory_label.findOne({
     where: {
-      id_current_inventory_e_oil: variable,
+      id_current_inventory_label: variable,
     },
   });
   //console.log("aca no veo nada", resultGetOne);
@@ -128,25 +127,25 @@ const getCurrent_inventory_e_oil = async (req, res) => {
   return res.status(200).json({ resultGetOne, success: true, prueba, prueba2 });
 };
 
-const createCurrent_inventory_e_oil = async (req, res) => {
+const createCurrent_inventory_label = async (req, res) => {
   //console.log("req.body", req.body);
-  const resultNew = await Current_inventory_e_oil.create({
-    id_stock_current_inventory_e_oil: req.body.idstockcurrentinventoryeoil,
-    id_e_oil_current_inventory_e_oil: req.body.ideoilcurrentinventoryeoil,
-    total_current_inventory_e_oil: req.body.totalcurrentinventorye_oil,
+  const resultNew = await Current_inventory_label.create({
+    id_stock_current_inventory_label: req.body.idstockcurrentinventorylabel,
+    id_label_current_inventory_label: req.body.idlabelcurrentinventorylabel,
+    total_current_inventory_label: req.body.totalcurrentinventorylabel,
   });
   Object.entries(resultNew).length === 0
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
 };
 
-const updateCurrent_inventory_e_oil = async (req, res) => {
+const updateCurrent_inventory_label = async (req, res) => {
   try {
     const obj = req.body;
-    const id_current_inventory_e_oil = req.body.id_current_inventory_e_oil;
-    let resultUpdate = await Current_inventory_e_oil.update(obj, {
+    const id_current_inventory_label = req.body.id_current_inventory_label;
+    let resultUpdate = await Current_inventory_label.update(obj, {
       where: {
-        id_current_inventory_e_oil: id_current_inventory_e_oil,
+        id_current_inventory_label: id_current_inventory_label,
       },
     });
     //res.json({ message: "User Update successfully" });
@@ -173,13 +172,13 @@ const updateCurrent_inventory_e_oil = async (req, res) => {
   }
 };
 
-const deleteCurrent_inventory_e_oil = async (req, res) => {
+const deleteCurrent_inventory_label = async (req, res) => {
   try {
     console.log(req.body);
-    const id_e_oil_current_inventory_e_oil = req.body.id;
-    let resultDelete = await Current_inventory_e_oil.destroy({
+    const id_label_current_inventory_label = req.body.id;
+    let resultDelete = await Current_inventory_label.destroy({
       where: {
-        id_e_oil_current_inventory_e_oil,
+        id_label_current_inventory_label,
       },
     });
     resultDelete === 1
@@ -196,74 +195,12 @@ const deleteCurrent_inventory_e_oil = async (req, res) => {
   }
 };
 
-const generatePDF2 = async function (req, res) {
-  const { base64Content } = req.body;
-
-  if (!base64Content) {
-    return res
-      .status(400)
-      .send("Contenido base64 no proporcionado en el cuerpo de la solicitud.");
-  }
-  const htmlBody = Buffer.from(base64Content, "base64").toString("utf-8");
-  // Iniciar el navegador Puppeteer en el nuevo modo headless
-  const browser = await puppeteer.launch({ headless: "new" });
-  try {
-    // Abrir una nueva página
-    const page = await browser.newPage();
-    // Configurar estilos de página para asegurar que cada página tenga un encabezado y un pie de página
-    await page.addStyleTag({
-      content: `
-        @page {
-          margin: 0px;
-          width:100%;
-          size: A4;
-          @top-center {
-            content: element(header);
-          }
-          @bottom-center {
-            content: element(footer);
-          }
-        }
-        #header {
-          text-align: center;
-          font-size: 12px;
-        }
-        #footer {
-          text-align: center;
-          font-size: 12px;
-        }
-      `,
-    });
-    // Configurar el contenido de la página
-    await page.setContent(htmlBody);
-    // Generar el PDF
-    const pdfBuffer = await page.pdf({
-      printBackground: true, // Incluir estilos de fondo
-      margin: {
-        top: "80px", // Altura del encabezado
-        bottom: "100px", // Altura del pie de página
-      },
-    });
-    // Configurar la respuesta HTTP
-    res.setHeader("Content-Type", "application/pdf");
-    res.setHeader("Content-Disposition", 'inline; filename="example.pdf"');
-    res.send(pdfBuffer);
-  } catch (error) {
-    console.error("Error al generar el PDF:", error);
-    res.status(500).send("Error interno al generar el PDF");
-  } finally {
-    // Cerrar el navegador después de completar la operación
-    await browser.close();
-  }
-};
-
 module.exports = {
-  getCurrent_inventorys_e_oil,
-  getCurrent_inventory_e_oilQuerySql2,
-  getCurrent_inventory_e_oildetailQuerySql2,
-  getCurrent_inventory_e_oil,
-  createCurrent_inventory_e_oil,
-  updateCurrent_inventory_e_oil,
-  deleteCurrent_inventory_e_oil,
-  generatePDF2,
+  getCurrent_inventorys_label,
+  getCurrent_inventory_labelQuerySql2,
+  getCurrent_inventory_labeldetailQuerySql2,
+  getCurrent_inventory_label,
+  createCurrent_inventory_label,
+  updateCurrent_inventory_label,
+  deleteCurrent_inventory_label,
 };
