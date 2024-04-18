@@ -1,13 +1,13 @@
-const { Stock_detail_label } = require("../db/models/stock_detail_label.js");
+const { Stock_detail_pakage } = require("../db/models/stock_detail_pakage.js");
 const {
-  Current_inventory_label,
-} = require("../db/models/current_inventory_label.js");
+  Current_inventory_pakage,
+} = require("../db/models/current_inventory_pakage.js");
 
 const db = require("../db/conn.js");
 const _ = require("lodash");
 const { QueryTypes } = require("sequelize");
-const getStock_details_label = async (req, res) => {
-  const data = await Stock_detail_label.findAll();
+const getStock_details_pakage = async (req, res) => {
+  const data = await Stock_detail_pakage.findAll();
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,
@@ -20,9 +20,9 @@ const getStock_details_label = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_detail_labelQuerySql2 = async (req, res) => {
+const getStock_detail_pakageQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query(
-    "SELECT id_stock_detail_label, id_stock_stock_detail_label , id_label_stock_detail_label, qty_stock_detail_label,  name_label FROM stock_detail_label INNER JOIN label ON id_label_stock_detail_label=id_label ORDER BY id_stock_detail_label ",
+    "SELECT id_stock_detail_pakage, id_stock_stock_detail_pakage , id_pakage_stock_detail_pakage, qty_stock_detail_pakage,  name_pakage FROM stock_detail_pakage INNER JOIN pakage ON id_pakage_stock_detail_pakage=id_pakage ORDER BY id_stock_detail_pakage ",
     { type: QueryTypes.SELECT }
   );
 
@@ -36,12 +36,12 @@ const getStock_detail_labelQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_detail_label = async (req, res) => {
+const getStock_detail_pakage = async (req, res) => {
   let variable = req.params.variable;
-  let resultGetOne = await Stock_detail_label.findOne({
-    // select * from Stock_detail_label
+  let resultGetOne = await Stock_detail_pakage.findOne({
     where: {
-      id_label_stock_detail_label: variable,
+      id_pakage_stock_detail_pakage: variable,
+      //id_stock_current_inventory_pakage: req.body.idstockstockdetailpakage,
     },
   });
   let convertResultNew2 = resultGetOne?.toJSON();
@@ -65,27 +65,27 @@ const getStock_detail_label = async (req, res) => {
   //res.json({ resultGetOne, d: "probando" });
 };
 
-const createStock_detail_label = async (req, res) => {
+const createStock_detail_pakage = async (req, res) => {
   try {
-    await Stock_detail_label.create({
-      id_stock_stock_detail_label: req.body.idstockstockdetaillabel,
-      id_label_stock_detail_label: req.body.idlabelstockdetaillabel,
-      qty_stock_detail_label: req.body.qtystockdetaillabel,
+    await Stock_detail_pakage.create({
+      id_stock_stock_detail_pakage: req.body.idstockstockdetailpakage,
+      id_pakage_stock_detail_pakage: req.body.idlabelstockdetailpakage,
+      qty_stock_detail_pakage: req.body.qtystockdetailpakage,
     });
 
-    const resultNew2 = await Current_inventory_label.findOne({
+    const resultNew2 = await Current_inventory_pakage.findOne({
       where: {
-        id_label_current_inventory_label: req.body.idlabelstockdetaillabel,
-        id_stock_current_inventory_label: req.body.idstockstockdetaillabel,
+        id_pakage_current_inventory_pakage: req.body.idpakagestockdetailpakage,
+        id_stock_current_inventory_pakage: req.body.idstockstockdetailpakage,
       },
     });
     let convertResultNew2 = resultNew2?.toJSON();
     //console.log("primera consulta", convertResultNew2);
     if (_.isEmpty(convertResultNew2)) {
-      const resultNew3 = await Current_inventory_label.create({
-        id_stock_current_inventory_label: req.body.idstockstockdetaillabel,
-        id_label_current_inventory_label: req.body.idlabelstockdetaillabel,
-        total_current_inventory_label: req.body.qtystockdetaillabel,
+      const resultNew3 = await Current_inventory_pakage.create({
+        id_stock_current_inventory_pakage: req.body.idstockstockdetailpakage,
+        id_pakage_current_inventory_pakage: req.body.idlabelstockdetailpakage,
+        total_current_inventory_pakage: req.body.qtystockdetailpakage,
       });
       console.log("segunda", resultNew3);
 
@@ -95,20 +95,20 @@ const createStock_detail_label = async (req, res) => {
       return;
     }
 
-    let previousTotal = convertResultNew2.total_current_inventory_label;
+    let previousTotal = convertResultNew2.total_current_inventory_pakage;
 
     let totalNew =
-      parseFloat(req.body.qtystockdetaillabel) + parseFloat(previousTotal);
+      parseFloat(req.body.qtystockdetailpakage) + parseFloat(previousTotal);
 
     let obj = {
-      id_stock_current_inventory_label: req.body.idstockstockdetaillabel,
-      id_label_current_inventory_label: req.body.idlabelstockdetaillabel,
-      total_current_inventory_label: totalNew,
+      id_stock_current_inventory_pakage: req.body.idstockstockdetailpakage,
+      id_pakage_current_inventory_pakage: req.body.idpakagestockdetailpakage,
+      total_current_inventory_pakage: totalNew,
     };
-    const resultUpdate = await Current_inventory_label.update(obj, {
+    const resultUpdate = await Current_inventory_pakage.update(obj, {
       where: {
-        id_label_current_inventory_label: req.body.idlabelstockdetaillabel,
-        id_stock_current_inventory_label: req.body.idstockstockdetaillabel,
+        id_pakage_current_inventory_pakage: req.body.idpakagestockdetailpakage,
+        id_stock_current_inventory_pakage: req.body.idstockstockdetailpakage,
       },
     });
     if (resultUpdate[0] === 1) {
@@ -131,14 +131,14 @@ const createStock_detail_label = async (req, res) => {
   }
 };
 
-const updateStock_detail_label = async (req, res) => {
+const updateStock_detail_pakage = async (req, res) => {
   //esto no se usa hay que borrarla
   try {
     const obj = req.body;
-    const id_stock_detail_label = req.body.id_stock_detail_label;
-    let resultUpdate = await Stock_detail_label.update(obj, {
+    const id_stock_detail_pakage = req.body.id_stock_detail_pakage;
+    let resultUpdate = await Stock_detail_pakage.update(obj, {
       where: {
-        id_stock_detail_label: id_stock_detail_label,
+        id_stock_detail_pakage: id_stock_detail_pakage,
       },
     });
     if (resultUpdate[0] === 1) {
@@ -163,46 +163,46 @@ const updateStock_detail_label = async (req, res) => {
   }
 };
 
-const deleteStock_detail_label = async (req, res) => {
+const deleteStock_detail_pakage = async (req, res) => {
   try {
     console.log(req.body);
-    const id_stock_detail_label = req.body.id;
-    const id_stock_stock_detail_label = req.body.idstock;
+    const id_stock_detail_pakage = req.body.id;
+    const id_stock_stock_detail_pakage = req.body.idstock;
 
-    let resultDelete = await Stock_detail_label.destroy({
+    let resultDelete = await Stock_detail_pakage.destroy({
       where: {
-        id_stock_detail_label,
-        id_stock_stock_detail_label,
+        id_stock_detail_pakage,
+        id_stock_stock_detail_pakage,
       },
     });
 
-    const resultNew2 = await Current_inventory_label.findOne({
+    const resultNew2 = await Current_inventory_pakage.findOne({
       where: {
-        id_label_current_inventory_label: req.body.idlabel,
-        id_stock_current_inventory_label: req.body.idstock,
+        id_pakage_current_inventory_pakage: req.body.idpakage,
+        id_stock_current_inventory_pakage: req.body.idstock,
       },
     });
     let convertResultNew2 = resultNew2?.toJSON();
     if (!_.isEmpty(convertResultNew2)) {
-      let previousTotal = convertResultNew2.total_current_inventory_label;
+      let previousTotal = convertResultNew2.total_current_inventory_pakage;
       let totalNew = previousTotal - parseFloat(req.body.total);
       if (totalNew <= 0) {
-        let resultDelete = await Current_inventory_label.destroy({
+        let resultDelete = await Current_inventory_pakage.destroy({
           where: {
-            id_label_current_inventory_label: req.body.idlabel,
-            id_stock_current_inventory_label: req.body.idstock,
+            id_pakage_current_inventory_pakage: req.body.idpakage,
+            id_stock_current_inventory_pakage: req.body.idstock,
           },
         });
         return res.json();
       }
       let obj = {
-        id_stock_current_inventory_label: req.body.idstock,
-        id_label_current_inventory_label: req.body.idlabel,
-        total_current_inventory_label: totalNew,
+        id_stock_current_inventory_pakage: req.body.idstock,
+        id_pakage_current_inventory_pakage: req.body.idpakage,
+        total_current_inventory_pakage: totalNew,
       };
-      const resultUpdate = await Current_inventory_label.update(obj, {
+      const resultUpdate = await Current_inventory_pakage.update(obj, {
         where: {
-          id_label_current_inventory_label: req.body.idlabel,
+          id_pakage_current_inventory_pakage: req.body.idpakage,
           id_stock_current_inventory_label: req.body.idstock,
         },
       });
@@ -226,10 +226,10 @@ const deleteStock_detail_label = async (req, res) => {
 };
 
 module.exports = {
-  getStock_details_label,
-  getStock_detail_labelQuerySql2,
-  getStock_detail_label,
-  createStock_detail_label,
-  updateStock_detail_label,
-  deleteStock_detail_label,
+  getStock_details_pakage,
+  getStock_detail_pakageQuerySql2,
+  getStock_detail_pakage,
+  createStock_detail_pakage,
+  updateStock_detail_pakage,
+  deleteStock_detail_pakage,
 };

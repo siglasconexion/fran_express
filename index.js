@@ -219,6 +219,44 @@ const {
   getCurrent_inventory_labeldetailQuerySql2,
 } = require("./controladores/control_current_inventory_label.js");
 
+const {
+  getStocks_pakage,
+  getStock_pakage,
+  createStock_pakage,
+  updateStock_pakage,
+  deleteStock_pakage,
+  getStock_pakage_closed,
+  getStock_pakageQuerySql2,
+} = require("./controladores/control_stock_pakage.js");
+
+const {
+  getPakage_inputs,
+  getPakage_input,
+  getPakage_inputQuerySql2,
+  createPakage_input,
+  updatePakage_input,
+  deletePakage_input,
+} = require("./controladores/control_pakage_input.js");
+
+const {
+  getCurrent_inventorys_pakage,
+  getCurrent_inventory_pakage,
+  createCurrent_inventory_pakage,
+  updateCurrent_inventory_pakage,
+  deleteCurrent_inventory_pakage,
+  getCurrent_inventory_pakageQuerySql2,
+  getCurrent_inventory_pakagedetailQuerySql2,
+} = require("./controladores/control_current_inventory_pakage.js");
+
+const {
+  getStock_details_pakage,
+  getStock_detail_pakage,
+  createStock_detail_pakage,
+  updateStock_detail_pakage,
+  deleteStock_detail_pakage,
+  getStock_detail_pakageQuerySql2,
+} = require("./controladores/control_stock_detail_pakage.js");
+
 const db = require("./db/conn.js");
 
 const router = express.Router();
@@ -452,7 +490,7 @@ router.delete("/stock_label", deleteStock_label);
 // end model stock_label
 
 // Model Stock_detail_label
-router.get("/stock_details_label", getStock_detail_laabelQuerySql2);
+router.get("/stock_details_label", getStock_detail_labelQuerySql2);
 //router.get("/stock_details_label", getStock_details_label);
 router.get("/stock_detail_label/:variable", getStock_detail_label);
 router.post("/stock_detail_label", createStock_detail_label);
@@ -475,6 +513,50 @@ router.post("/current_inventory_label", createCurrent_inventory_label);
 router.put("/current_inventory_label", updateCurrent_inventory_label);
 router.delete("/current_inventory_label", deleteCurrent_inventory_label);
 // end model Current_inventory_label
+
+// Model stock_pakage
+//router.get("/stoks", getStock_pakageQuerySql2);
+router.get("/stocks_pakage_closed/:variable", getStock_pakage_closed);
+router.get("/stocks_pakage", getStocks_pakage);
+router.get("/stock_pakage", getStock_pakage);
+router.post("/stock_pakage", createStock_pakage);
+router.put("/stock_pakage", updateStock_pakage);
+router.delete("/stock_pakage", deleteStock_pakage);
+// end model stock_pakage
+
+// Model pakage_input
+router.get("/pakage_inputs", getPakage_inputs);
+router.get("/pakage_input", getPakage_input);
+router.get("/pakage_input_query", getPakage_inputQuerySql2);
+router.post("/pakage_input", createPakage_input);
+router.put("/pakage_input", updatePakage_input);
+router.delete("/pakage_input", deletePakage_input);
+// end model pakage_input
+
+// Model Current_inventory_pakage
+router.get(
+  "/current_inventorys_pakage/:variable",
+  getCurrent_inventory_pakageQuerySql2
+);
+//router.post("/generate-pdf", generatePDF2); // prueb
+router.get(
+  "/current_inventorys_pakage_detail",
+  getCurrent_inventory_pakagedetailQuerySql2
+);
+router.get("/current_inventory_pakage/:variable", getCurrent_inventory_pakage);
+router.post("/current_inventory_pakage", createCurrent_inventory_pakage);
+router.put("/current_inventory_pakage", updateCurrent_inventory_pakage);
+router.delete("/current_inventory_pakage", deleteCurrent_inventory_pakage);
+// end model Current_inventory_pakage
+
+// Model Stock_detail_pakage
+router.get("/stock_details_pakage", getStock_detail_pakageQuerySql2);
+//router.get("/stock_details_pakage", getStock_details_pakage);
+router.get("/stock_detail_pakage/:variable", getStock_detail_pakage);
+router.post("/stock_detail_pakage", createStock_detail_pakage);
+router.put("/stock_detail_pakage", updateStock_detail_pakage);
+router.delete("/stock_detail_pakage", deleteStock_detail_pakage);
+// end model Stock_detail_pakage
 
 app.use("/api/", router);
 

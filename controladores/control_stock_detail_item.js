@@ -68,6 +68,7 @@ const createStock_detail_item = async (req, res) => {
     const resultNew2 = await Current_inventory_item.findOne({
       where: {
         id_item_current_inventory_item: req.body.iditemstockdetailitem,
+        id_stock_current_inventory_item: req.body.idstockstockdetailitem,
       },
     });
     let convertResultNew2 = resultNew2?.toJSON();
@@ -97,6 +98,7 @@ const createStock_detail_item = async (req, res) => {
     const resultUpdate = await Current_inventory_item.update(obj, {
       where: {
         id_item_current_inventory_item: req.body.iditemstockdetailitem,
+        id_stock_current_inventory_item: req.body.idstockstockdetailitem,
       },
     });
     if (resultUpdate[0] === 1) {
@@ -166,6 +168,7 @@ const deleteStock_detail_item = async (req, res) => {
     const resultNew2 = await Current_inventory_item.findOne({
       where: {
         id_item_current_inventory_item: req.body.iditem,
+        id_stock_current_inventory_item: req.body.idstock,
       },
     });
     let convertResultNew2 = resultNew2?.toJSON();
@@ -189,6 +192,7 @@ const deleteStock_detail_item = async (req, res) => {
       const resultUpdate = await Current_inventory_item.update(obj, {
         where: {
           id_item_current_inventory_item: req.body.iditem,
+          id_stock_current_inventory_item: req.body.idstock,
         },
       });
       if (resultUpdate[0] === 1) {

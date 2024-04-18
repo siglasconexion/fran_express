@@ -1,9 +1,8 @@
-const { Stock_label } = require("../db/models/stock_label.js");
+const { Stock_pakage } = require("../db/models/stock_pakage.js");
 const { QueryTypes } = require("sequelize");
 const db = require("../db/conn.js");
-
-const getStocks_label = async (req, res) => {
-  const data = await Stock_label.findAll();
+const getStocks_pakage = async (req, res) => {
+  const data = await Stock_pakage.findAll();
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,
@@ -16,8 +15,8 @@ const getStocks_label = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_labelQuerySql2 = async (req, res) => {
-  const data = await db.sequelize.query("SELECT  * from stock_label"); //
+const getStock_pakageQuerySql2 = async (req, res) => {
+  const data = await db.sequelize.query("SELECT  * from stock_pakage"); //
   if (data.length <= 0) {
     res.status(204).json({
       code: 204,
@@ -28,36 +27,36 @@ const getStock_labelQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_label = async (req, res) => {
-  let resultGetOne = await Stock_label.findAll({
+const getStock_pakage = async (req, res) => {
+  let resultGetOne = await Stock_pakage.findAll({
     where: {
-      id_status_stock_label: 1,
+      id_status_stock_pakage: 1,
     },
   });
   res.json(resultGetOne);
 };
 
-const createStock_label = async (req, res) => {
-  const resultNew = await Stock_label.create({
-    id_company_stock_label: req.body.idcompanystocklabel,
-    id_status_stock_label: req.body.idstatusstocklabel,
-    id_user_stock_label: req.body.iduserstocklabel,
-    start_date_stock_label: req.body.startdatestocklabel,
-    end_date_stock_label: req.body.enddatestocklabel,
-    comment_stock_label: req.body.commentstocklabel,
+const createStock_pakage = async (req, res) => {
+  const resultNew = await Stock_pakage.create({
+    id_company_stock_pakage: req.body.idcompanystockpakage,
+    id_status_stock_pakage: req.body.idstatusstockpakage,
+    id_user_stock_pakage: req.body.iduserstockpakage,
+    start_date_stock_pakage: req.body.startdatestockpakage,
+    end_date_stock_pakage: req.body.enddatestockpakage,
+    comment_stock_pakage: req.body.commentstockpakage,
   });
   Object.entries(resultNew).length === 0
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
 };
 
-const updateStock_label = async (req, res) => {
+const updateStock_pakage = async (req, res) => {
   try {
     const obj = req.body;
-    const id_stock_label = req.body.id_stock_label;
-    let resultUpdate = await Stock_label.update(obj, {
+    const id_stock_pakage = req.body.id_stock_pakage;
+    let resultUpdate = await Stock_pakage.update(obj, {
       where: {
-        id_stock_label: id_stock_label,
+        id_stock_pakage: id_stock_pakage,
       },
     });
     if (resultUpdate[0] === 1) {
@@ -83,13 +82,13 @@ const updateStock_label = async (req, res) => {
   }
 };
 
-const deleteStock_label = async (req, res) => {
+const deleteStock_pakage = async (req, res) => {
   try {
     console.log(req.body);
-    const id_stock_label = req.body.id;
-    let resultDelete = await Stock_label.destroy({
+    const id_stock_pakage = req.body.id;
+    let resultDelete = await Stock_pakage.destroy({
       where: {
-        id_stock_label,
+        id_stock_pakage,
       },
     });
     resultDelete === 1
@@ -106,7 +105,7 @@ const deleteStock_label = async (req, res) => {
   }
 };
 
-const getStock_label_closed = async (req, res) => {
+const getStock_pakage_closed = async (req, res) => {
   // ojo corregir este cierre para el cierre
   let fecha = new Date();
   let año = fecha.getFullYear();
@@ -124,7 +123,7 @@ const getStock_label_closed = async (req, res) => {
   const transaction = await db.sequelize.transaction(); // Inicia la transacción
   try {
     data = await db.sequelize.query(
-      `SELECT  * from stock_detail_e_oil where id_stock_stock_detail_e_oil = ${variablefinal} ORDER BY id_e_oil_stock_detail_e_oil`,
+      `SELECT  * from stock_detail_pakage where id_stock_stock_detail_pakage = ${variablefinal} ORDER BY id_pakage_stock_detail_pakage`,
       { type: QueryTypes.SELECT, transaction }
     ); //
     //console.log("data", data);
@@ -286,11 +285,11 @@ const getStock_label_closed = async (req, res) => {
 };
 
 module.exports = {
-  getStocks_label,
-  getStock_labelQuerySql2,
-  getStock_label,
-  createStock_label,
-  updateStock_label,
-  deleteStock_label,
-  getStock_label_closed,
+  getStocks_pakage,
+  getStock_pakageQuerySql2,
+  getStock_pakage,
+  createStock_pakage,
+  updateStock_pakage,
+  deleteStock_pakage,
+  getStock_pakage_closed,
 };

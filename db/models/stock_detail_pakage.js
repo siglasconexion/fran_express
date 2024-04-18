@@ -1,26 +1,26 @@
 const db = require("../conn.js");
 const { DataTypes } = require("sequelize");
 
-const Current_inventory_label = db.sequelize.define(
-  "current_inventory_label",
+const Stock_detail_pakage = db.sequelize.define(
+  "stock_detail_pakage",
   {
     // Model attributes are defined here
-    id_current_inventory_label: {
+    id_stock_detail_pakage: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    id_stock_current_inventory_label: {
+    id_stock_stock_detail_pakage: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_label_current_inventory_label: {
+    id_label_stock_detail_pakage: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    total_current_inventory_label: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
+    qty_stock_detail_pakage: {
+      type: DataTypes.DECIMAL,
+      allowNull: true,
     },
   },
   {
@@ -29,5 +29,5 @@ const Current_inventory_label = db.sequelize.define(
 );
 
 module.exports = {
-  Current_inventory_label,
+  Stock_detail_pakage,
 };

@@ -91,6 +91,7 @@ const createStock_detail_e_oil = async (req, res) => {
     const resultNew2 = await Current_inventory_e_oil.findOne({
       where: {
         id_e_oil_current_inventory_e_oil: req.body.ideoilstockdetaileoil,
+        id_stock_current_inventory_e_oil: req.body.idstockstockdetaileoil,
       },
     });
     let convertResultNew2 = resultNew2?.toJSON();
@@ -122,6 +123,7 @@ const createStock_detail_e_oil = async (req, res) => {
     const resultUpdate = await Current_inventory_e_oil.update(obj, {
       where: {
         id_e_oil_current_inventory_e_oil: req.body.ideoilstockdetaileoil,
+        id_stock_current_inventory_e_oil: req.body.idstockstockdetaileoil,
       },
     });
     if (resultUpdate[0] === 1) {
