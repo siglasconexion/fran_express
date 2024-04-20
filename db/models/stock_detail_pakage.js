@@ -14,7 +14,7 @@ const Stock_detail_pakage = db.sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_label_stock_detail_pakage: {
+    id_pakage_stock_detail_pakage: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

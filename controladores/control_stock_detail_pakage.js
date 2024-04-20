@@ -69,7 +69,7 @@ const createStock_detail_pakage = async (req, res) => {
   try {
     await Stock_detail_pakage.create({
       id_stock_stock_detail_pakage: req.body.idstockstockdetailpakage,
-      id_pakage_stock_detail_pakage: req.body.idlabelstockdetailpakage,
+      id_pakage_stock_detail_pakage: req.body.idpakagestockdetailpakage,
       qty_stock_detail_pakage: req.body.qtystockdetailpakage,
     });
 
@@ -84,7 +84,7 @@ const createStock_detail_pakage = async (req, res) => {
     if (_.isEmpty(convertResultNew2)) {
       const resultNew3 = await Current_inventory_pakage.create({
         id_stock_current_inventory_pakage: req.body.idstockstockdetailpakage,
-        id_pakage_current_inventory_pakage: req.body.idlabelstockdetailpakage,
+        id_pakage_current_inventory_pakage: req.body.idpakagestockdetailpakage,
         total_current_inventory_pakage: req.body.qtystockdetailpakage,
       });
       console.log("segunda", resultNew3);
@@ -203,7 +203,7 @@ const deleteStock_detail_pakage = async (req, res) => {
       const resultUpdate = await Current_inventory_pakage.update(obj, {
         where: {
           id_pakage_current_inventory_pakage: req.body.idpakage,
-          id_stock_current_inventory_label: req.body.idstock,
+          id_stock_current_inventory_pakage: req.body.idstock,
         },
       });
       if (resultUpdate[0] === 1) {

@@ -257,6 +257,25 @@ const {
   getStock_detail_pakageQuerySql2,
 } = require("./controladores/control_stock_detail_pakage.js");
 
+const {
+  getStocks_bag,
+  getStock_bag,
+  createStock_bag,
+  updateStock_bag,
+  deleteStock_bag,
+  getStock_bag_closed,
+  getStock_bagQuerySql2,
+} = require("./controladores/control_stock_bag.js");
+
+const {
+  getBag_inputs,
+  getBag_input,
+  getBag_inputQuerySql2,
+  createBag_input,
+  updateBag_input,
+  deleteBag_input,
+} = require("./controladores/control_bag_input.js");
+
 const db = require("./db/conn.js");
 
 const router = express.Router();
@@ -557,6 +576,25 @@ router.post("/stock_detail_pakage", createStock_detail_pakage);
 router.put("/stock_detail_pakage", updateStock_detail_pakage);
 router.delete("/stock_detail_pakage", deleteStock_detail_pakage);
 // end model Stock_detail_pakage
+
+// Model stock_bag
+//router.get("/stoks", getStock_bagQuerySql2);
+router.get("/stocks_bag_closed/:variable", getStock_bag_closed);
+router.get("/stocks_bag", getStocks_bag);
+router.get("/stock_bag", getStock_bag);
+router.post("/stock_bag", createStock_bag);
+router.put("/stock_bag", updateStock_bag);
+router.delete("/stock_bag", deleteStock_bag);
+// end model stock_bag
+
+// Model bag_input
+router.get("/bag_inputs", getBag_inputs);
+router.get("/bag_input", getBag_input);
+router.get("/bag_input_query", getBag_inputQuerySql2);
+router.post("/bag_input", createBag_input);
+router.put("/bag_input", updateBag_input);
+router.delete("/bag_input", deleteBag_input);
+// end model bag_input
 
 app.use("/api/", router);
 
