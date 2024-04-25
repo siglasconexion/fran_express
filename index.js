@@ -276,6 +276,25 @@ const {
   deleteBag_input,
 } = require("./controladores/control_bag_input.js");
 
+const {
+  getCurrent_inventorys_bag,
+  getCurrent_inventory_bag,
+  createCurrent_inventory_bag,
+  updateCurrent_inventory_bag,
+  deleteCurrent_inventory_bag,
+  getCurrent_inventory_bagQuerySql2,
+  getCurrent_inventory_bagdetailQuerySql2,
+} = require("./controladores/control_current_inventory_bag.js");
+
+const {
+  getStock_details_bag,
+  getStock_detail_bag,
+  createStock_detail_bag,
+  updateStock_detail_bag,
+  deleteStock_detail_bag,
+  getStock_detail_bagQuerySql2,
+} = require("./controladores/control_stock_detail_bag.js");
+
 const db = require("./db/conn.js");
 
 const router = express.Router();
@@ -595,6 +614,30 @@ router.post("/bag_input", createBag_input);
 router.put("/bag_input", updateBag_input);
 router.delete("/bag_input", deleteBag_input);
 // end model bag_input
+
+// Model Current_inventory_bag
+router.get(
+  "/current_inventorys_bag/:variable",
+  getCurrent_inventory_bagQuerySql2
+);
+router.get(
+  "/current_inventorys_bag_detail",
+  getCurrent_inventory_bagdetailQuerySql2
+);
+router.get("/current_inventory_bag/:variable", getCurrent_inventory_bag);
+router.post("/current_inventory_bag", createCurrent_inventory_bag);
+router.put("/current_inventory_bag", updateCurrent_inventory_bag);
+router.delete("/current_inventory_bag", deleteCurrent_inventory_bag);
+// end model Current_inventory_bag
+
+// Model Stock_detail_bag
+router.get("/stock_details_bag", getStock_detail_bagQuerySql2);
+//router.get("/stock_details_bag", getStock_details_bag);
+router.get("/stock_detail_bag/:variable", getStock_detail_bag);
+router.post("/stock_detail_bag", createStock_detail_bag);
+router.put("/stock_detail_bag", updateStock_detail_bag);
+router.delete("/stock_detail_bag", deleteStock_detail_bag);
+// end model Stock_detail_bag
 
 app.use("/api/", router);
 
