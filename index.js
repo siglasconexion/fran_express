@@ -64,6 +64,7 @@ const {
   getCurrent_inventory_itemQuerySql2,
   generatePDF,
   generateNewPDF,
+  getCurrent_inventory_itemdetailQuerySql2,
 } = require("./controladores/control_current_inventory_item.js");
 
 const {
@@ -73,6 +74,7 @@ const {
   updateStock_item,
   deleteStock_item,
   getStock_itemQuerySql2,
+  getStock_item_closed,
 } = require("./controladores/control_stock_item.js");
 
 const {
@@ -365,6 +367,10 @@ router.get(
   "/current_inventorys_item/:variable",
   getCurrent_inventory_itemQuerySql2
 );
+router.get(
+  "/current_inventorys_item_detail",
+  getCurrent_inventory_itemdetailQuerySql2
+);
 router.post("/generate-pdf", generatePDF); // prueb
 router.get("/generate-new-pdf", generateNewPDF); // prueb
 //router.get("/current_inventorys_item", getCurrent_inventorys_item);
@@ -376,6 +382,7 @@ router.delete("/current_inventory_item", deleteCurrent_inventory_item);
 
 // Model stock_item
 //router.get("/stoks", getStock_itemQuerySql2);
+router.get("/stocks_item_closed/:variable", getStock_item_closed);
 router.get("/stocks_item", getStocks_item);
 router.get("/stock_item", getStock_item);
 router.post("/stock_item", createStock_item);

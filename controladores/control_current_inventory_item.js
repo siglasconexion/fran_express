@@ -57,6 +57,25 @@ const getCurrent_inventory_itemQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
+const getCurrent_inventory_itemdetailQuerySql2 = async (req, res) => {
+  const data = await db.sequelize.query(
+    `SELECT  id_stock_detail_item, id_item_stock_detail_item, id_container_stock_detail_item, id_place_stock_detail_item, id_stock_stock_detail_item, qty_container_stock_detail_item, units_stock_detail_item, total_stock_detail_item, name_item, code_item, name_container, qty_container FROM stock_detail_item INNER join item on stock_detail_item.id_item_stock_detail_item=item.id_item INNER JOIN container on stock_detail_item.id_container_stock_detail_item=id_container ORDER BY stock_detail_item.id_stock_detail_item;`,
+
+    {
+      type: QueryTypes.SELECT,
+    }
+  ); //
+  if (data.length <= 0) {
+    res.status(204).json({
+      code: 204,
+      message: "Results not found",
+    });
+    return;
+  }
+  //console.log("json", data);
+  res.status(200).json(data);
+};
+
 const getCurrent_inventory_item = async (req, res) => {
   //quitar _ y usar camelcase
   console.log("ojo ver akika manin uno ", req.params);
@@ -236,4 +255,5 @@ module.exports = {
   deleteCurrent_inventory_item,
   generatePDF,
   generateNewPDF,
+  getCurrent_inventory_itemdetailQuerySql2,
 };

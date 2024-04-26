@@ -250,7 +250,7 @@ const getStock_e_oil_closed = async (req, res) => {
       end_date_stock_e_oil: fechaFormateada,
     };
     const resultUpdate4 = await Stock_e_oil.update(obj, {
-      where: { id_stock_e_oil_ },
+      where: { id_stock_e_oil },
       transaction, // Asocia la transacción a la consulta
     });
 

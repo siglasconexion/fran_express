@@ -1,6 +1,7 @@
 const { Stock_item } = require("../db/models/stock_item.js");
 const db = require("../db/conn.js");
-
+const { Item } = require("../db/models/item.js");
+const { QueryTypes } = require("sequelize");
 const getStocks_item = async (req, res) => {
   const data = await Stock_item.findAll();
   if (data.length <= 0) {
@@ -105,6 +106,59 @@ const deleteStock_item = async (req, res) => {
   }
 };
 
+const getStock_item_closed = async (req, res) => {
+  let fecha = new Date();
+  let año = fecha.getFullYear();
+  let mes = ("0" + (fecha.getMonth() + 1)).slice(-2); // Se agrega 1 porque los meses van de 0 a 11
+  let dia = ("0" + fecha.getDate()).slice(-2);
+  let fechaFormateada = año + "-" + mes + "-" + dia;
+  console.log(fechaFormateada); // Output: "2024-03-04" (para la fecha actual)
+
+  // rutas - routes
+  let data = [];
+  let variablefinal = req.params.variable;
+  const respuestas = {};
+  const transaction = await db.sequelize.transaction(); // Inicia la transacción
+  try {
+    data = await db.sequelize.query(
+      `SELECT  * from current_inventory_item where id_stock_current_inventory_item = ${variablefinal} ORDER BY id_item_current_inventory_item`,
+      { type: QueryTypes.SELECT, transaction }
+    );
+    for (const el of data) {
+      let id = 0;
+      let iditem = el.id_item_current_inventory_item;
+      let saldo = el.total_current_inventory_item;
+      const resultNew2 = await db.sequelize.query(
+        ` UPDATE item SET stock_item = ${saldo} WHERE item.id_item = ${iditem}`,
+        { type: QueryTypes.UPDATE, transaction }
+        // Asocia la transacción a la consulta
+      );
+
+      respuestas[`respuesta${iditem}`] = {};
+    }
+    let id_stock_item = variablefinal;
+    let obj = {
+      closed_stock_item: 1,
+      end_date_stock_item: fechaFormateada,
+    };
+    const resultUpdate4 = await Stock_item.update(obj, {
+      where: { id_stock_item },
+      transaction, // Asocia la transacción a la consulta
+    });
+
+    await transaction.commit(); // Confirma la transacción
+  } catch (error) {
+    await transaction.rollback(); // Revierte la transacción en caso de error
+    console.log("error", error);
+  }
+  res.json({
+    message: "Status was deleted successfully",
+    resultDelete: "resultDelete",
+    respuestas: respuestas,
+  });
+  //return;
+};
+
 module.exports = {
   getStocks_item,
   getStock_itemQuerySql2,
@@ -112,4 +166,5 @@ module.exports = {
   createStock_item,
   updateStock_item,
   deleteStock_item,
+  getStock_item_closed,
 };
