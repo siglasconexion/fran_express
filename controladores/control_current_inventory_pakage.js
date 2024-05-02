@@ -64,7 +64,7 @@ const getCurrent_inventory_pakageQuerySql2 = async (req, res) => {
 //*****************************
 const getCurrent_inventory_pakagedetailQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query(
-    `SELECT id_pakage_pakage_input as id_pakage, quantity_received_pakage_input as qty, date_received_pakage_input as received, stock_pakage_input as stock, comment_pakage_input as comment, name_pakage as name FROM pakage_input INNER JOIN pakage on id_pakage_pakage_input = id_pakage ORDER BY name,received`,
+    `SELECT id_pakage_pakage_input as id_pakage, quantity_received_pakage_input as qty, date_received_pakage_input as received, stock_pakage_input as stock, comment_pakage_input as comment, units_received_pakage_input as units, name_pakage as name FROM pakage_input INNER JOIN pakage on id_pakage_pakage_input = id_pakage ORDER BY name,received`,
     {
       type: QueryTypes.SELECT,
     }

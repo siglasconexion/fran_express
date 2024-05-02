@@ -368,7 +368,7 @@ router.get(
   getCurrent_inventory_itemQuerySql2
 );
 router.get(
-  "/current_inventorys_item_detail",
+  "/current_inventorys_item_detail/:variable",
   getCurrent_inventory_itemdetailQuerySql2
 );
 router.post("/generate-pdf", generatePDF); // prueb

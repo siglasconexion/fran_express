@@ -64,25 +64,6 @@ const getCurrent_inventory_e_oilQuerySql2 = async (req, res) => {
 
 //*****************************
 const getCurrent_inventory_e_oildetailQuerySql2 = async (req, res) => {
-  // rutas - routes
-  /* let variablefinal = req.params.variable;
-  let variable33 = req.params.variable;
-  let variable2 = req.params;
-  let variable3 = Object.values(variable2);
-  let variable4 = variable3[0];
-  console.log(
-    "HEY CA LA VARIABLE",
-    variable33,
-    req.params,
-    variable2,
-    variable3,
-    variable4,
-    variablefinal
-  ); */
-  /*
-   */
-
-  //console.log("variable sola del objeto params", variablefinal);
   const data = await db.sequelize.query(
     `SELECT id_essential_oil_oil_input as id_e_oil, quantity_received_oil_input as qty, date_received_oil_input as received, in_use_oil_input as in_use, stock_oil_input as stock, comment_oil_input as comment, name_essential_oil as name FROM oil_input INNER JOIN essential_oil on id_essential_oil_oil_input = id_essential_oil ORDER BY name,received`,
     {

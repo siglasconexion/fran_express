@@ -58,8 +58,9 @@ const getCurrent_inventory_itemQuerySql2 = async (req, res) => {
 };
 
 const getCurrent_inventory_itemdetailQuerySql2 = async (req, res) => {
+  let variable = req.params.variable;
   const data = await db.sequelize.query(
-    `SELECT  id_stock_detail_item, id_item_stock_detail_item, id_container_stock_detail_item, id_place_stock_detail_item, id_stock_stock_detail_item, qty_container_stock_detail_item, units_stock_detail_item, total_stock_detail_item, name_item, code_item, name_container, qty_container FROM stock_detail_item INNER join item on stock_detail_item.id_item_stock_detail_item=item.id_item INNER JOIN container on stock_detail_item.id_container_stock_detail_item=id_container ORDER BY stock_detail_item.id_stock_detail_item;`,
+    `SELECT  id_stock_detail_item, id_item_stock_detail_item, id_container_stock_detail_item, id_place_stock_detail_item, id_stock_stock_detail_item, qty_container_stock_detail_item, units_stock_detail_item, total_stock_detail_item, name_item, code_item, name_container, qty_container FROM stock_detail_item INNER join item on stock_detail_item.id_item_stock_detail_item=item.id_item INNER JOIN container on stock_detail_item.id_container_stock_detail_item=id_container where id_stock_stock_detail_item = ${variable} ORDER BY stock_detail_item.id_stock_detail_item;`,
 
     {
       type: QueryTypes.SELECT,

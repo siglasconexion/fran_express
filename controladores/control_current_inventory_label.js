@@ -63,27 +63,8 @@ const getCurrent_inventory_labelQuerySql2 = async (req, res) => {
 
 //*****************************
 const getCurrent_inventory_labeldetailQuerySql2 = async (req, res) => {
-  // rutas - routes
-  /* let variablefinal = req.params.variable;
-  let variable33 = req.params.variable;
-  let variable2 = req.params;
-  let variable3 = Object.values(variable2);
-  let variable4 = variable3[0];
-  console.log(
-    "HEY CA LA VARIABLE",
-    variable33,
-    req.params,
-    variable2,
-    variable3,
-    variable4,
-    variablefinal
-  ); */
-  /*
-   */
-
-  //console.log("variable sola del objeto params", variablefinal);
   const data = await db.sequelize.query(
-    `SELECT id_label_label_input as id_label, quantity_received_label_input as qty, date_received_label_input as received, stock_label_input as stock, comment_label_input as comment, name_label as name FROM label_input INNER JOIN label on id_label_label_input = id_label ORDER BY name,received`,
+    `SELECT id_label_label_input as id_label, quantity_received_label_input as qty, date_received_label_input as received, stock_label_input as stock, comment_label_input as comment, units_received_label_input as units, name_label as name FROM label_input INNER JOIN label on id_label_label_input = id_label ORDER BY name,received`,
     {
       type: QueryTypes.SELECT,
     }
