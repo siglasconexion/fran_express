@@ -395,6 +395,7 @@ router.delete("/stock_item", deleteStock_item);
 //router.get("/users", authenticateUser, getUsers);
 router.get("/users", getUsers);
 router.get("/user", getUser);
+router.get("/user/:usuario/:password", getUser);
 router.post("/user", createUser);
 router.put("/user", updateUser);
 router.delete("/user", deleteUser);

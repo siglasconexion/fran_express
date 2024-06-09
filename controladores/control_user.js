@@ -29,14 +29,24 @@ const getUserQuerySql2 = async (req, res) => {
 };
 
 const getUser = async (req, res) => {
-  let resultGetOne = await User.findAll({
+  let usuario = req.params.usuario;
+  let password = req.params.password;
+  const { usuario2, password2 } = req.params;
+
+  let resultGetOne = await User.findOne({
     where: {
-      id_user: req.body.id,
+      name_key_user: usuario,
+      password_user: password,
     },
   });
-  if (resultGetOne.length <= 0) {
+  console.log("resultGetOne", resultGetOne);
+  console.log("usuario", usuario, "password", password);
+  if (!resultGetOne || resultGetOne.length === 0) {
     res.json({
       message: "Results not found",
+      code: 201,
+      statusText: "nuevo mensaje",
+      ok: "false",
     });
     return;
   }

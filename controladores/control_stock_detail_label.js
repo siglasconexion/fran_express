@@ -2,6 +2,7 @@ const { Stock_detail_label } = require("../db/models/stock_detail_label.js");
 const {
   Current_inventory_label,
 } = require("../db/models/current_inventory_label.js");
+const { Label } = require("../db/models/label.js");
 
 const db = require("../db/conn.js");
 const _ = require("lodash");
@@ -66,6 +67,7 @@ const getStock_detail_label = async (req, res) => {
 };
 
 const createStock_detail_label = async (req, res) => {
+  let wsupport = req.body.weightsupportlabel;
   try {
     await Stock_detail_label.create({
       id_stock_stock_detail_label: req.body.idstockstockdetaillabel,
@@ -111,6 +113,16 @@ const createStock_detail_label = async (req, res) => {
         id_stock_current_inventory_label: req.body.idstockstockdetaillabel,
       },
     });
+    let obj2 = {
+      id_label: req.body.idlabelstockdetaillabel,
+      weight_support_label: req.body.weightsupportlabel,
+    };
+    const resultUpdate2 = await Label.update(obj2, {
+      where: {
+        id_label: req.body.idlabelstockdetaillabel,
+      },
+    });
+
     if (resultUpdate[0] === 1) {
       res.status(200).json({
         message: "Status Update successfully",
