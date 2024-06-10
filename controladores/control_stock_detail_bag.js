@@ -2,7 +2,7 @@ const { Stock_detail_bag } = require("../db/models/stock_detail_bag.js");
 const {
   Current_inventory_bag,
 } = require("../db/models/current_inventory_bag.js");
-
+const { Bag } = require("../db/models/bag.js");
 const db = require("../db/conn.js");
 const _ = require("lodash");
 const { QueryTypes } = require("sequelize");
@@ -72,7 +72,15 @@ const createStock_detail_bag = async (req, res) => {
       id_bag_stock_detail_bag: req.body.idbagstockdetailbag,
       qty_stock_detail_bag: req.body.qtystockdetailbag,
     });
-
+    let obj2 = {
+      id_bag: req.body.idbagstockdetailbag,
+      weight_box_bag: req.body.weightboxbag,
+    };
+    const resultUpdate2 = await Bag.update(obj2, {
+      where: {
+        id_bag: req.body.idbagstockdetailbag,
+      },
+    });
     const resultNew2 = await Current_inventory_bag.findOne({
       where: {
         id_bag_current_inventory_bag: req.body.idbagstockdetailbag,
@@ -87,7 +95,7 @@ const createStock_detail_bag = async (req, res) => {
         id_bag_current_inventory_bag: req.body.idbagstockdetailbag,
         total_current_inventory_bag: req.body.qtystockdetailbag,
       });
-      console.log("segunda", resultNew3);
+      //console.log("segunda", resultNew3);
 
       Object.entries(resultNew3).length === 0
         ? res.json({ message: "Register is not created" })

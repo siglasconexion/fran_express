@@ -2,6 +2,7 @@ const { Stock_detail_pakage } = require("../db/models/stock_detail_pakage.js");
 const {
   Current_inventory_pakage,
 } = require("../db/models/current_inventory_pakage.js");
+const { Pakage } = require("../db/models/pakage.js");
 
 const db = require("../db/conn.js");
 const _ = require("lodash");
@@ -72,7 +73,16 @@ const createStock_detail_pakage = async (req, res) => {
       id_pakage_stock_detail_pakage: req.body.idpakagestockdetailpakage,
       qty_stock_detail_pakage: req.body.qtystockdetailpakage,
     });
-
+    let obj2 = {
+      id_pakage: req.body.idpakagestockdetailpakage,
+      weight_box_pakage: req.body.weightboxpakage,
+      weight_pakage: req.body.weightpakage,
+    };
+    const resultUpdate2 = await Pakage.update(obj2, {
+      where: {
+        id_pakage: req.body.idpakagestockdetailpakage,
+      },
+    });
     const resultNew2 = await Current_inventory_pakage.findOne({
       where: {
         id_pakage_current_inventory_pakage: req.body.idpakagestockdetailpakage,

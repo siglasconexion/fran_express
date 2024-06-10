@@ -74,6 +74,15 @@ const createStock_detail_label = async (req, res) => {
       id_label_stock_detail_label: req.body.idlabelstockdetaillabel,
       qty_stock_detail_label: req.body.qtystockdetaillabel,
     });
+    let obj2 = {
+      id_label: req.body.idlabelstockdetaillabel,
+      weight_support_label: req.body.weightsupportlabel,
+    };
+    const resultUpdate2 = await Label.update(obj2, {
+      where: {
+        id_label: req.body.idlabelstockdetaillabel,
+      },
+    });
 
     const resultNew2 = await Current_inventory_label.findOne({
       where: {
@@ -89,7 +98,7 @@ const createStock_detail_label = async (req, res) => {
         id_label_current_inventory_label: req.body.idlabelstockdetaillabel,
         total_current_inventory_label: req.body.qtystockdetaillabel,
       });
-      console.log("segunda", resultNew3);
+      //console.log("segunda", resultNew3);
 
       Object.entries(resultNew3).length === 0
         ? res.json({ message: "Register is not created" })
@@ -111,15 +120,6 @@ const createStock_detail_label = async (req, res) => {
       where: {
         id_label_current_inventory_label: req.body.idlabelstockdetaillabel,
         id_stock_current_inventory_label: req.body.idstockstockdetaillabel,
-      },
-    });
-    let obj2 = {
-      id_label: req.body.idlabelstockdetaillabel,
-      weight_support_label: req.body.weightsupportlabel,
-    };
-    const resultUpdate2 = await Label.update(obj2, {
-      where: {
-        id_label: req.body.idlabelstockdetaillabel,
       },
     });
 
