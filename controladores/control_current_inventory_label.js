@@ -48,7 +48,7 @@ const getCurrent_inventory_labelQuerySql2 = async (req, res) => {
 
   console.log("variable sola del objeto params", variablefinal);
   const data = await db.sequelize.query(
-    `SELECT  total_current_inventory_label, name_label, id_family_label, name_family, code_label from current_inventory_label INNER JOIN label on current_inventory_label.id_label_current_inventory_label=label.id_label INNER JOIN family on label.id_family_label=family.id_family where current_inventory_label.id_stock_current_inventory_label = ${variable4} ORDER BY name_family, name_label`,
+    `SELECT  total_current_inventory_label, name_label, id_family_label, name_family, code_label, code_two_label from current_inventory_label INNER JOIN label on current_inventory_label.id_label_current_inventory_label=label.id_label INNER JOIN family on label.id_family_label=family.id_family where current_inventory_label.id_stock_current_inventory_label = ${variable4} ORDER BY name_family, name_label`,
     { type: QueryTypes.SELECT }
   ); //
   if (data.length <= 0) {

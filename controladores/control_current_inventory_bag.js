@@ -48,7 +48,7 @@ const getCurrent_inventory_bagQuerySql2 = async (req, res) => {
 
   console.log("variable sola del objeto params", variablefinal);
   const data = await db.sequelize.query(
-    `SELECT  total_current_inventory_bag, name_bag, id_family_bag, name_family, code_bag from current_inventory_bag INNER JOIN bag on current_inventory_bag.id_bag_current_inventory_bag=bag.id_bag INNER JOIN family on bag.id_family_bag=family.id_family where current_inventory_bag.id_stock_current_inventory_bag = ${variable4} ORDER BY name_family, name_bag`,
+    `SELECT  total_current_inventory_bag, name_bag, id_family_bag, name_family, code_bag, code_two_bag  from current_inventory_bag INNER JOIN bag on current_inventory_bag.id_bag_current_inventory_bag=bag.id_bag INNER JOIN family on bag.id_family_bag=family.id_family where current_inventory_bag.id_stock_current_inventory_bag = ${variable4} ORDER BY name_family, name_bag`,
     { type: QueryTypes.SELECT }
   ); //
   if (data.length <= 0) {
