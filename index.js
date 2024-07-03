@@ -297,6 +297,24 @@ const {
   getStock_detail_bagQuerySql2,
 } = require("./controladores/control_stock_detail_bag.js");
 
+const {
+  getType_inventorys,
+  getType_inventory,
+  createType_inventory,
+  updateType_inventory,
+  deleteType_inventory,
+  getType_inventoryQuerySql2,
+} = require("./controladores/control_type_inventory.js");
+
+const {
+  getItem_parts,
+  getItem_part,
+  createItem_part,
+  updateItem_part,
+  deleteItem_part,
+  getItem_partQuerySql2,
+} = require("./controladores/control_item_part.js");
+
 const db = require("./db/conn.js");
 
 const router = express.Router();
@@ -646,6 +664,24 @@ router.post("/stock_detail_bag", createStock_detail_bag);
 router.put("/stock_detail_bag", updateStock_detail_bag);
 router.delete("/stock_detail_bag", deleteStock_detail_bag);
 // end model Stock_detail_bag
+
+// Model type_invemtory
+//router.get("/type_inventorys", getType_inventoryQuerySql2);
+router.get("/type_inventorys", getType_inventorys);
+router.get("/type_inventory", getType_inventory);
+router.post("/type_inventory", createType_inventory);
+router.put("/type_inventory", updateType_inventory);
+router.delete("/type_inventory", deleteType_inventory);
+// end model type_inventory
+
+// Model item_part
+//router.get("/item_parts", getItem_partQuerySql2);
+router.get("/item_parts", getItem_parts);
+router.get("/item_part", getItem_part);
+router.post("/item_part", createItem_part);
+router.put("/item_part", updateItem_part);
+router.delete("/item_part", deleteItem_part);
+// end model item_part
 
 app.use("/api/", router);
 

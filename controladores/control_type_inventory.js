@@ -1,9 +1,8 @@
-const { Type_user } = require("../db/models/type_user.js");
+const { Type_inventory } = require("../db/models/type_inventory.js");
 const db = require("../db/conn.js");
-const jwt = require("jsonwebtoken");
 
-const getType_users = async (req, res) => {
-  const data = await Type_user.findAll();
+const getType_inventorys = async (req, res) => {
+  const data = await Type_inventory.findAll();
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,
@@ -16,8 +15,8 @@ const getType_users = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getType_userQuerySql2 = async (req, res) => {
-  const data = await db.sequelize.query("SELECT  * from type_user"); //
+const getType_inventoryQuerySql2 = async (req, res) => {
+  const data = await db.sequelize.query("SELECT  * from type_inventory"); //
   if (data.length <= 0) {
     res.status(204).json({
       code: 204,
@@ -28,10 +27,10 @@ const getType_userQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getType_user = async (req, res) => {
-  let resultGetOne = await Type_user.findAll({
+const getType_inventory = async (req, res) => {
+  let resultGetOne = await Type_inventory.findAll({
     where: {
-      id_type_user: req.body.id,
+      id: req.body.id,
     },
   });
   if (resultGetOne.length <= 0) {
@@ -43,24 +42,23 @@ const getType_user = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createType_user = async (req, res) => {
-  const resultNew = await Type_user.create({
-    id_company_type_user: req.body.idcompanytypeuser,
-    id_status_type_user: req.body.idstatustypeuser,
-    description_type_user: req.body.descriptiontypeuser,
+const createType_inventory = async (req, res) => {
+  const resultNew = await Type_inventory.create({
+    name: req.body.name,
+    name_table: req.body.nametable,
   });
   Object.entries(resultNew).length === 0
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
 };
 
-const updateType_user = async (req, res) => {
+const updateType_inventory = async (req, res) => {
   try {
     const obj = req.body;
-    const id_type_user = req.body.id_type_user;
-    let resultUpdate = await Type_user.update(obj, {
+    const id = req.body.id;
+    let resultUpdate = await Type_inventory.update(obj, {
       where: {
-        id_type_user: id_type_user,
+        id: id,
       },
     });
     if (resultUpdate[0] === 1) {
@@ -86,13 +84,12 @@ const updateType_user = async (req, res) => {
   }
 };
 
-const deleteType_user = async (req, res) => {
+const deleteType_inventory = async (req, res) => {
   try {
-    console.log(req.body);
-    const id_type_user = req.body.id;
-    let resultDelete = await Type_user.destroy({
+    const id = req.body.id;
+    let resultDelete = await Type_inventory.destroy({
       where: {
-        id_type_user,
+        id,
       },
     });
     resultDelete === 1
@@ -110,10 +107,10 @@ const deleteType_user = async (req, res) => {
 };
 
 module.exports = {
-  getType_users,
-  getType_userQuerySql2,
-  getType_user,
-  createType_user,
-  updateType_user,
-  deleteType_user,
+  getType_inventorys,
+  getType_inventoryQuerySql2,
+  getType_inventory,
+  createType_inventory,
+  updateType_inventory,
+  deleteType_inventory,
 };
