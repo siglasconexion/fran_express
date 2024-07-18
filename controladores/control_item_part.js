@@ -31,9 +31,11 @@ const getItem_partQuerySql2 = async (req, res) => {
 };
 
 const getItem_part = async (req, res) => {
+  let variable = req.params.variable;
+  console.log("req.body.iditem", req.params);
   let resultGetOne = await Item_part.findAll({
     where: {
-      id: req.body.id,
+      id_item: variable,
     },
   });
   if (resultGetOne.length <= 0) {
@@ -123,7 +125,7 @@ const updateItem_part = async (req, res) => {
 
 const deleteItem_part = async (req, res) => {
   try {
-    const id = req.body.id;
+    const id = req.body.iditem;
     let resultDelete = await Item_part.destroy({
       where: {
         id,

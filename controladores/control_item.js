@@ -1,10 +1,18 @@
 const { Item } = require("../db/models/item.js");
+const {
+  Current_inventory_item,
+} = require("../db/models/current_inventory_item.js");
+const { QueryTypes } = require("sequelize");
 const db = require("../db/conn.js");
 const xlsxj = require("xlsx-to-json");
 const fs = require("fs");
+const _ = require("lodash");
 
 const getItems = async (req, res) => {
   const data = await Item.findAll();
+  /*  data = await db.sequelize.query(`SELECT  * from item ORDER BY id_item`, {
+    type: QueryTypes.SELECT,
+  }); */
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,
@@ -14,6 +22,57 @@ const getItems = async (req, res) => {
     });
     return;
   }
+  /////////////////////////////////////
+  //let datos = json(data);
+  /*   console.log(data);
+  for (const el of data) {
+    let iditem = el.id_item;
+    console.log("iditem", iditem);
+    console.log("el.id_item", el.id_item);
+    let idstock = 2;
+    let total = 0;
+    let ini = 0;
+    let pro = 0;
+    let oth = 0;
+    let sal = 0;
+    let sen = 0;
+    let dam = 0;
+    let def = 0;
+    let ret = 0;
+    let adj = 0;
+
+    const resultNew2 = await Current_inventory_item.findOne({
+      where: {
+        id_item_current_inventory_item: iditem,
+        id_stock_current_inventory_item: idstock,
+      },
+    });
+    let convertResultNew2 = resultNew2?.toJSON();
+    console.log("primera consulta", convertResultNew2);
+    if (_.isEmpty(convertResultNew2)) {
+      const resultNew3 = await Current_inventory_item.create({
+        id_stock_current_inventory_item: idstock,
+        id_item_current_inventory_item: iditem,
+        total_current_inventory_item: total,
+        initial: ini,
+        production: pro,
+        other_entries: oth,
+        sales: sal,
+        send_to_amazon: sen,
+        damaged: dam,
+        defeated: def,
+        returned: ret,
+        adjustment: adj,
+      });
+      console.log("segunda", resultNew3);
+
+      //Object.entries(resultNew3).length === 0
+      //  ? res.json({ message: "Register is not created" })
+      //  : res.json({ message: resultNew3 });
+      //return;
+    }
+  } */
+  //////////////////////////////////////////////
   res.status(200).json(data);
 };
 

@@ -128,6 +128,7 @@ const getStock_item_closed = async (req, res) => {
       let id = 0;
       let iditem = el.id_item_current_inventory_item;
       let saldo = el.total_current_inventory_item;
+      // akika colocar total en 0 pero antes pasar su valor a initial en current_inventory_item
       const resultNew2 = await db.sequelize.query(
         ` UPDATE item SET stock_item = ${saldo} WHERE item.id_item = ${iditem}`,
         { type: QueryTypes.UPDATE, transaction }
@@ -145,7 +146,7 @@ const getStock_item_closed = async (req, res) => {
       where: { id_stock_item },
       transaction, // Asocia la transacción a la consulta
     });
-
+    // akika luego que cierro el inventario debo abrir uno nuevo ajuro
     await transaction.commit(); // Confirma la transacción
   } catch (error) {
     await transaction.rollback(); // Revierte la transacción en caso de error

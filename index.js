@@ -677,7 +677,7 @@ router.delete("/type_inventory", deleteType_inventory);
 // Model item_part
 //router.get("/item_parts", getItem_partQuerySql2);
 router.get("/item_parts", getItem_parts);
-router.get("/item_part", getItem_part);
+router.get("/item_part/:variable", getItem_part);
 router.post("/item_part", createItem_part);
 router.put("/item_part", updateItem_part);
 router.delete("/item_part", deleteItem_part);
