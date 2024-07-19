@@ -545,7 +545,7 @@ router.delete("/label_input", deleteLabel_input);
 
 // Model stock_label
 //router.get("/stoks", getStock_labelQuerySql2);
-router.get("/stocks_label_closed/:variable", getStock_label_closed);
+router.get("/stocks_label_closed/:variable/:iduser", getStock_label_closed);
 router.get("/stocks_label", getStocks_label);
 router.get("/stock_label", getStock_label);
 router.post("/stock_label", createStock_label);

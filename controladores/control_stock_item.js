@@ -117,9 +117,43 @@ const getStock_item_closed = async (req, res) => {
   // rutas - routes
   let data = [];
   let variablefinal = req.params.variable;
+  const { variablefinal2, iduser } = req.params;
+  console.log(
+    "prueba de variables variablefinal2",
+    variablefinal2,
+    "iduser",
+    iduser
+  );
+  // Puedes usar id, status y userId aquí
+  //res.json({ id, status, userId }); ejemplo de respuesta analizar luego recibo linea 120
   const respuestas = {};
   const transaction = await db.sequelize.transaction(); // Inicia la transacción
   try {
+    let id_stock_item = variablefinal;
+    let obj = {
+      closed_stock_item: 1,
+      end_date_stock_item: fechaFormateada,
+    };
+    const resultUpdate4 = await Stock_item.update(obj, {
+      where: { id_stock_item },
+      transaction, // Asocia la transacción a la consulta
+    });
+    // akika abro el nuevo inventario
+    const resultNew = await Stock_item.create(
+      {
+        id_company_stock_item: 1,
+        id_status_stock_item: 1,
+        id_user_stock_item: iduser,
+        start_date_stock_item: fechaFormateada,
+        end_date_stock_item: null,
+        comment_stock_item: "INVENTORY CLOSING",
+      },
+      { transaction }
+    );
+    //Object.entries(resultNew).length === 0
+    //  ? res.json({ message: "Register is not created" })
+    //  : res.json({ message: resultNew });
+    /// fin  uevo inventario
     data = await db.sequelize.query(
       `SELECT  * from current_inventory_item where id_stock_current_inventory_item = ${variablefinal} ORDER BY id_item_current_inventory_item`,
       { type: QueryTypes.SELECT, transaction }
@@ -134,19 +168,53 @@ const getStock_item_closed = async (req, res) => {
         { type: QueryTypes.UPDATE, transaction }
         // Asocia la transacción a la consulta
       );
+      //// aca el nuevo current_inventory_item
+      let idstock = variablefinal + 1;
+      let total = 0;
+      let ini = saldo;
+      let pro = 0;
+      let oth = 0;
+      let sal = 0;
+      let sen = 0;
+      let dam = 0;
+      let def = 0;
+      let ret = 0;
+      let adj = 0;
 
+      const resultNew3 = await Current_inventory_item.findOne({
+        where: {
+          id_item_current_inventory_item: iditem,
+          id_stock_current_inventory_item: idstock,
+        },
+      });
+      let convertResultNew3 = resultNew3?.toJSON();
+      console.log("primera consulta", convertResultNew3);
+      if (_.isEmpty(convertResultNew3)) {
+        const resultNew4 = await Current_inventory_item.create(
+          {
+            id_stock_current_inventory_item: idstock,
+            id_item_current_inventory_item: iditem,
+            total_current_inventory_item: total,
+            initial: ini,
+            production: pro,
+            other_entries: oth,
+            sales: sal,
+            send_to_amazon: sen,
+            damaged: dam,
+            defeated: def,
+            returned: ret,
+            adjustment: adj,
+          },
+          { transaction }
+        );
+        //Object.entries(resultNew4).length === 0
+        //  ? res.json({ message: "Register is not created" })
+        //  : res.json({ message: resultNew3 });
+        //return;
+      }
+      /// fin current_inventory_item
       respuestas[`respuesta${iditem}`] = {};
     }
-    let id_stock_item = variablefinal;
-    let obj = {
-      closed_stock_item: 1,
-      end_date_stock_item: fechaFormateada,
-    };
-    const resultUpdate4 = await Stock_item.update(obj, {
-      where: { id_stock_item },
-      transaction, // Asocia la transacción a la consulta
-    });
-    // akika luego que cierro el inventario debo abrir uno nuevo ajuro
     await transaction.commit(); // Confirma la transacción
   } catch (error) {
     await transaction.rollback(); // Revierte la transacción en caso de error
