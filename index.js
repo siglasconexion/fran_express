@@ -400,7 +400,7 @@ router.delete("/current_inventory_item", deleteCurrent_inventory_item);
 
 // Model stock_item
 //router.get("/stoks", getStock_itemQuerySql2);
-router.get("/stocks_item_closed/:variable", getStock_item_closed);
+router.get("/stocks_item_closed/:variable/:iduser", getStock_item_closed);
 router.get("/stocks_item", getStocks_item);
 router.get("/stock_item", getStock_item);
 router.post("/stock_item", createStock_item);

@@ -1,7 +1,12 @@
 const { Stock_item } = require("../db/models/stock_item.js");
 const db = require("../db/conn.js");
 const { Item } = require("../db/models/item.js");
+const {
+  Current_inventory_item,
+} = require("../db/models/current_inventory_item.js");
 const { QueryTypes } = require("sequelize");
+const _ = require("lodash");
+
 const getStocks_item = async (req, res) => {
   const data = await Stock_item.findAll();
   if (data.length <= 0) {
@@ -118,6 +123,7 @@ const getStock_item_closed = async (req, res) => {
   let data = [];
   let variablefinal = req.params.variable;
   const { variablefinal2, iduser } = req.params;
+  console.log("req.params", req.params);
   console.log(
     "prueba de variables variablefinal2",
     variablefinal2,
@@ -143,13 +149,18 @@ const getStock_item_closed = async (req, res) => {
       {
         id_company_stock_item: 1,
         id_status_stock_item: 1,
-        id_user_stock_item: iduser,
+        id_user_stock_item: 1,
         start_date_stock_item: fechaFormateada,
         end_date_stock_item: null,
         comment_stock_item: "INVENTORY CLOSING",
       },
-      { transaction }
+      { type: QueryTypes.INSERT, transaction }
     );
+    let convert = resultNew?.toJSON();
+    console.log("resultNew", convert);
+    //for (const ele of convert) {
+    console.log("elemento de resultNew", convert.id_stock_item);
+    //}
     //Object.entries(resultNew).length === 0
     //  ? res.json({ message: "Register is not created" })
     //  : res.json({ message: resultNew });
@@ -169,7 +180,7 @@ const getStock_item_closed = async (req, res) => {
         // Asocia la transacción a la consulta
       );
       //// aca el nuevo current_inventory_item
-      let idstock = variablefinal + 1;
+      let idstock = convert.id_stock_item;
       let total = 0;
       let ini = saldo;
       let pro = 0;
@@ -216,9 +227,11 @@ const getStock_item_closed = async (req, res) => {
       respuestas[`respuesta${iditem}`] = {};
     }
     await transaction.commit(); // Confirma la transacción
+    //await transaction.rollback(); // Revierte la transacción en caso de error
   } catch (error) {
+    console.log("error ojo mosca akika ", error.stack);
     await transaction.rollback(); // Revierte la transacción en caso de error
-    console.log("error", error);
+    //console.log("error", error);
   }
   res.json({
     message: "Status was deleted successfully",
