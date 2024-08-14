@@ -48,6 +48,7 @@ const createMeasure = async (req, res) => {
     id_status_measure: req.body.idstatusmeasure,
     id_department_measure: req.body.iddepartmentmeasure,
     name_measure: req.body.namemeasure,
+    mililitros: req.body.mililitros,
   });
   Object.entries(resultNew).length === 0
     ? res.json({ message: "Register is not created" })

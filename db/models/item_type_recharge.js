@@ -1,34 +1,22 @@
 const db = require("../conn.js");
 const { DataTypes } = require("sequelize");
 
-const Measure = db.sequelize.define(
-  "measure",
+const Item_type_recharge = db.sequelize.define(
+  "item_type_recharge",
   {
     // Model attributes are defined here
-    id_measure: {
+    id_item_type_recharge: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    id_company_measure: {
+    id_item: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_status_measure: {
+    id_type_recharge: {
       type: DataTypes.INTEGER,
       allowNull: false,
-    },
-    id_department_measure: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    name_measure: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    mililitros: {
-      type: DataTypes.DECIMAL,
-      allowNull: true,
     },
   },
   {
@@ -37,5 +25,5 @@ const Measure = db.sequelize.define(
 );
 
 module.exports = {
-  Measure,
+  Item_type_recharge,
 };

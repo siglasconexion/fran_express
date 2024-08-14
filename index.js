@@ -315,6 +315,32 @@ const {
   getItem_partQuerySql2,
 } = require("./controladores/control_item_part.js");
 
+const {
+  getType_recharges,
+  getType_recharge,
+  createType_recharge,
+  updateType_recharge,
+  deleteType_recharge,
+  getType_rechargeQuerySql2,
+} = require("./controladores/control_type_recharge.js");
+
+const {
+  getItem_type_recharges,
+  getItem_type_recharge,
+  createItem_type_recharge,
+  updateItem_type_recharge,
+  deleteItem_type_recharge,
+  getItem_type_rechargeQuerySql2,
+} = require("./controladores/control_item_type_recharge.js");
+
+const {
+  getItem_informations,
+  getItem_information,
+  createItem_information,
+  updateItem_information,
+  deleteItem_information,
+} = require("./controladores/control_item_information.js");
+
 const db = require("./db/conn.js");
 
 const router = express.Router();
@@ -665,7 +691,7 @@ router.put("/stock_detail_bag", updateStock_detail_bag);
 router.delete("/stock_detail_bag", deleteStock_detail_bag);
 // end model Stock_detail_bag
 
-// Model type_invemtory
+// Model type_inventory
 //router.get("/type_inventorys", getType_inventoryQuerySql2);
 router.get("/type_inventorys", getType_inventorys);
 router.get("/type_inventory", getType_inventory);
@@ -682,6 +708,32 @@ router.post("/item_part", createItem_part);
 router.put("/item_part", updateItem_part);
 router.delete("/item_part", deleteItem_part);
 // end model item_part
+
+// Model type_recharge
+//router.get("/type_recharges", getType_rechargeQuerySql2);
+router.get("/type_recharges", getType_recharges);
+router.get("/type_recharge", getType_recharge);
+router.post("/type_recharge", createType_recharge);
+router.put("/type_recharge", updateType_recharge);
+router.delete("/type_recharge", deleteType_recharge);
+// end model type_recharge
+
+// Model item_type_recharge
+//router.get("/item_type_recharges", getItem_type_rechargeQuerySql2);
+router.get("/item_type_recharges", getItem_type_recharges);
+router.get("/item_type_recharge", getItem_type_recharge);
+router.post("/item_type_recharge", createItem_type_recharge);
+router.put("/item_type_recharge", updateItem_type_recharge);
+router.delete("/item_type_recharge", deleteItem_type_recharge);
+// end model item_type_recharge
+
+// Model Item_information
+router.get("/item_informations", getItem_informations);
+router.get("/item_information/:variable", getItem_information);
+router.post("/item_information", createItem_information);
+router.put("/item_information", updateItem_information);
+router.delete("/item_information", deleteItem_information);
+// end model item_information
 
 app.use("/api/", router);
 
