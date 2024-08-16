@@ -58,6 +58,10 @@ const Item_information = db.sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    year_life_item: {
+      type: DataTypes.DECIMAL,
+      allowNull: true,
+    },
     use_ingredient: {
       type: DataTypes.INTEGER,
       allowNull: false,

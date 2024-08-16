@@ -54,6 +54,7 @@ const createItem_information = async (req, res) => {
     use_carrier_oil: req.body.usecarrieroil,
     use_concentrated_oil: req.body.useconcentratedoil,
     use_base_oil: req.body.usebaseoil,
+    year_life_item: req.body.yearlifeitem,
   });
   Object.entries(resultNew).length === 0
     ? res.json({ message: "Register is not created" })

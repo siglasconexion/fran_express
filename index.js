@@ -324,7 +324,7 @@ const {
   getType_rechargeQuerySql2,
 } = require("./controladores/control_type_recharge.js");
 
-const {
+/* const {
   getItem_type_recharges,
   getItem_type_recharge,
   createItem_type_recharge,
@@ -332,7 +332,7 @@ const {
   deleteItem_type_recharge,
   getItem_type_rechargeQuerySql2,
 } = require("./controladores/control_item_type_recharge.js");
-
+ */
 const {
   getItem_informations,
   getItem_information,
@@ -340,6 +340,15 @@ const {
   updateItem_information,
   deleteItem_information,
 } = require("./controladores/control_item_information.js");
+
+const {
+  getMade_items,
+  getMade_item,
+  createMade_item,
+  updateMade_item,
+  deleteMade_item,
+  //  getItem_type_rechargeQuerySql2,
+} = require("./controladores/control_made_item.js");
 
 const db = require("./db/conn.js");
 
@@ -718,14 +727,14 @@ router.put("/type_recharge", updateType_recharge);
 router.delete("/type_recharge", deleteType_recharge);
 // end model type_recharge
 
-// Model item_type_recharge
+/* // Model item_type_recharge
 //router.get("/item_type_recharges", getItem_type_rechargeQuerySql2);
 router.get("/item_type_recharges", getItem_type_recharges);
 router.get("/item_type_recharge", getItem_type_recharge);
 router.post("/item_type_recharge", createItem_type_recharge);
 router.put("/item_type_recharge", updateItem_type_recharge);
 router.delete("/item_type_recharge", deleteItem_type_recharge);
-// end model item_type_recharge
+// end model item_type_recharge */
 
 // Model Item_information
 router.get("/item_informations", getItem_informations);
@@ -734,6 +743,15 @@ router.post("/item_information", createItem_information);
 router.put("/item_information", updateItem_information);
 router.delete("/item_information", deleteItem_information);
 // end model item_information
+
+// Model Made_item
+router.get("/made_items", getMade_items);
+//router.get("/item_information/:variable", getItem_information);
+router.get("/made_item", getMade_item);
+router.post("/made_item", createMade_item);
+router.put("/made_item", updateMade_item);
+router.delete("/made_item", deleteMade_item);
+// end model Made_item
 
 app.use("/api/", router);
 
