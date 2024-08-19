@@ -44,7 +44,7 @@ const getCurrent_inventory_itemQuerySql2 = async (req, res) => {
   );
   console.log("variable sola del objeto params", variablefinal);
   const data = await db.sequelize.query(
-    `SELECT  total_current_inventory_item, name_item, id_family_item, name_family, code_item, code_two_item from current_inventory_item INNER JOIN item on current_inventory_item.id_item_current_inventory_item=item.id_item INNER JOIN family on item.id_family_item=family.id_family where current_inventory_item.id_stock_current_inventory_item = ${variable4} ORDER BY name_family, name_item`,
+    `SELECT  total_current_inventory_item, id_stock_current_inventory_item,  name_item, id_family_item, name_family, code_item, code_two_item from current_inventory_item INNER JOIN item on current_inventory_item.id_item_current_inventory_item=item.id_item INNER JOIN family on item.id_family_item=family.id_family where current_inventory_item.id_stock_current_inventory_item = ${variable4} ORDER BY name_family, name_item`,
     { type: QueryTypes.SELECT }
   ); //
   if (data.length <= 0) {
@@ -60,7 +60,7 @@ const getCurrent_inventory_itemQuerySql2 = async (req, res) => {
 const getCurrent_inventory_itemdetailQuerySql2 = async (req, res) => {
   let variable = req.params.variable;
   const data = await db.sequelize.query(
-    `SELECT  id_stock_detail_item, id_item_stock_detail_item, id_container_stock_detail_item, id_place_stock_detail_item, id_stock_stock_detail_item, qty_container_stock_detail_item, units_stock_detail_item, total_stock_detail_item, name_item, code_item, name_container, qty_container FROM stock_detail_item INNER join item on stock_detail_item.id_item_stock_detail_item=item.id_item INNER JOIN container on stock_detail_item.id_container_stock_detail_item=id_container where id_stock_stock_detail_item = ${variable} ORDER BY stock_detail_item.id_stock_detail_item;`,
+    `SELECT  id_stock_detail_item, id_item_stock_detail_item id_container_stock_detail_item, id_place_stock_detail_item, id_stock_stock_detail_item, qty_container_stock_detail_item, units_stock_detail_item, total_stock_detail_item, name_item, code_item, name_container, qty_container FROM stock_detail_item INNER join item on stock_detail_item.id_item_stock_detail_item=item.id_item INNER JOIN container on stock_detail_item.id_container_stock_detail_item=id_container where id_stock_stock_detail_item = ${variable} ORDER BY stock_detail_item.id_stock_detail_item;`,
 
     {
       type: QueryTypes.SELECT,

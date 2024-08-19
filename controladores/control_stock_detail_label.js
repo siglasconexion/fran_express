@@ -22,8 +22,9 @@ const getStock_details_label = async (req, res) => {
 };
 
 const getStock_detail_labelQuerySql2 = async (req, res) => {
+  let variablefinal = req.params.variable;
   const data = await db.sequelize.query(
-    "SELECT id_stock_detail_label, id_stock_stock_detail_label , id_label_stock_detail_label, qty_stock_detail_label,  name_label FROM stock_detail_label INNER JOIN label ON id_label_stock_detail_label=id_label ORDER BY id_stock_detail_label ",
+    `SELECT id_stock_detail_label, id_stock_stock_detail_label , id_label_stock_detail_label, qty_stock_detail_label,  name_label FROM stock_detail_label INNER JOIN label ON id_label_stock_detail_label=id_label  where id_stock_stock_detail_label = ${variablefinal} ORDER BY id_stock_detail_label `,
     { type: QueryTypes.SELECT }
   );
 
@@ -96,6 +97,13 @@ const createStock_detail_label = async (req, res) => {
       const resultNew3 = await Current_inventory_label.create({
         id_stock_current_inventory_label: req.body.idstockstockdetaillabel,
         id_label_current_inventory_label: req.body.idlabelstockdetaillabel,
+        initial: 0,
+        production: 0,
+        other_entries: 0,
+        damaged: 0,
+        defeated: 0,
+        returned: 0,
+        adjustment: 0,
         total_current_inventory_label: req.body.qtystockdetaillabel,
       });
       //console.log("segunda", resultNew3);

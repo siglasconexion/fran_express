@@ -407,7 +407,7 @@ router.delete("/item", deleteItem);
 // end model item
 
 // Model Stock_detail_item
-router.get("/stock_details_item", getStock_detail_itemQuerySql2);
+router.get("/stock_details_item/:variable", getStock_detail_itemQuerySql2);
 //router.get("/stock_details_item", getStock_details_item);
 router.get("/stock_detail_item", getStock_detail_item);
 router.post("/stock_detail_item", createStock_detail_item);
@@ -589,7 +589,7 @@ router.delete("/stock_label", deleteStock_label);
 // end model stock_label
 
 // Model Stock_detail_label
-router.get("/stock_details_label", getStock_detail_labelQuerySql2);
+router.get("/stock_details_label/:variable", getStock_detail_labelQuerySql2);
 //router.get("/stock_details_label", getStock_details_label);
 router.get("/stock_detail_label/:variable", getStock_detail_label);
 router.post("/stock_detail_label", createStock_detail_label);

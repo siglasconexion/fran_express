@@ -2,7 +2,7 @@ const { Stock_detail_item } = require("../db/models/stock_detail_item.js");
 const {
   Current_inventory_item,
 } = require("../db/models/current_inventory_item.js");
-
+const { QueryTypes } = require("sequelize");
 const db = require("../db/conn.js");
 const _ = require("lodash");
 const xlsxj = require("xlsx-to-json");
@@ -23,8 +23,10 @@ const getStock_details_item = async (req, res) => {
 };
 
 const getStock_detail_itemQuerySql2 = async (req, res) => {
+  let variablefinal = req.params.variable;
   const data = await db.sequelize.query(
-    "SELECT  id_stock_detail_item, id_item_stock_detail_item, id_container_stock_detail_item, id_place_stock_detail_item, id_stock_stock_detail_item, qty_container_stock_detail_item, units_stock_detail_item, total_stock_detail_item, name_item, code_item, name_container, qty_container FROM `stock_detail_item` INNER join item on stock_detail_item.id_item_stock_detail_item=item.id_item INNER JOIN container on stock_detail_item.id_container_stock_detail_item=id_container ORDER BY stock_detail_item.id_stock_detail_item "
+    `SELECT  id_stock_detail_item, id_item_stock_detail_item, id_container_stock_detail_item, id_place_stock_detail_item, id_stock_stock_detail_item, qty_container_stock_detail_item, units_stock_detail_item, total_stock_detail_item, name_item, code_item, name_container, qty_container FROM stock_detail_item INNER join item on stock_detail_item.id_item_stock_detail_item=item.id_item INNER JOIN container on stock_detail_item.id_container_stock_detail_item=id_container where id_stock_stock_detail_item = ${variablefinal} ORDER BY stock_detail_item.id_stock_detail_item`,
+    { type: QueryTypes.SELECT }
   );
 
   if (data.length <= 0) {
@@ -77,6 +79,15 @@ const createStock_detail_item = async (req, res) => {
       const resultNew3 = await Current_inventory_item.create({
         id_stock_current_inventory_item: req.body.idstockstockdetailitem,
         id_item_current_inventory_item: req.body.iditemstockdetailitem,
+        initial: 0,
+        production: 0,
+        other_entries: 0,
+        sales: 0,
+        send_to_amazon: 0,
+        damaged: 0,
+        defeated: 0,
+        returned: 0,
+        adjustment: 0,
         total_current_inventory_item: req.body.totalstockdetailitem,
       });
       console.log("segunda", resultNew3);

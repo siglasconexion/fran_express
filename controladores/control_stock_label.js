@@ -1,6 +1,11 @@
 const { Stock_label } = require("../db/models/stock_label.js");
-const { QueryTypes } = require("sequelize");
 const db = require("../db/conn.js");
+const { Label } = require("../db/models/label.js");
+const {
+  Current_inventory_label,
+} = require("../db/models/current_inventory_label.js");
+const { QueryTypes } = require("sequelize");
+const _ = require("lodash");
 
 const getStocks_label = async (req, res) => {
   const data = await Stock_label.findAll();
@@ -120,6 +125,37 @@ const getStock_label_closed = async (req, res) => {
   const respuestas = {};
   const transaction = await db.sequelize.transaction(); // Inicia la transacción
   try {
+    let id_stock_label = variablefinal;
+    let obj = {
+      closed_stock_label: 1,
+      end_date_stock_label: fechaFormateada,
+    };
+    const resultUpdate4 = await Stock_label.update(obj, {
+      where: { id_stock_label },
+      transaction, // Asocia la transacción a la consulta
+    });
+    // akika abro el nuevo inventario
+    const resultNew = await Stock_label.create(
+      {
+        id_company_stock_label: 1,
+        id_status_stock_label: 1,
+        id_user_stock_label: 1,
+        start_date_stock_label: fechaFormateada,
+        end_date_stock_label: null,
+        comment_stock_label: "INVENTORY CLOSING",
+      },
+      { type: QueryTypes.INSERT, transaction }
+    );
+    let convert = resultNew?.toJSON();
+    console.log("resultNew", convert);
+    //for (const ele of convert) {
+    console.log("elemento de resultNew", convert.id_stock_label);
+    //}
+    //Object.entries(resultNew).length === 0
+    //  ? res.json({ message: "Register is not created" })
+    //  : res.json({ message: resultNew });
+    /// fin  uevo inventario
+
     data = await db.sequelize.query(
       `SELECT  * from current_inventory_label where id_stock_current_inventory_label = ${variablefinal} ORDER BY id_label_current_inventory_label`,
       { type: QueryTypes.SELECT, transaction }
@@ -133,10 +169,50 @@ const getStock_label_closed = async (req, res) => {
         { type: QueryTypes.UPDATE, transaction }
         // Asocia la transacción a la consulta
       );
+      //// aca el nuevo current_inventory_item
+      let idstock = convert.id_stock_label;
+      let total = 0;
+      let ini = saldo;
+      let pro = 0;
+      let oth = 0;
+      let dam = 0;
+      let def = 0;
+      let ret = 0;
+      let adj = 0;
 
+      const resultNew3 = await Current_inventory_label.findOne({
+        where: {
+          id_label_current_inventory_label: idlabel,
+          id_stock_current_inventory_label: idstock,
+        },
+      });
+      let convertResultNew3 = resultNew3?.toJSON();
+      console.log("primera consulta", convertResultNew3);
+      if (_.isEmpty(convertResultNew3)) {
+        const resultNew4 = await Current_inventory_label.create(
+          {
+            id_stock_current_inventory_label: idstock,
+            id_label_current_inventory_label: idlabel,
+            total_current_inventory_label: total,
+            initial: ini,
+            production: pro,
+            other_entries: oth,
+            damaged: dam,
+            defeated: def,
+            returned: ret,
+            adjustment: adj,
+          },
+          { transaction }
+        );
+        //Object.entries(resultNew4).length === 0
+        //  ? res.json({ message: "Register is not created" })
+        //  : res.json({ message: resultNew3 });
+        //return;
+      }
+      /// fin current_inventory_item
       respuestas[`respuesta${idlabel}`] = {};
     }
-    let id_stock_label = variablefinal;
+    /*   let id_stock_label = variablefinal;
     let obj = {
       closed_stock_label: 1,
       end_date_stock_label: fechaFormateada,
@@ -144,7 +220,7 @@ const getStock_label_closed = async (req, res) => {
     const resultUpdate4 = await Stock_label.update(obj, {
       where: { id_stock_label },
       transaction, // Asocia la transacción a la consulta
-    });
+    }); */
 
     await transaction.commit(); // Confirma la transacción
   } catch (error) {

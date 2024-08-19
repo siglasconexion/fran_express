@@ -1,8 +1,17 @@
 const { Label } = require("../db/models/label.js");
+const {
+  Current_inventory_label,
+} = require("../db/models/current_inventory_label.js");
+const { QueryTypes } = require("sequelize");
+const db = require("../db/conn.js");
+const _ = require("lodash");
 
 const getLabels = async (req, res) => {
   const data = await Label.findAll();
-  if (data.length <= 0) {
+  /*   data = await db.sequelize.query(`SELECT  * from label ORDER BY id_label`, {
+    type: QueryTypes.SELECT,
+  });
+ */ if (data.length <= 0) {
     res.status(201).json({
       code: 201,
       message: "Results not foundssdsdasdasd",
@@ -11,6 +20,55 @@ const getLabels = async (req, res) => {
     });
     return;
   }
+  /////////////////////////////////////
+  //let datos = json(data);
+  /* console.log(data);
+  for (const el of data) {
+    let idlabel = el.id_label;
+    console.log("idlabel", idlabel);
+    console.log("el.id_label", el.id_label);
+    let idstock = 1;
+    let total = 0;
+    let ini = 0;
+    let pro = 0;
+    let oth = 0;
+    let sal = 0;
+    let sen = 0;
+    let dam = 0;
+    let def = 0;
+    let ret = 0;
+    let adj = 0;
+
+    const resultNew2 = await Current_inventory_label.findOne({
+      where: {
+        id_label_current_inventory_label: idlabel,
+        id_stock_current_inventory_label: idstock,
+      },
+    });
+    let convertResultNew2 = resultNew2?.toJSON();
+    console.log("primera consulta", convertResultNew2);
+    if (_.isEmpty(convertResultNew2)) {
+      const resultNew3 = await Current_inventory_label.create({
+        id_stock_current_inventory_label: idstock,
+        id_label_current_inventory_label: idlabel,
+        total_current_inventory_label: total,
+        initial: ini,
+        production: pro,
+        other_entries: oth,
+        damaged: dam,
+        defeated: def,
+        returned: ret,
+        adjustment: adj,
+      });
+      console.log("segunda", resultNew3);
+
+      //Object.entries(resultNew3).length === 0
+      //  ? res.json({ message: "Register is not created" })
+      //  : res.json({ message: resultNew3 });
+      //return;
+    }
+  } */
+  //////////////////////////////////////////////
   res.status(200).json(data);
 };
 
