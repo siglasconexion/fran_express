@@ -660,7 +660,7 @@ router.delete("/current_inventory_pakage", deleteCurrent_inventory_pakage);
 // end model Current_inventory_pakage
 
 // Model Stock_detail_pakage
-router.get("/stock_details_pakage", getStock_detail_pakageQuerySql2);
+router.get("/stock_details_pakage/:variable", getStock_detail_pakageQuerySql2);
 //router.get("/stock_details_pakage", getStock_details_pakage);
 router.get("/stock_detail_pakage/:variable", getStock_detail_pakage);
 router.post("/stock_detail_pakage", createStock_detail_pakage);

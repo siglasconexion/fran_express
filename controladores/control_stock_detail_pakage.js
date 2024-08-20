@@ -22,8 +22,9 @@ const getStock_details_pakage = async (req, res) => {
 };
 
 const getStock_detail_pakageQuerySql2 = async (req, res) => {
+  let variablefinal = req.params.variable;
   const data = await db.sequelize.query(
-    "SELECT id_stock_detail_pakage, id_stock_stock_detail_pakage , id_pakage_stock_detail_pakage, qty_stock_detail_pakage,  name_pakage FROM stock_detail_pakage INNER JOIN pakage ON id_pakage_stock_detail_pakage=id_pakage ORDER BY id_stock_detail_pakage ",
+    `SELECT id_stock_detail_pakage, id_stock_stock_detail_pakage , id_pakage_stock_detail_pakage, qty_stock_detail_pakage,  name_pakage FROM stock_detail_pakage INNER JOIN pakage ON id_pakage_stock_detail_pakage=id_pakage where id_stock_stock_detail_pakage = ${variablefinal} ORDER BY id_stock_detail_pakage  `,
     { type: QueryTypes.SELECT }
   );
 
