@@ -197,12 +197,12 @@ const deleteStock_detail_pakage = async (req, res) => {
       let previousTotal = convertResultNew2.total_current_inventory_pakage;
       let totalNew = previousTotal - parseFloat(req.body.total);
       if (totalNew <= 0) {
-        let resultDelete = await Current_inventory_pakage.destroy({
+        /*        let resultDelete = await Current_inventory_pakage.destroy({
           where: {
             id_pakage_current_inventory_pakage: req.body.idpakage,
             id_stock_current_inventory_pakage: req.body.idstock,
           },
-        });
+        }); */
         return res.json();
       }
       let obj = {

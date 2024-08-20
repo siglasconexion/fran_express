@@ -1,7 +1,65 @@
 const { Pakage } = require("../db/models/pakage.js");
+const {
+  Current_inventory_pakage,
+} = require("../db/models/current_inventory_pakage.js");
+const { QueryTypes } = require("sequelize");
+const db = require("../db/conn.js");
+const _ = require("lodash");
 
 const getPakages = async (req, res) => {
   const data = await Pakage.findAll();
+  /*   data = await db.sequelize.query(`SELECT  * from pakage ORDER BY id_pakage`, {
+    type: QueryTypes.SELECT,
+  }); */
+  /////////////////////////////////////
+  //let datos = json(data);
+  /* console.log(data);
+  for (const el of data) {
+    let idpakage = el.id_pakage;
+    console.log("idpakage", idpakage);
+    console.log("el.id_pakge", el.id_pakage);
+    let idstock = 1;
+    let total = 0;
+    let ini = 0;
+    let pro = 0;
+    let oth = 0;
+    let sal = 0;
+    let sen = 0;
+    let dam = 0;
+    let def = 0;
+    let ret = 0;
+    let adj = 0;
+
+    const resultNew2 = await Current_inventory_pakage.findOne({
+      where: {
+        id_pakage_current_inventory_pakage: idpakage,
+        id_stock_current_inventory_pakage: idstock,
+      },
+    });
+    let convertResultNew2 = resultNew2?.toJSON();
+    console.log("primera consulta", convertResultNew2);
+    if (_.isEmpty(convertResultNew2)) {
+      const resultNew3 = await Current_inventory_pakage.create({
+        id_stock_current_inventory_pakage: idstock,
+        id_pakage_current_inventory_pakage: idpakage,
+        total_current_inventory_pakage: total,
+        initial: ini,
+        production: pro,
+        other_entries: oth,
+        damaged: dam,
+        defeated: def,
+        returned: ret,
+        adjustment: adj,
+      });
+      console.log("segunda", resultNew3);
+
+      //Object.entries(resultNew3).length === 0
+      //  ? res.json({ message: "Register is not created" })
+      //  : res.json({ message: resultNew3 });
+      //return;
+    }
+  } */
+  //////////////////////////////////////////////
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,
@@ -11,6 +69,7 @@ const getPakages = async (req, res) => {
     });
     return;
   }
+
   res.status(200).json(data);
 };
 

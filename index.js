@@ -219,6 +219,7 @@ const {
   deleteCurrent_inventory_label,
   getCurrent_inventory_labelQuerySql2,
   getCurrent_inventory_labeldetailQuerySql2,
+  getCurrent_inventory_label_plus,
 } = require("./controladores/control_current_inventory_label.js");
 
 const {
@@ -608,6 +609,10 @@ router.get(
   getCurrent_inventory_labeldetailQuerySql2
 );
 router.get("/current_inventory_label/:variable", getCurrent_inventory_label);
+router.get(
+  "/current_inventory_label_plus/:variable",
+  getCurrent_inventory_label_plus
+);
 router.post("/current_inventory_label", createCurrent_inventory_label);
 router.put("/current_inventory_label", updateCurrent_inventory_label);
 router.delete("/current_inventory_label", deleteCurrent_inventory_label);
@@ -615,7 +620,7 @@ router.delete("/current_inventory_label", deleteCurrent_inventory_label);
 
 // Model stock_pakage
 //router.get("/stoks", getStock_pakageQuerySql2);
-router.get("/stocks_pakage_closed/:variable", getStock_pakage_closed);
+router.get("/stocks_pakage_closed/:variable/:iduser", getStock_pakage_closed);
 router.get("/stocks_pakage", getStocks_pakage);
 router.get("/stock_pakage", getStock_pakage);
 router.post("/stock_pakage", createStock_pakage);

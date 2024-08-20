@@ -108,6 +108,27 @@ const getCurrent_inventory_label = async (req, res) => {
   return res.status(200).json({ resultGetOne, success: true, prueba, prueba2 });
 };
 
+const getCurrent_inventory_label_plus = async (req, res) => {
+  let variable = req.params.variable;
+  let resultGetOne = await Current_inventory_label.findAll({
+    where: {
+      id_stock_current_inventory_label: variable,
+    },
+  });
+  //console.log("verificar consiulta", resultGetOne);
+  if (_.isEmpty(resultGetOne)) {
+    return res.status(404).json({
+      message: "Results not found",
+      otramas: " esto tambien ",
+      success: false,
+    });
+  }
+  let prueba = "pasarla";
+  let prueba2 = [1, 2, 3, 4, 5];
+  //return res.status(200).json({ resultGetOne, success: true, prueba, prueba2 });
+  return res.status(200).json(resultGetOne);
+};
+
 const createCurrent_inventory_label = async (req, res) => {
   //console.log("req.body", req.body);
   const resultNew = await Current_inventory_label.create({
@@ -181,6 +202,7 @@ module.exports = {
   getCurrent_inventory_labelQuerySql2,
   getCurrent_inventory_labeldetailQuerySql2,
   getCurrent_inventory_label,
+  getCurrent_inventory_label_plus,
   createCurrent_inventory_label,
   updateCurrent_inventory_label,
   deleteCurrent_inventory_label,
