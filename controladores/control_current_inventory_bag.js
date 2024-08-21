@@ -6,6 +6,27 @@ const { QueryTypes } = require("sequelize");
 const { request } = require("http");
 const _ = require("lodash");
 
+const getCurrent_inventory_bag_plus = async (req, res) => {
+  let variable = req.params.variable;
+  let resultGetOne = await Current_inventory_bag.findAll({
+    where: {
+      id_stock_current_inventory_bag: variable,
+    },
+  });
+  //console.log("verificar consiulta", resultGetOne);
+  if (_.isEmpty(resultGetOne)) {
+    return res.status(404).json({
+      message: "Results not found",
+      otramas: " esto tambien ",
+      success: false,
+    });
+  }
+  let prueba = "pasarla";
+  let prueba2 = [1, 2, 3, 4, 5];
+  //return res.status(200).json({ resultGetOne, success: true, prueba, prueba2 });
+  return res.status(200).json(resultGetOne);
+};
+
 const getCurrent_inventorys_bag = async (req, res) => {
   const data = await Current_inventory_bag.findAll();
   if (data.length <= 0) {
@@ -184,4 +205,5 @@ module.exports = {
   createCurrent_inventory_bag,
   updateCurrent_inventory_bag,
   deleteCurrent_inventory_bag,
+  getCurrent_inventory_bag_plus,
 };

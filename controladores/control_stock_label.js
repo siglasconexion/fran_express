@@ -174,6 +174,7 @@ const getStock_label_closed = async (req, res) => {
       let total = 0;
       let ini = saldo;
       let pro = 0;
+      let pur = 0;
       let oth = 0;
       let dam = 0;
       let def = 0;
@@ -196,6 +197,7 @@ const getStock_label_closed = async (req, res) => {
             total_current_inventory_label: total,
             initial: ini,
             production: pro,
+            purchase: pur,
             other_entries: oth,
             damaged: dam,
             defeated: def,

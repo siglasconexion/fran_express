@@ -184,6 +184,7 @@ const getStock_item_closed = async (req, res) => {
       let total = 0;
       let ini = saldo;
       let pro = 0;
+      let pur = 0;
       let oth = 0;
       let sal = 0;
       let sen = 0;
@@ -208,6 +209,7 @@ const getStock_item_closed = async (req, res) => {
             total_current_inventory_item: total,
             initial: ini,
             production: pro,
+            purchase: pur,
             other_entries: oth,
             sales: sal,
             send_to_amazon: sen,

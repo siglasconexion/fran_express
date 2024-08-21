@@ -26,6 +26,10 @@ const Current_inventory_pakage = db.sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
     },
+    purchase: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
     other_entries: {
       type: DataTypes.INTEGER,
       allowNull: true,

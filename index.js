@@ -282,6 +282,7 @@ const {
 
 const {
   getCurrent_inventorys_bag,
+  getCurrent_inventory_bag_plus,
   getCurrent_inventory_bag,
   createCurrent_inventory_bag,
   updateCurrent_inventory_bag,
@@ -670,7 +671,7 @@ router.delete("/stock_detail_pakage", deleteStock_detail_pakage);
 
 // Model stock_bag
 //router.get("/stoks", getStock_bagQuerySql2);
-router.get("/stocks_bag_closed/:variable", getStock_bag_closed);
+router.get("/stocks_bag_closed/:variable/:iduser", getStock_bag_closed);
 router.get("/stocks_bag", getStocks_bag);
 router.get("/stock_bag", getStock_bag);
 router.post("/stock_bag", createStock_bag);
@@ -693,6 +694,10 @@ router.get(
   getCurrent_inventory_bagQuerySql2
 );
 router.get(
+  "/current_inventory_bag_plus/:variable",
+  getCurrent_inventory_bag_plus
+);
+router.get(
   "/current_inventorys_bag_detail",
   getCurrent_inventory_bagdetailQuerySql2
 );
@@ -703,7 +708,7 @@ router.delete("/current_inventory_bag", deleteCurrent_inventory_bag);
 // end model Current_inventory_bag
 
 // Model Stock_detail_bag
-router.get("/stock_details_bag", getStock_detail_bagQuerySql2);
+router.get("/stock_details_bag/:variable", getStock_detail_bagQuerySql2);
 //router.get("/stock_details_bag", getStock_details_bag);
 router.get("/stock_detail_bag/:variable", getStock_detail_bag);
 router.post("/stock_detail_bag", createStock_detail_bag);

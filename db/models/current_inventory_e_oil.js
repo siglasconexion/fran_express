@@ -18,6 +18,38 @@ const Current_inventory_e_oil = db.sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    initial: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    production: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    purchase: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    other_entries: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    damaged: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    defeated: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    returned: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    adjustment: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
     total_current_inventory_e_oil: {
       type: DataTypes.INTEGER,
       allowNull: false,
