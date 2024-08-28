@@ -132,10 +132,11 @@ const createStock_detail_label = async (req, res) => {
     });
 
     if (resultUpdate[0] === 1) {
-      res.status(200).json({
+      /*       res.status(200).json({
         message: "Status Update successfully",
         resultUpdate: resultUpdate,
       });
+ */ res.json({ message: resultUpdate });
     } else {
       res.status(400).json({
         error: "valor demasiado grande",
@@ -206,15 +207,15 @@ const deleteStock_detail_label = async (req, res) => {
     if (!_.isEmpty(convertResultNew2)) {
       let previousTotal = convertResultNew2.total_current_inventory_label;
       let totalNew = previousTotal - parseFloat(req.body.total);
-      if (totalNew <= 0) {
-        /*        let resultDelete = await Current_inventory_label.destroy({
+      //if (totalNew <= 0) {
+      /*        let resultDelete = await Current_inventory_label.destroy({
           where: {
             id_label_current_inventory_label: req.body.idlabel,
             id_stock_current_inventory_label: req.body.idstock,
           },
         }); */
-        return res.json();
-      }
+      // return res.json();
+      // }
       let obj = {
         id_stock_current_inventory_label: req.body.idstock,
         id_label_current_inventory_label: req.body.idlabel,

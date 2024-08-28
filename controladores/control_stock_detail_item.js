@@ -186,15 +186,15 @@ const deleteStock_detail_item = async (req, res) => {
     if (!_.isEmpty(convertResultNew2)) {
       let previousTotal = convertResultNew2.total_current_inventory_item;
       let totalNew = previousTotal - parseInt(req.body.total);
-      if (totalNew <= 0) {
- /*        let resultDelete = await Current_inventory_item.destroy({
+      //  if (totalNew <= 0) {
+      /*        let resultDelete = await Current_inventory_item.destroy({
           where: {
             id_item_current_inventory_item: req.body.iditem,
             id_stock_current_inventory_item: req.body.idstock,
           },
         }); */
-        return res.json();
-      }
+      //  return res.json();
+      // }
       let obj = {
         id_stock_current_inventory_item: req.body.idstock,
         id_item_current_inventory_item: req.body.iditem,

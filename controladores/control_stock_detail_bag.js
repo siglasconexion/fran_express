@@ -121,10 +121,12 @@ const createStock_detail_bag = async (req, res) => {
       },
     });
     if (resultUpdate[0] === 1) {
-      res.status(200).json({
+      /*     res.status(200).json({
         message: "Status Update successfully",
         resultUpdate: resultUpdate,
       });
+   */
+      res.json({ message: resultUpdate });
     } else {
       res.status(400).json({
         error: "valor demasiado grande",
@@ -174,7 +176,7 @@ const updateStock_detail_bag = async (req, res) => {
 
 const deleteStock_detail_bag = async (req, res) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
     const id_stock_detail_bag = req.body.id;
     const id_stock_stock_detail_bag = req.body.idstock;
 
@@ -184,7 +186,6 @@ const deleteStock_detail_bag = async (req, res) => {
         id_stock_stock_detail_bag,
       },
     });
-
     const resultNew2 = await Current_inventory_bag.findOne({
       where: {
         id_bag_current_inventory_bag: req.body.idbag,
@@ -195,15 +196,18 @@ const deleteStock_detail_bag = async (req, res) => {
     if (!_.isEmpty(convertResultNew2)) {
       let previousTotal = convertResultNew2.total_current_inventory_bag;
       let totalNew = previousTotal - parseFloat(req.body.total);
-      if (totalNew <= 0) {
-        /*        let resultDelete = await Current_inventory_bag.destroy({
-          where: {
-            id_bag_current_inventory_bag: req.body.idbag,
-            id_stock_current_inventory_bag: req.body.idstock,
-          },
-        }); */
-        return res.json();
-      }
+      //if (totalNew <= 0) {
+      /*        let resultDelete = await Current_inventory_bag.destroy({
+            where: {
+              id_bag_current_inventory_bag: req.body.idbag,
+              id_stock_current_inventory_bag: req.body.idstock,
+            },
+          }); */
+      //return res.status(200).json({
+      //  message: "Status Update successfully en ceraapio",
+      //});
+      //                 return res.json();
+      //}
       let obj = {
         id_stock_current_inventory_bag: req.body.idstock,
         id_bag_current_inventory_bag: req.body.idbag,
@@ -217,7 +221,7 @@ const deleteStock_detail_bag = async (req, res) => {
       });
       if (resultUpdate[0] === 1) {
         res.status(200).json({
-          message: "Status Update successfully",
+          message: "Status Update successfully.........",
           resultUpdate: resultUpdate,
         });
       } else {
