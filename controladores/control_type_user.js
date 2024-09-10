@@ -1,8 +1,8 @@
-const { Type_user } = require("../db/models/type_user.js");
-const db = require("../db/conn.js");
-const jwt = require("jsonwebtoken");
+import { Type_user } from '../db/models/type_user.js';
+import {db} from '../db/conn.js';
+import jwt from 'jsonwebtoken';
 
-const getType_users = async (req, res) => {
+export const getType_users = async (req, res) => {
   const data = await Type_user.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -16,7 +16,7 @@ const getType_users = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getType_userQuerySql2 = async (req, res) => {
+export const getType_userQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query("SELECT  * from type_user"); //
   if (data.length <= 0) {
     res.status(204).json({
@@ -28,7 +28,7 @@ const getType_userQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getType_user = async (req, res) => {
+export const getType_user = async (req, res) => {
   let resultGetOne = await Type_user.findAll({
     where: {
       id_type_user: req.body.id,
@@ -43,7 +43,7 @@ const getType_user = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createType_user = async (req, res) => {
+export const createType_user = async (req, res) => {
   const resultNew = await Type_user.create({
     id_company_type_user: req.body.idcompanytypeuser,
     id_status_type_user: req.body.idstatustypeuser,
@@ -54,7 +54,7 @@ const createType_user = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateType_user = async (req, res) => {
+export const updateType_user = async (req, res) => {
   try {
     const obj = req.body;
     const id_type_user = req.body.id_type_user;
@@ -86,7 +86,7 @@ const updateType_user = async (req, res) => {
   }
 };
 
-const deleteType_user = async (req, res) => {
+export const deleteType_user = async (req, res) => {
   try {
     console.log(req.body);
     const id_type_user = req.body.id;
@@ -107,13 +107,4 @@ const deleteType_user = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getType_users,
-  getType_userQuerySql2,
-  getType_user,
-  createType_user,
-  updateType_user,
-  deleteType_user,
 };

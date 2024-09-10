@@ -1,12 +1,12 @@
-const {
+import {
   Current_inventory_label,
-} = require("../db/models/current_inventory_label.js");
-const db = require("../db/conn.js");
-const { QueryTypes } = require("sequelize");
-const { request } = require("http");
-const _ = require("lodash");
+} from '../db/models/current_inventory_label.js';
+import {db} from '../db/conn.js';
+import { QueryTypes } from 'sequelize';
+import { request } from 'http';
+import _ from 'lodash';
 
-const getCurrent_inventorys_label = async (req, res) => {
+export const getCurrent_inventorys_label = async (req, res) => {
   const data = await Current_inventory_label.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -24,7 +24,7 @@ const getCurrent_inventorys_label = async (req, res) => {
 
 getCurrent_inventorys_label;
 
-const getCurrent_inventory_labelQuerySql2 = async (req, res) => {
+export const getCurrent_inventory_labelQuerySql2 = async (req, res) => {
   // rutas - routes
   let variablefinal = req.params.variable;
   let variable33 = req.params.variable;
@@ -62,7 +62,7 @@ const getCurrent_inventory_labelQuerySql2 = async (req, res) => {
 };
 
 //*****************************
-const getCurrent_inventory_labeldetailQuerySql2 = async (req, res) => {
+export const getCurrent_inventory_labeldetailQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query(
     `SELECT id_label_label_input as id_label, quantity_received_label_input as qty, date_received_label_input as received, stock_label_input as stock, comment_label_input as comment, units_received_label_input as units, name_label as name FROM label_input INNER JOIN label on id_label_label_input = id_label ORDER BY name,received`,
     {
@@ -81,7 +81,7 @@ const getCurrent_inventory_labeldetailQuerySql2 = async (req, res) => {
 };
 
 //**********************************
-const getCurrent_inventory_label = async (req, res) => {
+export const getCurrent_inventory_label = async (req, res) => {
   //quitar _ y usar camelcase
   console.log("ojo ver akika manin uno ", req.params);
   let variable = req.params.variable;
@@ -108,7 +108,7 @@ const getCurrent_inventory_label = async (req, res) => {
   return res.status(200).json({ resultGetOne, success: true, prueba, prueba2 });
 };
 
-const getCurrent_inventory_label_plus = async (req, res) => {
+export const getCurrent_inventory_label_plus = async (req, res) => {
   let variable = req.params.variable;
   let resultGetOne = await Current_inventory_label.findAll({
     where: {
@@ -129,7 +129,7 @@ const getCurrent_inventory_label_plus = async (req, res) => {
   return res.status(200).json(resultGetOne);
 };
 
-const createCurrent_inventory_label = async (req, res) => {
+export const createCurrent_inventory_label = async (req, res) => {
   //console.log("req.body", req.body);
   const resultNew = await Current_inventory_label.create({
     id_stock_current_inventory_label: req.body.idstockcurrentinventorylabel,
@@ -141,7 +141,7 @@ const createCurrent_inventory_label = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateCurrent_inventory_label = async (req, res) => {
+export const updateCurrent_inventory_label = async (req, res) => {
   try {
     const obj = req.body;
     const id_current_inventory_label = req.body.id_current_inventory_label;
@@ -174,7 +174,7 @@ const updateCurrent_inventory_label = async (req, res) => {
   }
 };
 
-const deleteCurrent_inventory_label = async (req, res) => {
+export const deleteCurrent_inventory_label = async (req, res) => {
   try {
     console.log(req.body);
     const id_label_current_inventory_label = req.body.id;
@@ -195,15 +195,4 @@ const deleteCurrent_inventory_label = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getCurrent_inventorys_label,
-  getCurrent_inventory_labelQuerySql2,
-  getCurrent_inventory_labeldetailQuerySql2,
-  getCurrent_inventory_label,
-  getCurrent_inventory_label_plus,
-  createCurrent_inventory_label,
-  updateCurrent_inventory_label,
-  deleteCurrent_inventory_label,
 };

@@ -1,11 +1,11 @@
-const { Label_input } = require("../db/models/label_input.js");
-const { Label } = require("../db/models/label.js");
-const { QueryTypes } = require("sequelize");
-const db = require("../db/conn.js");
-const xlsxj = require("xlsx-to-json");
-const fs = require("fs");
+import { Label_input } from '../db/models/label_input.js';
+import { Label } from '../db/models/label.js';
+import { QueryTypes } from 'sequelize';
+import {db} from '../db/conn.js';
+import xlsxj from 'xlsx-to-json';
+import fs from 'fs';
 
-const getLabel_inputs = async (req, res) => {
+export const getLabel_inputs = async (req, res) => {
   const data = await Label_input.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -19,7 +19,7 @@ const getLabel_inputs = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getLabel_inputQuerySql2 = async (req, res) => {
+export const getLabel_inputQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query(
     `SELECT id_label_input,id_label_label_input,quantity_received_label_input,date_received_label_input,comment_label_input, stock_label_input, units_received_label_input, name_label FROM label_input INNER JOIN label on label_input.id_label_label_input=label.id_label ORDER BY id_label_input`,
     { type: QueryTypes.SELECT }
@@ -34,7 +34,7 @@ const getLabel_inputQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getLabel_input = async (req, res) => {
+export const getLabel_input = async (req, res) => {
   let resultGetOne = await Label_input.findAll({
     where: {
       id_label_input: req.body.id,
@@ -49,7 +49,7 @@ const getLabel_input = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createLabel_input = async (req, res) => {
+export const createLabel_input = async (req, res) => {
   const resultNew = await Label_input.create({
     id_label_label_input: req.body.idlabellabelinput,
     id_user_label_input: req.body.iduserlabelinput,
@@ -115,7 +115,7 @@ const createLabel_input = async (req, res) => {
   }
 };
 
-const updateLabel_input = async (req, res) => {
+export const updateLabel_input = async (req, res) => {
   try {
     const obj = req.body;
     const id_label_input = req.body.id_label_input;
@@ -147,7 +147,7 @@ const updateLabel_input = async (req, res) => {
   }
 };
 
-const deleteLabel_input = async (req, res) => {
+export const deleteLabel_input = async (req, res) => {
   try {
     const id_label_input = req.body.id;
     let resultDelete = await Label_input.destroy({
@@ -210,13 +210,4 @@ const deleteLabel_input = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getLabel_inputs,
-  getLabel_input,
-  createLabel_input,
-  updateLabel_input,
-  deleteLabel_input,
-  getLabel_inputQuerySql2,
 };

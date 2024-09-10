@@ -1,13 +1,13 @@
-const {
+import {
   Current_inventory_e_oil,
-} = require("../db/models/current_inventory_e_oil.js");
-const db = require("../db/conn.js");
-const { QueryTypes } = require("sequelize");
-const { request } = require("http");
-const _ = require("lodash");
-const puppeteer = require("puppeteer");
+} from '../db/models/current_inventory_e_oil.js';
+import {db} from '../db/conn.js';
+import { QueryTypes } from 'sequelize';
+import { request } from 'http';
+import _ from 'lodash';
+// import puppeteer from 'puppeteer';
 
-const getCurrent_inventorys_e_oil = async (req, res) => {
+export const getCurrent_inventorys_e_oil = async (req, res) => {
   const data = await Current_inventory_e_oil.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -25,7 +25,7 @@ const getCurrent_inventorys_e_oil = async (req, res) => {
 
 getCurrent_inventorys_e_oil;
 
-const getCurrent_inventory_e_oilQuerySql2 = async (req, res) => {
+export const getCurrent_inventory_e_oilQuerySql2 = async (req, res) => {
   // rutas - routes
   let variablefinal = req.params.variable;
   let variable33 = req.params.variable;
@@ -63,7 +63,7 @@ const getCurrent_inventory_e_oilQuerySql2 = async (req, res) => {
 };
 
 //*****************************
-const getCurrent_inventory_e_oildetailQuerySql2 = async (req, res) => {
+export const getCurrent_inventory_e_oildetailQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query(
     `SELECT id_essential_oil_oil_input as id_e_oil, quantity_received_oil_input as qty, date_received_oil_input as received, in_use_oil_input as in_use, stock_oil_input as stock, comment_oil_input as comment, name_essential_oil as name FROM oil_input INNER JOIN essential_oil on id_essential_oil_oil_input = id_essential_oil ORDER BY name,received`,
     {
@@ -82,7 +82,7 @@ const getCurrent_inventory_e_oildetailQuerySql2 = async (req, res) => {
 };
 
 //**********************************
-const getCurrent_inventory_e_oil = async (req, res) => {
+export const getCurrent_inventory_e_oil = async (req, res) => {
   //quitar _ y usar camelcase
   console.log("ojo ver akika manin uno ", req.params);
   let variable = req.params.variable;
@@ -109,7 +109,7 @@ const getCurrent_inventory_e_oil = async (req, res) => {
   return res.status(200).json({ resultGetOne, success: true, prueba, prueba2 });
 };
 
-const createCurrent_inventory_e_oil = async (req, res) => {
+export const createCurrent_inventory_e_oil = async (req, res) => {
   //console.log("req.body", req.body);
   const resultNew = await Current_inventory_e_oil.create({
     id_stock_current_inventory_e_oil: req.body.idstockcurrentinventoryeoil,
@@ -121,7 +121,7 @@ const createCurrent_inventory_e_oil = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateCurrent_inventory_e_oil = async (req, res) => {
+export const updateCurrent_inventory_e_oil = async (req, res) => {
   try {
     const obj = req.body;
     const id_current_inventory_e_oil = req.body.id_current_inventory_e_oil;
@@ -154,7 +154,7 @@ const updateCurrent_inventory_e_oil = async (req, res) => {
   }
 };
 
-const deleteCurrent_inventory_e_oil = async (req, res) => {
+export const deleteCurrent_inventory_e_oil = async (req, res) => {
   try {
     console.log(req.body);
     const id_e_oil_current_inventory_e_oil = req.body.id;
@@ -178,7 +178,7 @@ const deleteCurrent_inventory_e_oil = async (req, res) => {
 };
 
 const generatePDF2 = async function (req, res) {
-  const { base64Content } = req.body;
+ /* const { base64Content } = req.body;
 
   if (!base64Content) {
     return res
@@ -235,16 +235,5 @@ const generatePDF2 = async function (req, res) {
   } finally {
     // Cerrar el navegador después de completar la operación
     await browser.close();
-  }
-};
-
-module.exports = {
-  getCurrent_inventorys_e_oil,
-  getCurrent_inventory_e_oilQuerySql2,
-  getCurrent_inventory_e_oildetailQuerySql2,
-  getCurrent_inventory_e_oil,
-  createCurrent_inventory_e_oil,
-  updateCurrent_inventory_e_oil,
-  deleteCurrent_inventory_e_oil,
-  generatePDF2,
+  }*/
 };

@@ -1,11 +1,11 @@
-const { Item_information } = require("../db/models/item_information.js");
-const { QueryTypes } = require("sequelize");
-const db = require("../db/conn.js");
-const xlsxj = require("xlsx-to-json");
-const fs = require("fs");
-const _ = require("lodash");
+import { Item_information } from '../db/models/item_information.js';
+import { QueryTypes } from 'sequelize';
+import {db} from '../db/conn.js';
+import xlsxj from 'xlsx-to-json';
+import fs from 'fs';
+import _ from 'lodash';
 
-const getItem_informations = async (req, res) => {
+export const getItem_informations = async (req, res) => {
   const data = await Item_information.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -19,7 +19,7 @@ const getItem_informations = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getItem_information = async (req, res) => {
+export const getItem_information = async (req, res) => {
   let variable = req.params.variable;
   let resultGetOne = await Item_information.findAll({
     where: {
@@ -35,7 +35,7 @@ const getItem_information = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createItem_information = async (req, res) => {
+export const createItem_information = async (req, res) => {
   const resultNew = await Item_information.create({
     id_item: req.body.iditem,
     wet_lab: req.body.wetlab,
@@ -61,7 +61,7 @@ const createItem_information = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateItem_information = async (req, res) => {
+export const updateItem_information = async (req, res) => {
   try {
     const obj = req.body;
     console.log("req.body", req.body);
@@ -94,7 +94,7 @@ const updateItem_information = async (req, res) => {
   }
 };
 
-const deleteItem_information = async (req, res) => {
+export const deleteItem_information = async (req, res) => {
   try {
     const id_item_information = req.body.id;
     let resultDelete = await Item_information.destroy({
@@ -114,12 +114,4 @@ const deleteItem_information = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getItem_informations,
-  getItem_information,
-  createItem_information,
-  updateItem_information,
-  deleteItem_information,
 };

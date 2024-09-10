@@ -1,9 +1,9 @@
-const { Container } = require("../db/models/container.js");
-const db = require("../db/conn.js");
-const xlsxj = require("xlsx-to-json");
-const fs = require("fs");
+import { Container } from '../db/models/container.js';
+import {db} from '../db/conn.js';
+import xlsxj from 'xlsx-to-json';
+import fs from 'fs';
 
-const getContainers = async (req, res) => {
+export const getContainers = async (req, res) => {
   const data = await Container.findAll();
   if (data.length <= 0) {
     res.status(204).json({
@@ -15,7 +15,7 @@ const getContainers = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getContainer = async (req, res) => {
+export const getContainer = async (req, res) => {
   let resultGetOne = await Container.findAll({
     where: {
       id_container: req.body.id,
@@ -30,7 +30,7 @@ const getContainer = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createContainer = async (req, res) => {
+export const createContainer = async (req, res) => {
   //console.log("req.body", req.body);
   const resultNew = await Container.create({
     id_status_container: req.body.idstatuscontainer,
@@ -50,7 +50,7 @@ const createContainer = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateContainer = async (req, res) => {
+export const updateContainer = async (req, res) => {
   console.log("req.body", req.body);
   try {
     const obj = req.body;
@@ -84,7 +84,7 @@ const updateContainer = async (req, res) => {
   }
 };
 
-const deleteContainer = async (req, res) => {
+export const deleteContainer = async (req, res) => {
   try {
     console.log(req.body);
     const id_container = req.body.id;
@@ -105,12 +105,4 @@ const deleteContainer = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getContainers,
-  getContainer,
-  createContainer,
-  updateContainer,
-  deleteContainer,
 };

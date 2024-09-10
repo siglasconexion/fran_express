@@ -1,7 +1,7 @@
-const { Type_recharge } = require("../db/models/type_recharge.js");
-const db = require("../db/conn.js");
+import { Type_recharge } from '../db/models/type_recharge.js';
+import {db} from '../db/conn.js';
 
-const getType_recharges = async (req, res) => {
+export const getType_recharges = async (req, res) => {
   const data = await Type_recharge.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -15,7 +15,7 @@ const getType_recharges = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getType_rechargeQuerySql2 = async (req, res) => {
+export const getType_rechargeQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query("SELECT  * from type_recharge"); //
   if (data.length <= 0) {
     res.status(204).json({
@@ -27,7 +27,7 @@ const getType_rechargeQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getType_recharge = async (req, res) => {
+export const getType_recharge = async (req, res) => {
   let resultGetOne = await Type_recharge.findAll({
     where: {
       id_type_recharge: req.body.id,
@@ -42,7 +42,7 @@ const getType_recharge = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createType_recharge = async (req, res) => {
+export const createType_recharge = async (req, res) => {
   const resultNew = await Type_recharge.create({
     desc_type_recharge: req.body.desctyperecharge,
   });
@@ -51,7 +51,7 @@ const createType_recharge = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateType_recharge = async (req, res) => {
+export const updateType_recharge = async (req, res) => {
   try {
     const obj = req.body;
     const id = req.body.id;
@@ -83,7 +83,7 @@ const updateType_recharge = async (req, res) => {
   }
 };
 
-const deleteType_recharge = async (req, res) => {
+export const deleteType_recharge = async (req, res) => {
   try {
     const id_type_recharge = req.body.id;
     let resultDelete = await Type_recharge.destroy({
@@ -103,13 +103,4 @@ const deleteType_recharge = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getType_recharges,
-  getType_rechargeQuerySql2,
-  getType_recharge,
-  createType_recharge,
-  updateType_recharge,
-  deleteType_recharge,
 };

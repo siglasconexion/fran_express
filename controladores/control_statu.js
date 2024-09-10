@@ -1,9 +1,9 @@
-const { Statu } = require("../db/models/statu.js");
-const db = require("../db/conn.js");
-const xlsxj = require("xlsx-to-json");
-const fs = require("fs");
+import { Statu } from '../db/models/statu.js';
+import {db} from '../db/conn.js';
+import xlsxj from 'xlsx-to-json';
+import fs from 'fs';
 
-const getStatus = async (req, res) => {
+export const getStatus = async (req, res) => {
   const data = await Statu.findAll();
   if (data.length <= 0) {
     res.status(204).json({
@@ -15,7 +15,7 @@ const getStatus = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStatu = async (req, res) => {
+export const getStatu = async (req, res) => {
   let resultGetOne = await Statu.findAll({
     where: {
       id_status: req.body.id,
@@ -30,7 +30,7 @@ const getStatu = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createStatu = async (req, res) => {
+export const createStatu = async (req, res) => {
   const resultNew = await Statu.create({
     id_company_status: req.body.idcompanystatus,
     description_status: req.body.descriptionstatus,
@@ -40,7 +40,7 @@ const createStatu = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateStatu = async (req, res) => {
+export const updateStatu = async (req, res) => {
   try {
     const obj = req.body;
     const id_status = req.body.id_status;
@@ -72,7 +72,7 @@ const updateStatu = async (req, res) => {
   }
 };
 
-const deleteStatu = async (req, res) => {
+export const deleteStatu = async (req, res) => {
   try {
     console.log(req.body);
     const id_status = req.body.id;
@@ -93,12 +93,4 @@ const deleteStatu = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getStatus,
-  getStatu,
-  createStatu,
-  updateStatu,
-  deleteStatu,
 };

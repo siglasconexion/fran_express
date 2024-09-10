@@ -1,11 +1,11 @@
-const { Bag_input } = require("../db/models/bag_input.js");
-const { Bag } = require("../db/models/bag.js");
-const { QueryTypes } = require("sequelize");
-const db = require("../db/conn.js");
-const xlsxj = require("xlsx-to-json");
-const fs = require("fs");
+import { Bag_input } from '../db/models/bag_input.js';
+import { Bag } from '../db/models/bag.js';
+import { QueryTypes } from 'sequelize';
+import {db} from '../db/conn.js';
+import xlsxj from 'xlsx-to-json';
+import fs from 'fs';
 
-const getBag_inputs = async (req, res) => {
+export const getBag_inputs = async (req, res) => {
   const data = await Bag_input.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -19,7 +19,7 @@ const getBag_inputs = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getBag_inputQuerySql2 = async (req, res) => {
+export const getBag_inputQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query(
     `SELECT id_bag_input,id_bag_bag_input,quantity_received_bag_input,date_received_bag_input,comment_bag_input, stock_bag_input, units_received_bag_input, name_bag FROM bag_input INNER JOIN bag on bag_input.id_bag_bag_input=bag.id_bag ORDER BY id_bag_input`,
     { type: QueryTypes.SELECT }
@@ -34,7 +34,7 @@ const getBag_inputQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getBag_input = async (req, res) => {
+export const getBag_input = async (req, res) => {
   let resultGetOne = await Bag_input.findAll({
     where: {
       id_bag_input: req.body.id,
@@ -49,7 +49,7 @@ const getBag_input = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createBag_input = async (req, res) => {
+export const createBag_input = async (req, res) => {
   const resultNew = await Bag_input.create({
     id_bag_bag_input: req.body.idbagbaginput,
     id_user_bag_input: req.body.iduserbaginput,
@@ -115,7 +115,7 @@ const createBag_input = async (req, res) => {
   }
 };
 
-const updateBag_input = async (req, res) => {
+export const updateBag_input = async (req, res) => {
   try {
     const obj = req.body;
     const id_bag_input = req.body.id_bag_input;
@@ -147,7 +147,7 @@ const updateBag_input = async (req, res) => {
   }
 };
 
-const deleteBag_input = async (req, res) => {
+export const deleteBag_input = async (req, res) => {
   try {
     const id_bag_input = req.body.id;
     let resultDelete = await Bag_input.destroy({
@@ -210,13 +210,4 @@ const deleteBag_input = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getBag_inputs,
-  getBag_input,
-  createBag_input,
-  updateBag_input,
-  deleteBag_input,
-  getBag_inputQuerySql2,
 };

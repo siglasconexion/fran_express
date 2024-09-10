@@ -1,8 +1,8 @@
-const { User } = require("../db/models/User.js");
-const db = require("../db/conn.js");
-const jwt = require("jsonwebtoken");
+import { User } from '../db/models/User.js';
+import {db} from '../db/conn.js';
+import jwt from 'jsonwebtoken';
 
-const getUsers = async (req, res) => {
+export const getUsers = async (req, res) => {
   const data = await User.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -16,7 +16,7 @@ const getUsers = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getUserQuerySql2 = async (req, res) => {
+export const getUserQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query("SELECT  * from user"); //
   if (data.length <= 0) {
     res.status(204).json({
@@ -28,7 +28,7 @@ const getUserQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getUser = async (req, res) => {
+export const getUser = async (req, res) => {
   let usuario = req.params.usuario;
   let password = req.params.password;
   const { usuario2, password2 } = req.params;
@@ -53,7 +53,7 @@ const getUser = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createUser = async (req, res) => {
+export const createUser = async (req, res) => {
   const resultNew = await User.create({
     id_company_user: req.body.idcompanyuser,
     id_type_user: req.body.idtypeuser,
@@ -68,7 +68,7 @@ const createUser = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateUser = async (req, res) => {
+export const updateUser = async (req, res) => {
   try {
     const obj = req.body;
     const id_user = req.body.id_user;
@@ -100,7 +100,7 @@ const updateUser = async (req, res) => {
   }
 };
 
-const deleteUser = async (req, res) => {
+export const deleteUser = async (req, res) => {
   try {
     console.log(req.body);
     const id_user = req.body.id;
@@ -142,14 +142,4 @@ const login = (req, res) => {
   } else {
     res.status(401).json({ message: "Credenciales inválidas" });
   }
-};
-
-module.exports = {
-  getUsers,
-  getUserQuerySql2,
-  getUser,
-  createUser,
-  updateUser,
-  deleteUser,
-  login,
 };

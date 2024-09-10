@@ -1,7 +1,7 @@
-const { Type_inventory } = require("../db/models/type_inventory.js");
-const db = require("../db/conn.js");
+import { Type_inventory } from '../db/models/type_inventory.js';
+import {db} from '../db/conn.js';
 
-const getType_inventorys = async (req, res) => {
+export const getType_inventorys = async (req, res) => {
   const data = await Type_inventory.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -15,7 +15,7 @@ const getType_inventorys = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getType_inventoryQuerySql2 = async (req, res) => {
+export const getType_inventoryQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query("SELECT  * from type_inventory"); //
   if (data.length <= 0) {
     res.status(204).json({
@@ -27,7 +27,7 @@ const getType_inventoryQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getType_inventory = async (req, res) => {
+export const getType_inventory = async (req, res) => {
   let resultGetOne = await Type_inventory.findAll({
     where: {
       id: req.body.id,
@@ -42,7 +42,7 @@ const getType_inventory = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createType_inventory = async (req, res) => {
+export const createType_inventory = async (req, res) => {
   const resultNew = await Type_inventory.create({
     name: req.body.name,
     name_table: req.body.nametable,
@@ -52,7 +52,7 @@ const createType_inventory = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateType_inventory = async (req, res) => {
+export const updateType_inventory = async (req, res) => {
   try {
     const obj = req.body;
     const id = req.body.id;
@@ -84,7 +84,7 @@ const updateType_inventory = async (req, res) => {
   }
 };
 
-const deleteType_inventory = async (req, res) => {
+export const deleteType_inventory = async (req, res) => {
   try {
     const id = req.body.id;
     let resultDelete = await Type_inventory.destroy({
@@ -104,13 +104,4 @@ const deleteType_inventory = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getType_inventorys,
-  getType_inventoryQuerySql2,
-  getType_inventory,
-  createType_inventory,
-  updateType_inventory,
-  deleteType_inventory,
 };

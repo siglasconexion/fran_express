@@ -1,12 +1,12 @@
-const { Made_item } = require("../db/models/made_item.js");
-const { Move_refill } = require("../db/models/move_refill.js");
-const { QueryTypes } = require("sequelize");
-const db = require("../db/conn.js");
-const xlsxj = require("xlsx-to-json");
-const fs = require("fs");
-const _ = require("lodash");
+import { Made_item } from '../db/models/made_item.js';
+import { Move_refill } from '../db/models/move_refill.js';
+import { QueryTypes } from 'sequelize';
+import {db} from '../db/conn.js';
+import xlsxj from 'xlsx-to-json';
+import fs from 'fs';
+import _ from 'lodash';
 
-const getMade_items = async (req, res) => {
+export const getMade_items = async (req, res) => {
   const data = await Made_item.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -20,7 +20,7 @@ const getMade_items = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getMade_item = async (req, res) => {
+export const getMade_item = async (req, res) => {
   let resultGetOne = await Made_item.findAll({
     where: {
       id_made_item: req.body.id,
@@ -35,7 +35,7 @@ const getMade_item = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createMade_item = async (req, res) => {
+export const createMade_item = async (req, res) => {
   //  console.log("req", req.body);
   //  console.log("req,body.arrayessentialoil", req.body.arrayessentialoil);
   let idusertwo = req.body.idusertwomadeitem;
@@ -126,7 +126,7 @@ const createMade_item = async (req, res) => {
   res.json({ message: resAllQuerys });
 };
 
-const updateMade_item = async (req, res) => {
+export const updateMade_item = async (req, res) => {
   try {
     const obj = req.body;
     const id_made_item = req.body.id_made_item;
@@ -158,7 +158,7 @@ const updateMade_item = async (req, res) => {
   }
 };
 
-const deleteMade_item = async (req, res) => {
+export const deleteMade_item = async (req, res) => {
   try {
     const id_made_item = req.body.id;
     let resultDelete = await Made_item.destroy({
@@ -178,12 +178,4 @@ const deleteMade_item = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getMade_items,
-  getMade_item,
-  createMade_item,
-  updateMade_item,
-  deleteMade_item,
 };

@@ -1,10 +1,10 @@
-const { Bag } = require("../db/models/bag.js");
-const { Item } = require("../db/models/item.js");
-const db = require("../db/conn.js");
-const xlsxj = require("xlsx-to-json");
-const fs = require("fs");
+import { Bag } from '../db/models/bag.js';
+import { Item } from '../db/models/item.js';
+import {db} from '../db/conn.js';
+import xlsxj from 'xlsx-to-json';
+import fs from 'fs';
 
-const getBags = async (req, res) => {
+export const getBags = async (req, res) => {
   const data = await Bag.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -18,7 +18,7 @@ const getBags = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getBag = async (req, res) => {
+export const getBag = async (req, res) => {
   let resultGetOne = await Bag.findAll({
     where: {
       id_bag: req.body.id,
@@ -33,7 +33,7 @@ const getBag = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createBag = async (req, res) => {
+export const createBag = async (req, res) => {
   const resultNew = await Bag.create({
     id_company_bag: req.body.idcompanybag,
     id_status_bag: req.body.idstatusbag,
@@ -56,7 +56,7 @@ const createBag = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateBag = async (req, res) => {
+export const updateBag = async (req, res) => {
   try {
     const obj = req.body;
     const id_bag = req.body.id_bag;
@@ -88,7 +88,7 @@ const updateBag = async (req, res) => {
   }
 };
 
-const deleteBag = async (req, res) => {
+export const deleteBag = async (req, res) => {
   try {
     const id_bag = req.body.id;
     let resultDelete = await Bag.destroy({
@@ -108,12 +108,4 @@ const deleteBag = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getBags,
-  getBag,
-  createBag,
-  updateBag,
-  deleteBag,
 };

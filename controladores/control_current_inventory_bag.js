@@ -1,12 +1,12 @@
-const {
+import {
   Current_inventory_bag,
-} = require("../db/models/current_inventory_bag.js");
-const db = require("../db/conn.js");
-const { QueryTypes } = require("sequelize");
-const { request } = require("http");
-const _ = require("lodash");
+} from '../db/models/current_inventory_bag.js';
+import {db} from '../db/conn.js';
+import { QueryTypes } from 'sequelize';
+import { request } from 'http';
+import _ from 'lodash';
 
-const getCurrent_inventory_bag_plus = async (req, res) => {
+export const getCurrent_inventory_bag_plus = async (req, res) => {
   let variable = req.params.variable;
   let resultGetOne = await Current_inventory_bag.findAll({
     where: {
@@ -27,7 +27,7 @@ const getCurrent_inventory_bag_plus = async (req, res) => {
   return res.status(200).json(resultGetOne);
 };
 
-const getCurrent_inventorys_bag = async (req, res) => {
+export const getCurrent_inventorys_bag = async (req, res) => {
   const data = await Current_inventory_bag.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -45,7 +45,7 @@ const getCurrent_inventorys_bag = async (req, res) => {
 
 getCurrent_inventorys_bag;
 
-const getCurrent_inventory_bagQuerySql2 = async (req, res) => {
+export const getCurrent_inventory_bagQuerySql2 = async (req, res) => {
   // rutas - routes
   let variablefinal = req.params.variable;
   let variable33 = req.params.variable;
@@ -83,7 +83,7 @@ const getCurrent_inventory_bagQuerySql2 = async (req, res) => {
 };
 
 //*****************************
-const getCurrent_inventory_bagdetailQuerySql2 = async (req, res) => {
+export const getCurrent_inventory_bagdetailQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query(
     `SELECT id_bag_bag_input as id_bag, quantity_received_bag_input as qty, date_received_bag_input as received, stock_bag_input as stock, comment_bag_input as comment, units_received_bag_input as units, name_bag as name FROM bag_input INNER JOIN bag on id_bag_bag_input = id_bag ORDER BY name,received`,
     {
@@ -102,7 +102,7 @@ const getCurrent_inventory_bagdetailQuerySql2 = async (req, res) => {
 };
 
 //**********************************
-const getCurrent_inventory_bag = async (req, res) => {
+export const getCurrent_inventory_bag = async (req, res) => {
   //quitar _ y usar camelcase
   console.log("ojo ver akika manin uno ", req.params);
   let variable = req.params.variable;
@@ -129,7 +129,7 @@ const getCurrent_inventory_bag = async (req, res) => {
   return res.status(200).json({ resultGetOne, success: true, prueba, prueba2 });
 };
 
-const createCurrent_inventory_bag = async (req, res) => {
+export const createCurrent_inventory_bag = async (req, res) => {
   //console.log("req.body", req.body);
   const resultNew = await Current_inventory_bag.create({
     id_stock_current_inventory_bag: req.body.idstockcurrentinventorybag,
@@ -141,7 +141,7 @@ const createCurrent_inventory_bag = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateCurrent_inventory_bag = async (req, res) => {
+export const updateCurrent_inventory_bag = async (req, res) => {
   try {
     const obj = req.body;
     const id_current_inventory_bag = req.body.id_current_inventory_bag;
@@ -174,7 +174,7 @@ const updateCurrent_inventory_bag = async (req, res) => {
   }
 };
 
-const deleteCurrent_inventory_bag = async (req, res) => {
+export const deleteCurrent_inventory_bag = async (req, res) => {
   try {
     console.log(req.body);
     const id_bag_current_inventory_bag = req.body.id;
@@ -197,13 +197,3 @@ const deleteCurrent_inventory_bag = async (req, res) => {
   }
 };
 
-module.exports = {
-  getCurrent_inventorys_bag,
-  getCurrent_inventory_bagQuerySql2,
-  getCurrent_inventory_bagdetailQuerySql2,
-  getCurrent_inventory_bag,
-  createCurrent_inventory_bag,
-  updateCurrent_inventory_bag,
-  deleteCurrent_inventory_bag,
-  getCurrent_inventory_bag_plus,
-};

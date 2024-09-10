@@ -1,12 +1,12 @@
-const { Label } = require("../db/models/label.js");
-const {
+import { Label } from '../db/models/label.js';
+import {
   Current_inventory_label,
-} = require("../db/models/current_inventory_label.js");
-const { QueryTypes } = require("sequelize");
-const db = require("../db/conn.js");
-const _ = require("lodash");
+} from '../db/models/current_inventory_label.js';
+import { QueryTypes } from 'sequelize';
+import {db} from '../db/conn.js';
+import _ from 'lodash';
 
-const getLabels = async (req, res) => {
+export const getLabels = async (req, res) => {
   const data = await Label.findAll();
   /*   data = await db.sequelize.query(`SELECT  * from label ORDER BY id_label`, {
     type: QueryTypes.SELECT,
@@ -72,7 +72,7 @@ const getLabels = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getLabel = async (req, res) => {
+export const getLabel = async (req, res) => {
   let resultGetOne = await Label.findAll({
     where: {
       id_label: req.body.id,
@@ -87,7 +87,7 @@ const getLabel = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createLabel = async (req, res) => {
+export const createLabel = async (req, res) => {
   const resultNew = await Label.create({
     id_company_label: req.body.idcompanylabel,
     id_status_label: req.body.idstatuslabel,
@@ -124,7 +124,7 @@ const createLabel = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateLabel = async (req, res) => {
+export const updateLabel = async (req, res) => {
   try {
     const obj = req.body;
     const id_label = req.body.id_label;
@@ -156,7 +156,7 @@ const updateLabel = async (req, res) => {
   }
 };
 
-const deleteLabel = async (req, res) => {
+export const deleteLabel = async (req, res) => {
   try {
     const id_label = req.body.id;
     let resultDelete = await Label.destroy({
@@ -176,12 +176,4 @@ const deleteLabel = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getLabels,
-  getLabel,
-  createLabel,
-  updateLabel,
-  deleteLabel,
 };

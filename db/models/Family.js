@@ -1,7 +1,7 @@
-const db = require("../conn.js");
-const { DataTypes } = require("sequelize");
+import {db} from '../conn.js';
+import { DataTypes } from 'sequelize';
 
-const Family = db.sequelize.define(
+export const Family = db.sequelize.define(
   "family",
   {
     // Model attributes are defined here
@@ -31,7 +31,3 @@ const Family = db.sequelize.define(
     freezeTableName: true,
   }
 );
-
-module.exports = {
-  Family,
-};

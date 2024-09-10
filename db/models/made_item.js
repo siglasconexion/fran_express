@@ -1,7 +1,7 @@
-const db = require("../conn.js");
-const { DataTypes } = require("sequelize");
+import {db} from '../conn.js';
+import { DataTypes } from 'sequelize';
 
-const Made_item = db.sequelize.define(
+export const Made_item = db.sequelize.define(
   "made_item",
   {
     // Model attributes are defined here
@@ -103,7 +103,3 @@ const Made_item = db.sequelize.define(
     freezeTableName: true,
   }
 );
-
-module.exports = {
-  Made_item,
-};

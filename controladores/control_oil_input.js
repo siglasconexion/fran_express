@@ -1,11 +1,11 @@
-const { Oil_input } = require("../db/models/oil_input.js");
-const { Essential_oil } = require("../db/models/essential_oil.js");
-const { QueryTypes } = require("sequelize");
-const db = require("../db/conn.js");
-const xlsxj = require("xlsx-to-json");
-const fs = require("fs");
+import { Oil_input } from '../db/models/oil_input.js';
+import { Essential_oil } from '../db/models/essential_oil.js';
+import { QueryTypes } from 'sequelize';
+import {db} from '../db/conn.js';
+import xlsxj from 'xlsx-to-json';
+import fs from 'fs';
 
-const getOil_inputs = async (req, res) => {
+export const getOil_inputs = async (req, res) => {
   const data = await Oil_input.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -19,7 +19,7 @@ const getOil_inputs = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getOil_inputQuerySql2 = async (req, res) => {
+export const getOil_inputQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query(
     `SELECT id_oil_input,id_essential_oil_oil_input,id_container_oil_input,quantity_received_oil_input,date_received_oil_input,comment_oil_input, in_use_oil_input, stock_oil_input, container_weight_oil_input, units_received_oil_input, tare_unit_oil_input, name_essential_oil, name_container FROM oil_input INNER JOIN essential_oil on oil_input.id_essential_oil_oil_input=essential_oil.id_essential_oil INNER JOIN container on oil_input.id_container_oil_input=container.id_container ORDER BY id_oil_input`,
     { type: QueryTypes.SELECT }
@@ -34,7 +34,7 @@ const getOil_inputQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getOil_input = async (req, res) => {
+export const getOil_input = async (req, res) => {
   let resultGetOne = await Oil_input.findAll({
     where: {
       id_oil_input: req.body.id,
@@ -49,7 +49,7 @@ const getOil_input = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createOil_input = async (req, res) => {
+export const createOil_input = async (req, res) => {
   const resultNew = await Oil_input.create({
     id_essential_oil_oil_input: req.body.idessentialoiloilinput,
     id_container_oil_input: req.body.idcontaineroilinput,
@@ -121,7 +121,7 @@ const createOil_input = async (req, res) => {
   }
 };
 
-const updateOil_input = async (req, res) => {
+export const updateOil_input = async (req, res) => {
   try {
     const obj = req.body;
     const id_oil_input = req.body.id_oil_input;
@@ -153,7 +153,7 @@ const updateOil_input = async (req, res) => {
   }
 };
 
-const deleteOil_input = async (req, res) => {
+export const deleteOil_input = async (req, res) => {
   try {
     const id_oil_input = req.body.id;
     let resultDelete = await Oil_input.destroy({
@@ -216,13 +216,4 @@ const deleteOil_input = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getOil_inputs,
-  getOil_input,
-  createOil_input,
-  updateOil_input,
-  deleteOil_input,
-  getOil_inputQuerySql2,
 };

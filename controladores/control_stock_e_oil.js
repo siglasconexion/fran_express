@@ -1,11 +1,11 @@
-const { Stock_e_oil } = require("../db/models/stock_e_oil.js");
-const { Stock_detail_e_oil } = require("../db/models/stock_detail_e_oil.js");
-const { Oil_input } = require("../db/models/oil_input.js");
-const { Essential_oil } = require("../db/models/essential_oil.js");
-const { QueryTypes } = require("sequelize");
-const db = require("../db/conn.js");
+import { Stock_e_oil } from '../db/models/stock_e_oil.js';
+import { Stock_detail_e_oil } from '../db/models/stock_detail_e_oil.js';
+import { Oil_input } from '../db/models/oil_input.js';
+import { Essential_oil } from '../db/models/essential_oil.js';
+import { QueryTypes } from 'sequelize';
+import {db} from '../db/conn.js';
 
-const getStocks_e_oil = async (req, res) => {
+export const getStocks_e_oil = async (req, res) => {
   const data = await Stock_e_oil.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -19,7 +19,7 @@ const getStocks_e_oil = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_e_oilQuerySql2 = async (req, res) => {
+export const getStock_e_oilQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query("SELECT  * from stock_e_oil"); //
   if (data.length <= 0) {
     res.status(204).json({
@@ -31,7 +31,7 @@ const getStock_e_oilQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_e_oil = async (req, res) => {
+export const getStock_e_oil = async (req, res) => {
   let resultGetOne = await Stock_e_oil.findAll({
     where: {
       id_status_stock_e_oil: 1,
@@ -40,7 +40,7 @@ const getStock_e_oil = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createStock_e_oil = async (req, res) => {
+export const createStock_e_oil = async (req, res) => {
   const resultNew = await Stock_e_oil.create({
     id_company_stock_e_oil: req.body.idcompanystockeoil,
     id_status_stock_e_oil: req.body.idstatusstockeoil,
@@ -54,7 +54,7 @@ const createStock_e_oil = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateStock_e_oil = async (req, res) => {
+export const updateStock_e_oil = async (req, res) => {
   try {
     const obj = req.body;
     const id_stock_e_oil = req.body.id_stock_e_oil;
@@ -86,7 +86,7 @@ const updateStock_e_oil = async (req, res) => {
   }
 };
 
-const deleteStock_e_oil = async (req, res) => {
+export const deleteStock_e_oil = async (req, res) => {
   try {
     console.log(req.body);
     const id_stock_e_oil = req.body.id;
@@ -108,7 +108,7 @@ const deleteStock_e_oil = async (req, res) => {
     console.log(err.stack);
   }
 };
-const getStock_e_oil_closed = async (req, res) => {
+export const getStock_e_oil_closed = async (req, res) => {
   let fecha = new Date();
   let año = fecha.getFullYear();
   let mes = ("0" + (fecha.getMonth() + 1)).slice(-2); // Se agrega 1 porque los meses van de 0 a 11
@@ -284,14 +284,4 @@ const getStock_e_oil_closed = async (req, res) => {
     respuestas: respuestas,
   });
   //return;
-};
-
-module.exports = {
-  getStocks_e_oil,
-  getStock_e_oilQuerySql2,
-  getStock_e_oil,
-  createStock_e_oil,
-  updateStock_e_oil,
-  deleteStock_e_oil,
-  getStock_e_oil_closed,
 };

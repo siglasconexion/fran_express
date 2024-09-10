@@ -1,12 +1,12 @@
-const {
+import {
   Current_inventory_pakage,
-} = require("../db/models/current_inventory_pakage.js");
-const db = require("../db/conn.js");
-const { QueryTypes } = require("sequelize");
-const { request } = require("http");
-const _ = require("lodash");
+} from '../db/models/current_inventory_pakage.js';
+import {db} from '../db/conn.js';
+import { QueryTypes } from 'sequelize';
+import { request } from 'http';
+import _ from 'lodash';
 
-const getCurrent_inventory_pakage_plus = async (req, res) => {
+export const getCurrent_inventory_pakage_plus = async (req, res) => {
   let variable = req.params.variable;
   let resultGetOne = await Current_inventory_pakage.findAll({
     where: {
@@ -27,7 +27,7 @@ const getCurrent_inventory_pakage_plus = async (req, res) => {
   return res.status(200).json(resultGetOne);
 };
 
-const getCurrent_inventorys_pakage = async (req, res) => {
+export const getCurrent_inventorys_pakage = async (req, res) => {
   const data = await Current_inventory_pakage.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -45,7 +45,7 @@ const getCurrent_inventorys_pakage = async (req, res) => {
 
 getCurrent_inventorys_pakage;
 
-const getCurrent_inventory_pakageQuerySql2 = async (req, res) => {
+export const getCurrent_inventory_pakageQuerySql2 = async (req, res) => {
   // rutas - routes
   let variablefinal = req.params.variable;
   let variable33 = req.params.variable;
@@ -83,7 +83,7 @@ const getCurrent_inventory_pakageQuerySql2 = async (req, res) => {
 };
 
 //*****************************
-const getCurrent_inventory_pakagedetailQuerySql2 = async (req, res) => {
+export const getCurrent_inventory_pakagedetailQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query(
     `SELECT id_pakage_pakage_input as id_pakage, quantity_received_pakage_input as qty, date_received_pakage_input as received, stock_pakage_input as stock, comment_pakage_input as comment, units_received_pakage_input as units, name_pakage as name FROM pakage_input INNER JOIN pakage on id_pakage_pakage_input = id_pakage ORDER BY name,received`,
     {
@@ -102,7 +102,7 @@ const getCurrent_inventory_pakagedetailQuerySql2 = async (req, res) => {
 };
 
 //**********************************
-const getCurrent_inventory_pakage = async (req, res) => {
+export const getCurrent_inventory_pakage = async (req, res) => {
   //quitar _ y usar camelcase
   console.log("ojo ver akika manin uno ", req.params);
   let variable = req.params.variable;
@@ -129,7 +129,7 @@ const getCurrent_inventory_pakage = async (req, res) => {
   return res.status(200).json({ resultGetOne, success: true, prueba, prueba2 });
 };
 
-const createCurrent_inventory_pakage = async (req, res) => {
+export const createCurrent_inventory_pakage = async (req, res) => {
   //console.log("req.body", req.body);
   const resultNew = await Current_inventory_pakage.create({
     id_stock_current_inventory_pakage: req.body.idstockcurrentinventorypakage,
@@ -141,7 +141,7 @@ const createCurrent_inventory_pakage = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateCurrent_inventory_pakage = async (req, res) => {
+export const updateCurrent_inventory_pakage = async (req, res) => {
   try {
     const obj = req.body;
     const id_current_inventory_pakage = req.body.id_current_inventory_pakage;
@@ -174,7 +174,7 @@ const updateCurrent_inventory_pakage = async (req, res) => {
   }
 };
 
-const deleteCurrent_inventory_pakage = async (req, res) => {
+export const deleteCurrent_inventory_pakage = async (req, res) => {
   try {
     console.log(req.body);
     const id_pakage_current_inventory_pakage = req.body.id;
@@ -195,15 +195,4 @@ const deleteCurrent_inventory_pakage = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getCurrent_inventory_pakage_plus,
-  getCurrent_inventorys_pakage,
-  getCurrent_inventory_pakageQuerySql2,
-  getCurrent_inventory_pakagedetailQuerySql2,
-  getCurrent_inventory_pakage,
-  createCurrent_inventory_pakage,
-  updateCurrent_inventory_pakage,
-  deleteCurrent_inventory_pakage,
 };

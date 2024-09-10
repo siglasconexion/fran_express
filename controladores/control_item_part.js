@@ -1,10 +1,10 @@
-const { Item_part } = require("../db/models/item_part.js");
-const db = require("../db/conn.js");
-const _ = require("lodash");
+import { Item_part } from '../db/models/item_part.js';
+import {db} from '../db/conn.js';
+import _ from 'lodash';
 
 //// ojo quitar de aca las funciones que no se usa y revisar otros archivos para hacer lo mismo
 
-const getItem_parts = async (req, res) => {
+export const getItem_parts = async (req, res) => {
   const data = await Item_part.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -18,7 +18,7 @@ const getItem_parts = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getItem_partQuerySql2 = async (req, res) => {
+export const getItem_partQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query("SELECT  * from item_part"); //
   if (data.length <= 0) {
     res.status(204).json({
@@ -30,7 +30,7 @@ const getItem_partQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getItem_part = async (req, res) => {
+export const getItem_part = async (req, res) => {
   let variable = req.params.variable;
   console.log("req.body.iditem", req.params);
   let resultGetOne = await Item_part.findAll({
@@ -48,7 +48,7 @@ const getItem_part = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createItem_part = async (req, res) => {
+export const createItem_part = async (req, res) => {
   // ojo colocar akika try cath
   const previosResult = await Item_part.findOne({
     where: {
@@ -91,7 +91,7 @@ const createItem_part = async (req, res) => {
   }
 };
 
-const updateItem_part = async (req, res) => {
+export const updateItem_part = async (req, res) => {
   try {
     const obj = req.body;
     const id = req.body.id;
@@ -123,7 +123,7 @@ const updateItem_part = async (req, res) => {
   }
 };
 
-const deleteItem_part = async (req, res) => {
+export const deleteItem_part = async (req, res) => {
   try {
     const id = req.body.iditem;
     let resultDelete = await Item_part.destroy({
@@ -143,13 +143,4 @@ const deleteItem_part = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getItem_parts,
-  getItem_partQuerySql2,
-  getItem_part,
-  createItem_part,
-  updateItem_part,
-  deleteItem_part,
 };

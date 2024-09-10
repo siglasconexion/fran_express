@@ -1,9 +1,9 @@
-const { Measure } = require("../db/models/measure.js");
-const db = require("../db/conn.js");
-const xlsxj = require("xlsx-to-json");
-const fs = require("fs");
+import { Measure } from  '../db/models/measure.js';
+import {db} from '../db/conn.js';
+import xlsxj from  'xlsx-to-json';
+import fs from  'fs';
 
-const getMeasures = async (req, res) => {
+export const getMeasures = async (req, res) => {
   const data = await Measure.findAll();
   if (data.length <= 0) {
     res.status(204).json({
@@ -15,7 +15,7 @@ const getMeasures = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getMeasureQuerySql2 = async (req, res) => {
+export const getMeasureQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query("SELECT * FROM measure");
   if (data.length <= 0) {
     res.status(204).json({
@@ -27,7 +27,7 @@ const getMeasureQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getMeasure = async (req, res) => {
+export const getMeasure = async (req, res) => {
   let resultGetOne = await Measure.findAll({
     where: {
       id_measure: req.body.id,
@@ -42,7 +42,7 @@ const getMeasure = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createMeasure = async (req, res) => {
+export const createMeasure = async (req, res) => {
   const resultNew = await Measure.create({
     id_company_measure: req.body.idcompanymeasure,
     id_status_measure: req.body.idstatusmeasure,
@@ -55,7 +55,7 @@ const createMeasure = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateMeasure = async (req, res) => {
+export const updateMeasure = async (req, res) => {
   const obj = req.body;
   let resultUpdate = await Measure.update(obj, {
     where: {
@@ -73,7 +73,7 @@ const updateMeasure = async (req, res) => {
       });
 };
 
-const deleteMeasure = async (req, res) => {
+export const deleteMeasure = async (req, res) => {
   try {
     const id_measure = req.body.id;
     let resultDelete = await Measure.destroy({
@@ -96,7 +96,7 @@ const deleteMeasure = async (req, res) => {
   }
 };
 
-const getDataExcel = async (req, res) => {
+export const getDataExcel = async (req, res) => {
   try {
     xlsxj(
       {
@@ -125,14 +125,4 @@ const getDataExcel = async (req, res) => {
   } catch (e) {
     console.log(e.stack);
   }
-};
-
-module.exports = {
-  getMeasures,
-  getMeasureQuerySql2,
-  getMeasure,
-  createMeasure,
-  updateMeasure,
-  deleteMeasure,
-  getDataExcel,
 };

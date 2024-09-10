@@ -1,13 +1,13 @@
-const { Stock_pakage } = require("../db/models/stock_pakage.js");
-const db = require("../db/conn.js");
-const { Pakage } = require("../db/models/pakage.js");
-const {
+import { Stock_pakage } from '../db/models/stock_pakage.js';
+import {db} from '../db/conn.js';
+import { Pakage } from '../db/models/pakage.js';
+import {
   Current_inventory_pakage,
-} = require("../db/models/current_inventory_pakage.js");
-const { QueryTypes } = require("sequelize");
-const _ = require("lodash");
+} from '../db/models/current_inventory_pakage.js';
+import { QueryTypes } from 'sequelize';
+import _ from 'lodash';
 
-const getStocks_pakage = async (req, res) => {
+export const getStocks_pakage = async (req, res) => {
   const data = await Stock_pakage.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -21,7 +21,7 @@ const getStocks_pakage = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_pakageQuerySql2 = async (req, res) => {
+export const getStock_pakageQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query("SELECT  * from stock_pakage"); //
   if (data.length <= 0) {
     res.status(204).json({
@@ -33,7 +33,7 @@ const getStock_pakageQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_pakage = async (req, res) => {
+export const getStock_pakage = async (req, res) => {
   let resultGetOne = await Stock_pakage.findAll({
     where: {
       id_status_stock_pakage: 1,
@@ -42,7 +42,7 @@ const getStock_pakage = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createStock_pakage = async (req, res) => {
+export const createStock_pakage = async (req, res) => {
   const resultNew = await Stock_pakage.create({
     id_company_stock_pakage: req.body.idcompanystockpakage,
     id_status_stock_pakage: req.body.idstatusstockpakage,
@@ -56,7 +56,7 @@ const createStock_pakage = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateStock_pakage = async (req, res) => {
+export const updateStock_pakage = async (req, res) => {
   try {
     const obj = req.body;
     const id_stock_pakage = req.body.id_stock_pakage;
@@ -88,7 +88,7 @@ const updateStock_pakage = async (req, res) => {
   }
 };
 
-const deleteStock_pakage = async (req, res) => {
+export const deleteStock_pakage = async (req, res) => {
   try {
     console.log(req.body);
     const id_stock_pakage = req.body.id;
@@ -111,7 +111,7 @@ const deleteStock_pakage = async (req, res) => {
   }
 };
 
-const getStock_pakage_closed = async (req, res) => {
+export const getStock_pakage_closed = async (req, res) => {
   let fecha = new Date();
   let año = fecha.getFullYear();
   let mes = ("0" + (fecha.getMonth() + 1)).slice(-2); // Se agrega 1 porque los meses van de 0 a 11
@@ -226,14 +226,4 @@ const getStock_pakage_closed = async (req, res) => {
     respuestas: respuestas,
   });
   //return;
-};
-
-module.exports = {
-  getStocks_pakage,
-  getStock_pakageQuerySql2,
-  getStock_pakage,
-  createStock_pakage,
-  updateStock_pakage,
-  deleteStock_pakage,
-  getStock_pakage_closed,
 };

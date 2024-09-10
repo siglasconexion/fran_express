@@ -1,11 +1,11 @@
-const { Pakage_input } = require("../db/models/pakage_input.js");
-const { Pakage } = require("../db/models/pakage.js");
-const { QueryTypes } = require("sequelize");
-const db = require("../db/conn.js");
-const xlsxj = require("xlsx-to-json");
-const fs = require("fs");
+import { Pakage_input } from '../db/models/pakage_input.js';
+import { Pakage } from '../db/models/pakage.js';
+import { QueryTypes } from 'sequelize';
+import {db} from '../db/conn.js';
+import xlsxj from 'xlsx-to-json';
+import fs from 'fs';
 
-const getPakage_inputs = async (req, res) => {
+export const getPakage_inputs = async (req, res) => {
   const data = await Pakage_input.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -19,7 +19,7 @@ const getPakage_inputs = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getPakage_inputQuerySql2 = async (req, res) => {
+export const getPakage_inputQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query(
     `SELECT id_pakage_input,id_pakage_pakage_input,quantity_received_pakage_input,date_received_pakage_input,comment_pakage_input, stock_pakage_input, units_received_pakage_input, name_pakage FROM pakage_input INNER JOIN pakage on pakage_input.id_pakage_pakage_input=pakage.id_pakage ORDER BY id_pakage_input`,
     { type: QueryTypes.SELECT }
@@ -34,7 +34,7 @@ const getPakage_inputQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getPakage_input = async (req, res) => {
+export const getPakage_input = async (req, res) => {
   let resultGetOne = await Pakage_input.findAll({
     where: {
       id_pakage_input: req.body.id,
@@ -49,7 +49,7 @@ const getPakage_input = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createPakage_input = async (req, res) => {
+export const createPakage_input = async (req, res) => {
   const resultNew = await Pakage_input.create({
     id_pakage_pakage_input: req.body.idpakagepakageinput,
     id_user_pakage_input: req.body.iduserpakageinput,
@@ -115,7 +115,7 @@ const createPakage_input = async (req, res) => {
   }
 };
 
-const updatePakage_input = async (req, res) => {
+export const updatePakage_input = async (req, res) => {
   try {
     const obj = req.body;
     const id_pakage_input = req.body.id_pakage_input;
@@ -147,7 +147,7 @@ const updatePakage_input = async (req, res) => {
   }
 };
 
-const deletePakage_input = async (req, res) => {
+export const deletePakage_input = async (req, res) => {
   try {
     const id_pakage_input = req.body.id;
     let resultDelete = await Pakage_input.destroy({
@@ -210,13 +210,4 @@ const deletePakage_input = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getPakage_inputs,
-  getPakage_input,
-  createPakage_input,
-  updatePakage_input,
-  deletePakage_input,
-  getPakage_inputQuerySql2,
 };

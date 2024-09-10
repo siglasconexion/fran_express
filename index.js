@@ -1,10 +1,10 @@
-const express = require("express");
-const { Sequelize, DataTypes, Op } = require("sequelize");
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const { authenticateUser } = require("./middleware/auth.js");
+import express from 'express';
+import { Sequelize, DataTypes, Op } from 'sequelize';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import { authenticateUser } from './middleware/auth.js';
 
-const {
+import {
   getFamilys,
   getFamily,
   createFamily,
@@ -12,50 +12,50 @@ const {
   deleteFamily,
   getUserQuerySql,
   getDataExcel,
-} = require("./controladores/control_family.js");
+} from './controladores/control_family.js';
 
-const {
+import {
   getStatus,
   getStatu,
   createStatu,
   updateStatu,
   deleteStatu,
-} = require("./controladores/control_statu.js");
+} from './controladores/control_statu.js';
 
-const {
+import {
   getCompanys,
   getCompany,
   createCompany,
   updateCompany,
   deleteCompany,
-} = require("./controladores/control_company.js");
+} from './controladores/control_company.js';
 
-const {
+import {
   getContainers,
   getContainer,
   createContainer,
   updateContainer,
   deleteContainer,
-} = require("./controladores/control_container.js");
+} from './controladores/control_container.js';
 
-const {
+import {
   getItems,
   getItem,
   createItem,
   updateItem,
   deleteItem,
-} = require("./controladores/control_item.js");
+} from './controladores/control_item.js';
 
-const {
+import {
   getStock_details_item,
   getStock_detail_item,
   createStock_detail_item,
   updateStock_detail_item,
   deleteStock_detail_item,
   getStock_detail_itemQuerySql2,
-} = require("./controladores/control_stock_detail_item.js");
+} from './controladores/control_stock_detail_item.js';
 
-const {
+import {
   getCurrent_inventorys_item,
   getCurrent_inventory_item,
   createCurrent_inventory_item,
@@ -65,9 +65,9 @@ const {
   generatePDF,
   generateNewPDF,
   getCurrent_inventory_itemdetailQuerySql2,
-} = require("./controladores/control_current_inventory_item.js");
+} from './controladores/control_current_inventory_item.js';
 
-const {
+import {
   getStocks_item,
   getStock_item,
   createStock_item,
@@ -75,61 +75,61 @@ const {
   deleteStock_item,
   getStock_itemQuerySql2,
   getStock_item_closed,
-} = require("./controladores/control_stock_item.js");
+} from './controladores/control_stock_item.js';
 
-const {
+import {
   getUsers,
   getUser,
   createUser,
   updateUser,
   deleteUser,
   getUserQuerySql2,
-  login,
-} = require("./controladores/control_user.js");
+  //login,
+} from './controladores/control_user.js';
 
-const {
+import {
   getType_users,
   getType_user,
   createType_user,
   updateType_user,
   deleteType_user,
-  getType_usersQuerySql2,
-} = require("./controladores/control_type_user.js");
+  //getType_usersQuerySql2,
+} from './controladores/control_type_user.js';
 
-const {
+import {
   getMeasures,
   createMeasure,
   updateMeasure,
   deleteMeasure,
   getMeasureQuerySql2,
-} = require("./controladores/control_measure.js");
+} from './controladores/control_measure.js';
 
-const {
+import {
   getEssential_oils,
   getEssential_oil,
   createEssential_oil,
   updateEssential_oil,
   deleteEssential_oil,
-} = require("./controladores/control_essential_oil.js");
+} from './controladores/control_essential_oil.js';
 
-const {
+import {
   getDepartments,
   getDepartment,
   createDepartment,
   updateDepartment,
   deleteDepartment,
-} = require("./controladores/control_department.js");
+} from './controladores/control_department.js';
 
-const {
+import {
   getOil_inputs,
   getOil_input,
   getOil_inputQuerySql2,
   createOil_input,
   updateOil_input,
   deleteOil_input,
-} = require("./controladores/control_oil_input.js");
+} from './controladores/control_oil_input.js';
 
-const {
+import {
   getStocks_e_oil,
   getStock_e_oil,
   createStock_e_oil,
@@ -137,9 +137,9 @@ const {
   deleteStock_e_oil,
   getStock_e_oil_closed,
   getStock_e_oilQuerySql2,
-} = require("./controladores/control_stock_e_oil.js");
+} from './controladores/control_stock_e_oil.js';
 
-const {
+import {
   getCurrent_inventorys_e_oil,
   getCurrent_inventory_e_oil,
   createCurrent_inventory_e_oil,
@@ -147,52 +147,52 @@ const {
   deleteCurrent_inventory_e_oil,
   getCurrent_inventory_e_oilQuerySql2,
   getCurrent_inventory_e_oildetailQuerySql2,
-  generatePDF2,
-} = require("./controladores/control_current_inventory_e_oil.js");
+  //generatePDF2,
+} from './controladores/control_current_inventory_e_oil.js';
 
-const {
+import {
   getStock_details_e_oil,
   getStock_detail_e_oil,
   createStock_detail_e_oil,
   updateStock_detail_e_oil,
   deleteStock_detail_e_oil,
   getStock_detail_e_oilQuerySql2,
-} = require("./controladores/control_stock_detail_e_oil.js");
+} from './controladores/control_stock_detail_e_oil.js';
 
-const {
+import {
   getLabels,
   getLabel,
   createLabel,
   updateLabel,
   deleteLabel,
-} = require("./controladores/control_label.js");
+} from './controladores/control_label.js';
 
-const {
+import {
   getBags,
   getBag,
   createBag,
   updateBag,
   deleteBag,
-} = require("./controladores/control_bag.js");
+} from './controladores/control_bag.js';
 
-const {
+import {
   getPakages,
   getPakage,
   createPakage,
   updatePakage,
   deletePakage,
-} = require("./controladores/control_pakage.js");
+} from './controladores/control_pakage.js';
 
-const {
+import {
   getLabel_inputs,
   getLabel_input,
   getLabel_inputQuerySql2,
   createLabel_input,
   updateLabel_input,
   deleteLabel_input,
-} = require("./controladores/control_label_input.js");
+} from './controladores/control_label_input.js';
 
-const {
+import {
   getStocks_label,
   getStock_label,
   createStock_label,
@@ -200,18 +200,18 @@ const {
   deleteStock_label,
   getStock_label_closed,
   getStock_labelQuerySql2,
-} = require("./controladores/control_stock_label.js");
+} from './controladores/control_stock_label.js';
 
-const {
+import {
   getStock_details_label,
   getStock_detail_label,
   createStock_detail_label,
   updateStock_detail_label,
   deleteStock_detail_label,
   getStock_detail_labelQuerySql2,
-} = require("./controladores/control_stock_detail_label.js");
+} from './controladores/control_stock_detail_label.js';
 
-const {
+import {
   getCurrent_inventorys_label,
   getCurrent_inventory_label,
   createCurrent_inventory_label,
@@ -220,9 +220,9 @@ const {
   getCurrent_inventory_labelQuerySql2,
   getCurrent_inventory_labeldetailQuerySql2,
   getCurrent_inventory_label_plus,
-} = require("./controladores/control_current_inventory_label.js");
+} from './controladores/control_current_inventory_label.js';
 
-const {
+import {
   getStocks_pakage,
   getStock_pakage,
   createStock_pakage,
@@ -230,18 +230,18 @@ const {
   deleteStock_pakage,
   getStock_pakage_closed,
   getStock_pakageQuerySql2,
-} = require("./controladores/control_stock_pakage.js");
+} from './controladores/control_stock_pakage.js';
 
-const {
+import {
   getPakage_inputs,
   getPakage_input,
   getPakage_inputQuerySql2,
   createPakage_input,
   updatePakage_input,
   deletePakage_input,
-} = require("./controladores/control_pakage_input.js");
+} from './controladores/control_pakage_input.js';
 
-const {
+import {
   getCurrent_inventorys_pakage,
   getCurrent_inventory_pakage,
   createCurrent_inventory_pakage,
@@ -250,18 +250,18 @@ const {
   getCurrent_inventory_pakageQuerySql2,
   getCurrent_inventory_pakagedetailQuerySql2,
   getCurrent_inventory_pakage_plus,
-} = require("./controladores/control_current_inventory_pakage.js");
+} from './controladores/control_current_inventory_pakage.js';
 
-const {
+import {
   getStock_details_pakage,
   getStock_detail_pakage,
   createStock_detail_pakage,
   updateStock_detail_pakage,
   deleteStock_detail_pakage,
   getStock_detail_pakageQuerySql2,
-} = require("./controladores/control_stock_detail_pakage.js");
+} from './controladores/control_stock_detail_pakage.js';
 
-const {
+import {
   getStocks_bag,
   getStock_bag,
   createStock_bag,
@@ -269,18 +269,18 @@ const {
   deleteStock_bag,
   getStock_bag_closed,
   getStock_bagQuerySql2,
-} = require("./controladores/control_stock_bag.js");
+} from './controladores/control_stock_bag.js';
 
-const {
+import {
   getBag_inputs,
   getBag_input,
   getBag_inputQuerySql2,
   createBag_input,
   updateBag_input,
   deleteBag_input,
-} = require("./controladores/control_bag_input.js");
+} from './controladores/control_bag_input.js';
 
-const {
+import {
   getCurrent_inventorys_bag,
   getCurrent_inventory_bag_plus,
   getCurrent_inventory_bag,
@@ -289,71 +289,71 @@ const {
   deleteCurrent_inventory_bag,
   getCurrent_inventory_bagQuerySql2,
   getCurrent_inventory_bagdetailQuerySql2,
-} = require("./controladores/control_current_inventory_bag.js");
+} from './controladores/control_current_inventory_bag.js';
 
-const {
+import {
   getStock_details_bag,
   getStock_detail_bag,
   createStock_detail_bag,
   updateStock_detail_bag,
   deleteStock_detail_bag,
   getStock_detail_bagQuerySql2,
-} = require("./controladores/control_stock_detail_bag.js");
+} from './controladores/control_stock_detail_bag.js';
 
-const {
+import {
   getType_inventorys,
   getType_inventory,
   createType_inventory,
   updateType_inventory,
   deleteType_inventory,
   getType_inventoryQuerySql2,
-} = require("./controladores/control_type_inventory.js");
+} from './controladores/control_type_inventory.js';
 
-const {
+import {
   getItem_parts,
   getItem_part,
   createItem_part,
   updateItem_part,
   deleteItem_part,
   getItem_partQuerySql2,
-} = require("./controladores/control_item_part.js");
+} from './controladores/control_item_part.js';
 
-const {
+import {
   getType_recharges,
   getType_recharge,
   createType_recharge,
   updateType_recharge,
   deleteType_recharge,
   getType_rechargeQuerySql2,
-} = require("./controladores/control_type_recharge.js");
+} from './controladores/control_type_recharge.js';
 
-/* const {
+/* import  {
   getItem_type_recharges,
   getItem_type_recharge,
   createItem_type_recharge,
   updateItem_type_recharge,
   deleteItem_type_recharge,
   getItem_type_rechargeQuerySql2,
-} = require("./controladores/control_item_type_recharge.js");
- */
-const {
+} from './controladores/control_item_type_recharge.js';
+*/
+import {
   getItem_informations,
   getItem_information,
   createItem_information,
   updateItem_information,
   deleteItem_information,
-} = require("./controladores/control_item_information.js");
+} from './controladores/control_item_information.js';
 
-const {
+import {
   getMade_items,
   getMade_item,
   createMade_item,
   updateMade_item,
   deleteMade_item,
   //  getItem_type_rechargeQuerySql2,
-} = require("./controladores/control_made_item.js");
+} from './controladores/control_made_item.js';
 
-const db = require("./db/conn.js");
+import {db} from './db/conn.js';
 
 const router = express.Router();
 const app = express();
@@ -455,7 +455,6 @@ router.get("/user/:usuario/:password", getUser);
 router.post("/user", createUser);
 router.put("/user", updateUser);
 router.delete("/user", deleteUser);
-router.post("/login", login);
 // end model user
 
 // Model type_user
@@ -528,7 +527,7 @@ router.get(
   "/current_inventorys_e_oil/:variable",
   getCurrent_inventory_e_oilQuerySql2
 );
-router.post("/generate-pdf", generatePDF2); // prueb
+// router.post("/generate-pdf", generatePDF2); // prueb
 router.get(
   "/current_inventorys_e_oil_detail",
   getCurrent_inventory_e_oildetailQuerySql2

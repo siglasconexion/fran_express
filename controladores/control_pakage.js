@@ -1,12 +1,12 @@
-const { Pakage } = require("../db/models/pakage.js");
-const {
+import { Pakage } from '../db/models/pakage.js';
+import {
   Current_inventory_pakage,
-} = require("../db/models/current_inventory_pakage.js");
-const { QueryTypes } = require("sequelize");
-const db = require("../db/conn.js");
-const _ = require("lodash");
+} from '../db/models/current_inventory_pakage.js';
+import { QueryTypes } from 'sequelize';
+import {db} from '../db/conn.js';
+import _ from 'lodash';
 
-const getPakages = async (req, res) => {
+export const getPakages = async (req, res) => {
   const data = await Pakage.findAll();
   /*   data = await db.sequelize.query(`SELECT  * from pakage ORDER BY id_pakage`, {
     type: QueryTypes.SELECT,
@@ -73,7 +73,7 @@ const getPakages = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getPakage = async (req, res) => {
+export const getPakage = async (req, res) => {
   let resultGetOne = await Pakage.findAll({
     where: {
       id_pakage: req.body.id,
@@ -88,7 +88,7 @@ const getPakage = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createPakage = async (req, res) => {
+export const createPakage = async (req, res) => {
   const resultNew = await Pakage.create({
     id_company_pakage: req.body.idcompanypakage,
     id_status_pakage: req.body.idstatuspakage,
@@ -107,7 +107,7 @@ const createPakage = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updatePakage = async (req, res) => {
+export const updatePakage = async (req, res) => {
   try {
     const obj = req.body;
     const id_pakage = req.body.id_pakage;
@@ -139,7 +139,7 @@ const updatePakage = async (req, res) => {
   }
 };
 
-const deletePakage = async (req, res) => {
+export const deletePakage = async (req, res) => {
   try {
     const id_pakage = req.body.id;
     let resultDelete = await Pakage.destroy({
@@ -159,12 +159,4 @@ const deletePakage = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getPakages,
-  getPakage,
-  createPakage,
-  updatePakage,
-  deletePakage,
 };
