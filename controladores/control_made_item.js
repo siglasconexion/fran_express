@@ -1,13 +1,14 @@
-import { Made_item } from '../db/models/made_item.js';
-import { Move_refill } from '../db/models/move_refill.js';
-import { QueryTypes } from 'sequelize';
-import {db} from '../db/conn.js';
-import xlsxj from 'xlsx-to-json';
-import fs from 'fs';
-import _ from 'lodash';
+import { Made_item } from "../db/models/made_item.js";
+import { Move_refill } from "../db/models/move_refill.js";
+import { QueryTypes } from "sequelize";
+import { db } from "../db/conn.js";
+import xlsxj from "xlsx-to-json";
+import fs from "fs";
+import _ from "lodash";
 
 export const getMade_items = async (req, res) => {
-  const data = await Made_item.findAll();
+  let variabletabla = "Made_item";
+  const data = await `${variabletabla}`.findAll();
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,
@@ -46,8 +47,9 @@ export const createMade_item = async (req, res) => {
   let resAllQuerys = [];
   const respuestas = {};
   const transaction = await db.sequelize.transaction(); // Inicia la transacción
+  let variabletabla = "Made_item";
   try {
-    const resultNewItem = await Made_item.create(
+    const resultNewItem = await `${variabletabla}`.create(
       {
         id_company_made_item: req.body.idcompanymadeitem,
         id_status_made_item: req.body.idstatusmadeitem,
