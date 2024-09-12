@@ -3,24 +3,8 @@ import { Sequelize, DataTypes, Op } from 'sequelize';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import { authenticateUser } from './middleware/auth.js';
-
-import {
-  getFamilys,
-  getFamily,
-  createFamily,
-  updateFamily,
-  deleteFamily,
-  getUserQuerySql,
-  getDataExcel,
-} from './controladores/control_family.js';
-
-import {
-  getStatus,
-  getStatu,
-  createStatu,
-  updateStatu,
-  deleteStatu,
-} from './controladores/control_statu.js';
+import familiesRouter from './routes/familiesRouter.js';
+import statusRouter from './routes/statusRouter.js';
 
 import {
   getCompanys,
@@ -366,24 +350,6 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 app.use(cors(corsOptions));
-
-// Model family
-router.get("/familys", getFamilys);
-router.get("/family", getFamily);
-router.post("/family", createFamily);
-router.put("/family", updateFamily);
-router.delete("/family", deleteFamily);
-//router.get("/getDataExcel", getDataExcel);
-//router.get("/getUserQuerySql", getUserQuerySql);
-// end Model family
-
-// Model status
-router.get("/status", getStatus);
-router.get("/statu", getStatu);
-router.post("/statu", createStatu);
-router.put("/statu", updateStatu);
-router.delete("/statu", deleteStatu);
-// end model status
 
 // Model company
 router.get("/companys", getCompanys);
@@ -769,6 +735,8 @@ router.delete("/made_item", deleteMade_item);
 // end model Made_item
 
 app.use("/api/", router);
+app.use('/api/families', familiesRouter);  
+app.use('/api/status', statusRouter); 
 
 app.listen(port, async () => {
   await db.sequelize;
