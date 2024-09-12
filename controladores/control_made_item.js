@@ -1,5 +1,7 @@
 import { Made_item } from "../db/models/made_item.js";
 import { Move_refill } from "../db/models/move_refill.js";
+import { Type_inventory } from "../db/models/type_inventory.js";
+
 import { QueryTypes } from "sequelize";
 import { db } from "../db/conn.js";
 import xlsxj from "xlsx-to-json";
@@ -7,8 +9,7 @@ import fs from "fs";
 import _ from "lodash";
 
 export const getMade_items = async (req, res) => {
-  let variabletabla = "Made_item";
-  const data = await `${variabletabla}`.findAll();
+  const data = await Made_item.findAll();
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,
@@ -47,9 +48,8 @@ export const createMade_item = async (req, res) => {
   let resAllQuerys = [];
   const respuestas = {};
   const transaction = await db.sequelize.transaction(); // Inicia la transacción
-  let variabletabla = "Made_item";
   try {
-    const resultNewItem = await `${variabletabla}`.create(
+    const resultNewItem = await Made_item.create(
       {
         id_company_made_item: req.body.idcompanymadeitem,
         id_status_made_item: req.body.idstatusmadeitem,
@@ -76,15 +76,15 @@ export const createMade_item = async (req, res) => {
       },
       { type: QueryTypes.INSERT, transaction }
     );
-    console.log("oils", oils);
-    ///comsole.log("vergacion");
+    // console.log("oils", oils);
+    console.log("vergacion", resultNewItem);
     let convert = resultNewItem?.toJSON();
     console.log("resultNew", convert);
-    console.log("elemento de resultNew", convert.id_made_item);
+    //console.log("elemento de resultNew", convert.id_made_item);
     //console.log("resultNew", resultNew);
     //await transaction.rollback(); // Revierte la transacción en caso de error
     respuestas[`respuesta${convert.id_made_item}`] = {};
-    console.log("respuestas", respuestas);
+    //console.log("respuestas", respuestas);
     resAllQuerys.push({ made_item: "creado correctamente" });
     for (const el of oils) {
       const resultNewMoveRefill = await Move_refill.create(
@@ -100,16 +100,29 @@ export const createMade_item = async (req, res) => {
         { type: QueryTypes.INSERT, transaction }
       );
       resAllQuerys.push({ oil_refill: "creado correctamente" });
+      let base = "type_inventory";
+      const data = await db.sequelize.query(`SELECT * from ${base}`, {
+        type: QueryTypes.SELECT,
+      });
+      /*       let resultGetAll = await Type_inventory.findAll({
+        type: QueryTypes.SELECT,
+      });
+ */ ///if (resultGetAll.length <= 0) { no se controla esto akika
+      console.log("resultGetAll", data);
+      //      let convert2 = resultGetAll?.toJSON();
+      for (const el of data) {
+        console.log(el.name);
+      }
     }
-    console.log("resAllQuerys", resAllQuerys);
-    console.log("transaction", transaction.id);
-    ///await transaction.rollback(); // Revierte la transacción en caso de error
-    await transaction.commit(); // Confirma la transacción
+    //console.log("resAllQuerys", resAllQuerys);
+    //console.log("transaction", transaction.id);
+    await transaction.rollback(); // Revierte la transacción en caso de error
+    ///await transaction.commit(); // Confirma la transacción
     ///    Object.entries(resultNew).length === 0
     ///      ? res.json({ message: "Register is not created" })
     ///      : res.json({ message: resultNew });
   } catch (error) {
-    await transaction.rollback(); // Revierte la transacción en caso de error
+    ///await transaction.rollback(); // Revierte la transacción en caso de error
     //console.log("error ojo mosca akika ", error.stack);
     console.log("error ojo mosca akika ", error.message);
     // await transaction.rollback(); // Revierte la transacción en caso de error
