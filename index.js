@@ -1,26 +1,14 @@
-import express from 'express';
-import { Sequelize, DataTypes, Op } from 'sequelize';
-import bodyParser from 'body-parser';
-import cors from 'cors';
-import { authenticateUser } from './middleware/auth.js';
-import familiesRouter from './routes/familiesRouter.js';
-import statusRouter from './routes/statusRouter.js';
+import express from "express";
+import { Sequelize, DataTypes, Op } from "sequelize";
+import bodyParser from "body-parser";
+import cors from "cors";
+import { authenticateUser } from "./middleware/auth.js";
+import familiesRouter from "./routes/familiesRouter.js";
+import statusRouter from "./routes/statusRouter.js";
+import companyRouter from "./routes/companyRouter.js";
+import containerRouter from "./routes/containerRouter.js";
 
-import {
-  getCompanys,
-  getCompany,
-  createCompany,
-  updateCompany,
-  deleteCompany,
-} from './controladores/control_company.js';
 
-import {
-  getContainers,
-  getContainer,
-  createContainer,
-  updateContainer,
-  deleteContainer,
-} from './controladores/control_container.js';
 
 import {
   getItems,
@@ -28,7 +16,7 @@ import {
   createItem,
   updateItem,
   deleteItem,
-} from './controladores/control_item.js';
+} from "./controladores/control_item.js";
 
 import {
   getStock_details_item,
@@ -37,7 +25,7 @@ import {
   updateStock_detail_item,
   deleteStock_detail_item,
   getStock_detail_itemQuerySql2,
-} from './controladores/control_stock_detail_item.js';
+} from "./controladores/control_stock_detail_item.js";
 
 import {
   getCurrent_inventorys_item,
@@ -49,7 +37,7 @@ import {
   generatePDF,
   generateNewPDF,
   getCurrent_inventory_itemdetailQuerySql2,
-} from './controladores/control_current_inventory_item.js';
+} from "./controladores/control_current_inventory_item.js";
 
 import {
   getStocks_item,
@@ -59,7 +47,7 @@ import {
   deleteStock_item,
   getStock_itemQuerySql2,
   getStock_item_closed,
-} from './controladores/control_stock_item.js';
+} from "./controladores/control_stock_item.js";
 
 import {
   getUsers,
@@ -69,7 +57,7 @@ import {
   deleteUser,
   getUserQuerySql2,
   //login,
-} from './controladores/control_user.js';
+} from "./controladores/control_user.js";
 
 import {
   getType_users,
@@ -78,7 +66,7 @@ import {
   updateType_user,
   deleteType_user,
   //getType_usersQuerySql2,
-} from './controladores/control_type_user.js';
+} from "./controladores/control_type_user.js";
 
 import {
   getMeasures,
@@ -86,7 +74,7 @@ import {
   updateMeasure,
   deleteMeasure,
   getMeasureQuerySql2,
-} from './controladores/control_measure.js';
+} from "./controladores/control_measure.js";
 
 import {
   getEssential_oils,
@@ -94,7 +82,7 @@ import {
   createEssential_oil,
   updateEssential_oil,
   deleteEssential_oil,
-} from './controladores/control_essential_oil.js';
+} from "./controladores/control_essential_oil.js";
 
 import {
   getDepartments,
@@ -102,7 +90,7 @@ import {
   createDepartment,
   updateDepartment,
   deleteDepartment,
-} from './controladores/control_department.js';
+} from "./controladores/control_department.js";
 
 import {
   getOil_inputs,
@@ -111,7 +99,7 @@ import {
   createOil_input,
   updateOil_input,
   deleteOil_input,
-} from './controladores/control_oil_input.js';
+} from "./controladores/control_oil_input.js";
 
 import {
   getStocks_e_oil,
@@ -121,7 +109,7 @@ import {
   deleteStock_e_oil,
   getStock_e_oil_closed,
   getStock_e_oilQuerySql2,
-} from './controladores/control_stock_e_oil.js';
+} from "./controladores/control_stock_e_oil.js";
 
 import {
   getCurrent_inventorys_e_oil,
@@ -132,7 +120,7 @@ import {
   getCurrent_inventory_e_oilQuerySql2,
   getCurrent_inventory_e_oildetailQuerySql2,
   //generatePDF2,
-} from './controladores/control_current_inventory_e_oil.js';
+} from "./controladores/control_current_inventory_e_oil.js";
 
 import {
   getStock_details_e_oil,
@@ -141,7 +129,7 @@ import {
   updateStock_detail_e_oil,
   deleteStock_detail_e_oil,
   getStock_detail_e_oilQuerySql2,
-} from './controladores/control_stock_detail_e_oil.js';
+} from "./controladores/control_stock_detail_e_oil.js";
 
 import {
   getLabels,
@@ -149,7 +137,7 @@ import {
   createLabel,
   updateLabel,
   deleteLabel,
-} from './controladores/control_label.js';
+} from "./controladores/control_label.js";
 
 import {
   getBags,
@@ -157,7 +145,7 @@ import {
   createBag,
   updateBag,
   deleteBag,
-} from './controladores/control_bag.js';
+} from "./controladores/control_bag.js";
 
 import {
   getPakages,
@@ -165,7 +153,7 @@ import {
   createPakage,
   updatePakage,
   deletePakage,
-} from './controladores/control_pakage.js';
+} from "./controladores/control_pakage.js";
 
 import {
   getLabel_inputs,
@@ -174,7 +162,7 @@ import {
   createLabel_input,
   updateLabel_input,
   deleteLabel_input,
-} from './controladores/control_label_input.js';
+} from "./controladores/control_label_input.js";
 
 import {
   getStocks_label,
@@ -184,7 +172,7 @@ import {
   deleteStock_label,
   getStock_label_closed,
   getStock_labelQuerySql2,
-} from './controladores/control_stock_label.js';
+} from "./controladores/control_stock_label.js";
 
 import {
   getStock_details_label,
@@ -193,7 +181,7 @@ import {
   updateStock_detail_label,
   deleteStock_detail_label,
   getStock_detail_labelQuerySql2,
-} from './controladores/control_stock_detail_label.js';
+} from "./controladores/control_stock_detail_label.js";
 
 import {
   getCurrent_inventorys_label,
@@ -204,7 +192,7 @@ import {
   getCurrent_inventory_labelQuerySql2,
   getCurrent_inventory_labeldetailQuerySql2,
   getCurrent_inventory_label_plus,
-} from './controladores/control_current_inventory_label.js';
+} from "./controladores/control_current_inventory_label.js";
 
 import {
   getStocks_pakage,
@@ -214,7 +202,7 @@ import {
   deleteStock_pakage,
   getStock_pakage_closed,
   getStock_pakageQuerySql2,
-} from './controladores/control_stock_pakage.js';
+} from "./controladores/control_stock_pakage.js";
 
 import {
   getPakage_inputs,
@@ -223,7 +211,7 @@ import {
   createPakage_input,
   updatePakage_input,
   deletePakage_input,
-} from './controladores/control_pakage_input.js';
+} from "./controladores/control_pakage_input.js";
 
 import {
   getCurrent_inventorys_pakage,
@@ -234,7 +222,7 @@ import {
   getCurrent_inventory_pakageQuerySql2,
   getCurrent_inventory_pakagedetailQuerySql2,
   getCurrent_inventory_pakage_plus,
-} from './controladores/control_current_inventory_pakage.js';
+} from "./controladores/control_current_inventory_pakage.js";
 
 import {
   getStock_details_pakage,
@@ -243,7 +231,7 @@ import {
   updateStock_detail_pakage,
   deleteStock_detail_pakage,
   getStock_detail_pakageQuerySql2,
-} from './controladores/control_stock_detail_pakage.js';
+} from "./controladores/control_stock_detail_pakage.js";
 
 import {
   getStocks_bag,
@@ -253,7 +241,7 @@ import {
   deleteStock_bag,
   getStock_bag_closed,
   getStock_bagQuerySql2,
-} from './controladores/control_stock_bag.js';
+} from "./controladores/control_stock_bag.js";
 
 import {
   getBag_inputs,
@@ -262,7 +250,7 @@ import {
   createBag_input,
   updateBag_input,
   deleteBag_input,
-} from './controladores/control_bag_input.js';
+} from "./controladores/control_bag_input.js";
 
 import {
   getCurrent_inventorys_bag,
@@ -273,7 +261,7 @@ import {
   deleteCurrent_inventory_bag,
   getCurrent_inventory_bagQuerySql2,
   getCurrent_inventory_bagdetailQuerySql2,
-} from './controladores/control_current_inventory_bag.js';
+} from "./controladores/control_current_inventory_bag.js";
 
 import {
   getStock_details_bag,
@@ -282,7 +270,7 @@ import {
   updateStock_detail_bag,
   deleteStock_detail_bag,
   getStock_detail_bagQuerySql2,
-} from './controladores/control_stock_detail_bag.js';
+} from "./controladores/control_stock_detail_bag.js";
 
 import {
   getType_inventorys,
@@ -291,7 +279,7 @@ import {
   updateType_inventory,
   deleteType_inventory,
   getType_inventoryQuerySql2,
-} from './controladores/control_type_inventory.js';
+} from "./controladores/control_type_inventory.js";
 
 import {
   getItem_parts,
@@ -300,7 +288,7 @@ import {
   updateItem_part,
   deleteItem_part,
   getItem_partQuerySql2,
-} from './controladores/control_item_part.js';
+} from "./controladores/control_item_part.js";
 
 import {
   getType_recharges,
@@ -309,7 +297,7 @@ import {
   updateType_recharge,
   deleteType_recharge,
   getType_rechargeQuerySql2,
-} from './controladores/control_type_recharge.js';
+} from "./controladores/control_type_recharge.js";
 
 /* import  {
   getItem_type_recharges,
@@ -326,7 +314,7 @@ import {
   createItem_information,
   updateItem_information,
   deleteItem_information,
-} from './controladores/control_item_information.js';
+} from "./controladores/control_item_information.js";
 
 import {
   getMade_items,
@@ -335,9 +323,9 @@ import {
   updateMade_item,
   deleteMade_item,
   //  getItem_type_rechargeQuerySql2,
-} from './controladores/control_made_item.js';
+} from "./controladores/control_made_item.js";
 
-import {db} from './db/conn.js';
+import { db } from "./db/conn.js";
 
 const router = express.Router();
 const app = express();
@@ -351,21 +339,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// Model company
-router.get("/companys", getCompanys);
-router.get("/company", getCompany);
-router.post("/company", createCompany);
-router.put("/company", updateCompany);
-router.delete("/company", deleteCompany);
-// end model company
 
-// Model container
-router.get("/containers", getContainers);
-router.get("/container", getContainer);
-router.post("/container", createContainer);
-router.put("/container", updateContainer);
-router.delete("/container", deleteContainer);
-// end model container
 
 // Model Item
 router.get("/items", getItems);
@@ -735,8 +709,9 @@ router.delete("/made_item", deleteMade_item);
 // end model Made_item
 
 app.use("/api/", router);
-app.use('/api/families', familiesRouter);  
-app.use('/api/status', statusRouter); 
+app.use("/api/families", familiesRouter);
+app.use("/api/status", statusRouter);
+app.use("/api/company", companyRouter);
 
 app.listen(port, async () => {
   await db.sequelize;
