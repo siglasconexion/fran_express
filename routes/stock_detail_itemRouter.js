@@ -7,7 +7,7 @@ import {
   updateStock_detail_item,
   deleteStock_detail_item,
   getStock_detail_itemQuerySql2,
-} from "./controladores/control_stock_detail_item.js";
+} from "../controladores/control_stock_detail_item.js";
 
 const router = express.Router();
 

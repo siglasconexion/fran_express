@@ -7,7 +7,7 @@ import {
   updateType_user,
   deleteType_user,
   //getType_usersQuerySql2,
-} from "./controladores/control_type_user.js";
+} from "../controladores/control_type_user.js";
 
 const router = express.Router();
 

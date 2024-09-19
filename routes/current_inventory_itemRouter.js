@@ -10,7 +10,7 @@ import {
   generatePDF,
   generateNewPDF,
   getCurrent_inventory_itemdetailQuerySql2,
-} from "./controladores/control_current_inventory_item.js";
+} from "../controladores/control_current_inventory_item.js";
 
 const router = express.Router();
 

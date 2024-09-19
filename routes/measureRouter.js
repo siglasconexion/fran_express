@@ -5,7 +5,7 @@ import {
   updateMeasure,
   deleteMeasure,
   getMeasureQuerySql2,
-} from "./controladores/control_measure.js";
+} from "../controladores/control_measure.js";
 
 const router = express.Router();
 

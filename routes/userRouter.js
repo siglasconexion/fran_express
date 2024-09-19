@@ -8,7 +8,7 @@ import {
   deleteUser,
   getUserQuerySql2,
   //login,
-} from "./controladores/control_user.js";
+} from "../controladores/control_user.js";
 
 const router = express.Router();
 

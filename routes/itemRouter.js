@@ -5,7 +5,7 @@ import {
   createItem,
   updateItem,
   deleteItem,
-} from "./controladores/control_item.js";
+} from "../controladores/control_item.js";
 
 const router = express.Router();
 router.get("/items", getItems);

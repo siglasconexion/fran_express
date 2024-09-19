@@ -6,7 +6,7 @@ import {
   createContainer,
   updateContainer,
   deleteContainer,
-} from "./controladores/control_container.js";
+} from "../controladores/control_container.js";
 
 const router = express.Router();
 router.get("/containers", getContainers);

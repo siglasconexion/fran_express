@@ -7,7 +7,7 @@ import {
   deleteStock_item,
   getStock_itemQuerySql2,
   getStock_item_closed,
-} from "./controladores/control_stock_item.js";
+} from "../controladores/control_stock_item.js";
 
 const router = express.Router();
 

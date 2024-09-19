@@ -6,7 +6,7 @@ import {
   createCompany,
   updateCompany,
   deleteCompany,
-} from "./controladores/control_company.js";
+} from "../controladores/control_company.js";
 
 const router = express.Router();
 
