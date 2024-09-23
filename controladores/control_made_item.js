@@ -77,9 +77,9 @@ export const createMade_item = async (req, res) => {
       { type: QueryTypes.INSERT, transaction }
     );
     // console.log("oils", oils);
-    console.log("vergacion", resultNewItem);
-    let convert = resultNewItem?.toJSON();
-    console.log("resultNew", convert);
+    //console.log("vergacion", resultNewItem);
+    let convert = resultNewItem?.toJSON(); // para obtener el id_creado
+    //console.log("resultNew", convert);
     //console.log("elemento de resultNew", convert.id_made_item);
     //console.log("resultNew", resultNew);
     //await transaction.rollback(); // Revierte la transacción en caso de error
@@ -87,6 +87,7 @@ export const createMade_item = async (req, res) => {
     //console.log("respuestas", respuestas);
     resAllQuerys.push({ made_item: "creado correctamente" });
     for (const el of oils) {
+      // recorro el array (oils) para crear los refill
       const resultNewMoveRefill = await Move_refill.create(
         {
           id_user: req.body.idusermadeitem,
@@ -100,29 +101,55 @@ export const createMade_item = async (req, res) => {
         { type: QueryTypes.INSERT, transaction }
       );
       resAllQuerys.push({ oil_refill: "creado correctamente" });
-      let base = "type_inventory";
-      const data = await db.sequelize.query(`SELECT * from ${base}`, {
+    }
+    let base = "type_inventory";
+    const data = await db.sequelize.query(
+      `SELECT id_part, id_type_inventory, qty, name, name_table, name_table_two from item_part INNER JOIN type_inventory on item_part.id_type_inventory = type_inventory.id where item_part.id_item =  ${req.body.iditemmadeitem}`,
+      {
         type: QueryTypes.SELECT,
-      });
-      /*       let resultGetAll = await Type_inventory.findAll({
-        type: QueryTypes.SELECT,
-      });
- */ ///if (resultGetAll.length <= 0) { no se controla esto akika
-      console.log("resultGetAll", data);
-      //      let convert2 = resultGetAll?.toJSON();
-      for (const el of data) {
-        console.log(el.name);
+      }
+    );
+    const resultNew2 = await db.sequelize.query(
+      ` UPDATE item SET stock_item = stock_item + ${req.body.totalmade} WHERE item.id_item = ${req.body.iditemmadeitem}`,
+      {
+        //replacements: { `${campoStock}`, stockItem }, // Reemplazos seguros para evitar inyección SQL
+        type: QueryTypes.UPDATE, // Tipo de consulta
+        transaction, // Asocia la transacción a la consulta, si es necesario
+      }
+    );
+    for (const el of data) {
+      if (el.type_inventory !== 1) {
+        let cant = req.body.totalmade;
+        let nameTable = el.name_table;
+        nameTable = nameTable.trim();
+        let campoStock = `stock_` + nameTable;
+        let campoId = `id_` + nameTable;
+        const resultNew2 = await db.sequelize.query(
+          ` UPDATE ${nameTable} SET ${campoStock} = ${campoStock} - ${cant} WHERE ${nameTable}.${campoId} = ${el.id_part}`,
+          {
+            //replacements: { `${campoStock}`, stockItem }, // Reemplazos seguros para evitar inyección SQL
+            type: QueryTypes.UPDATE, // Tipo de consulta
+            transaction, // Asocia la transacción a la consulta, si es necesario
+          }
+        );
+        /* 
+        `UPDATE item SET stock_item = stock_item + :cantidad WHERE id_item = :idItem`;
+  
+        const result22222 = await db.sequelize.query(
+          `INSERT INTO ${el.name_table} (nombre_item, stock_item) VALUES (:nombreItem, :stockItem)`
+        );
+        console.log(el.name); */
       }
     }
     //console.log("resAllQuerys", resAllQuerys);
     //console.log("transaction", transaction.id);
-    await transaction.rollback(); // Revierte la transacción en caso de error
-    ///await transaction.commit(); // Confirma la transacción
+    //await transaction.rollback(); // Revierte la transacción en caso de error
+    await transaction.commit(); // Confirma la transacción
     ///    Object.entries(resultNew).length === 0
     ///      ? res.json({ message: "Register is not created" })
     ///      : res.json({ message: resultNew });
   } catch (error) {
-    ///await transaction.rollback(); // Revierte la transacción en caso de error
+    await transaction.rollback(); // Revierte la transacción en caso de error
     //console.log("error ojo mosca akika ", error.stack);
     console.log("error ojo mosca akika ", error.message);
     // await transaction.rollback(); // Revierte la transacción en caso de error
