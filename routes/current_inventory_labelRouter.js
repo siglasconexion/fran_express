@@ -3,6 +3,7 @@ import express from "express";
 import {
   getCurrent_inventorys_label,
   getCurrent_inventory_label,
+  getCurrent_inventory_labelReport,
   createCurrent_inventory_label,
   updateCurrent_inventory_label,
   deleteCurrent_inventory_label,
@@ -30,5 +31,8 @@ router.get(
 router.post("/current_inventory_label", createCurrent_inventory_label);
 router.put("/current_inventory_label", updateCurrent_inventory_label);
 router.delete("/current_inventory_label", deleteCurrent_inventory_label);
-
+router.get(
+  "/current_inventory_label_report/:variable",
+  getCurrent_inventory_labelReport
+);
 export default router;

@@ -1,5 +1,5 @@
-import {db} from '../conn.js';
-import { DataTypes } from 'sequelize';
+import { db } from "../conn.js";
+import { DataTypes } from "sequelize";
 
 export const Made_item = db.sequelize.define(
   "made_item",
@@ -34,6 +34,10 @@ export const Made_item = db.sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    id_stock_made_item: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     start_date_made_item: {
       type: DataTypes.DATE,
       allowNull: true,
@@ -47,6 +51,10 @@ export const Made_item = db.sequelize.define(
       allowNull: true,
     },
     qty_made_item: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    total_units_made_item: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },

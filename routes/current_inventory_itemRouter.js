@@ -3,6 +3,7 @@ import express from "express";
 import {
   getCurrent_inventorys_item,
   getCurrent_inventory_item,
+  getCurrent_inventory_itemReport,
   createCurrent_inventory_item,
   updateCurrent_inventory_item,
   deleteCurrent_inventory_item,
@@ -30,6 +31,11 @@ router.get("/current_inventory_item/:variable", getCurrent_inventory_item);
 router.post("/current_inventory_item", createCurrent_inventory_item);
 router.put("/current_inventory_item", updateCurrent_inventory_item);
 router.delete("/current_inventory_item", deleteCurrent_inventory_item);
+router.get(
+  "/current_inventory_item_report/:variable",
+  getCurrent_inventory_itemReport
+);
+
 // end model Current_inventory_item
 
 export default router;

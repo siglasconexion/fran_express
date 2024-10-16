@@ -1,12 +1,10 @@
-import {
-  Current_inventory_item,
-} from '../db/models/current_inventory_item.js';
-import {db} from '../db/conn.js';
-import { QueryTypes } from 'sequelize';
-import xlsxj from 'xlsx-to-json';
-import fs from 'fs';
-import { request } from 'http';
-import _ from 'lodash';
+import { Current_inventory_item } from "../db/models/current_inventory_item.js";
+import { db } from "../db/conn.js";
+import { QueryTypes } from "sequelize";
+import xlsxj from "xlsx-to-json";
+import fs from "fs";
+import { request } from "http";
+import _ from "lodash";
 // import puppeteer from 'puppeteer';
 // const jsPDF = require("jspdf");
 
@@ -45,6 +43,23 @@ export const getCurrent_inventory_itemQuerySql2 = async (req, res) => {
   console.log("variable sola del objeto params", variablefinal);
   const data = await db.sequelize.query(
     `SELECT  total_current_inventory_item, id_stock_current_inventory_item,  name_item, id_family_item, name_family, code_item, code_two_item from current_inventory_item INNER JOIN item on current_inventory_item.id_item_current_inventory_item=item.id_item INNER JOIN family on item.id_family_item=family.id_family where current_inventory_item.id_stock_current_inventory_item = ${variable4} ORDER BY name_family, name_item`,
+    { type: QueryTypes.SELECT }
+  ); //
+  if (data.length <= 0) {
+    res.status(204).json({
+      code: 204,
+      message: "Results not found",
+    });
+    return;
+  }
+  res.status(200).json(data);
+};
+
+export const getCurrent_inventory_itemReport = async (req, res) => {
+  // rutas - routes
+  let variable = req.params.variable;
+  const data = await db.sequelize.query(
+    `SELECT  *, total_current_inventory_item, name_item, id_family_item, name_family from current_inventory_item INNER JOIN item on current_inventory_item.id_item_current_inventory_item=item.id_item  INNER JOIN family on item.id_family_item = family.id_family where current_inventory_item.id_stock_current_inventory_item = ${variable} ORDER BY name_family, name_item`,
     { type: QueryTypes.SELECT }
   ); //
   if (data.length <= 0) {
@@ -173,7 +188,7 @@ export const deleteCurrent_inventory_item = async (req, res) => {
 };
 
 export const generatePDF = async function (req, res) {
- /* const { base64Content } = req.body;
+  /* const { base64Content } = req.body;
 
   if (!base64Content) {
     return res
