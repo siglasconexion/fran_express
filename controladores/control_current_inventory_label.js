@@ -46,9 +46,42 @@ export const getCurrent_inventory_labelQuerySql2 = async (req, res) => {
 
   console.log("variable sola del objeto params", variablefinal);
   const data = await db.sequelize.query(
-    `SELECT  total_current_inventory_label, name_label, id_family_label, name_family, code_label, code_two_label from current_inventory_label INNER JOIN label on current_inventory_label.id_label_current_inventory_label=label.id_label INNER JOIN family on label.id_family_label=family.id_family where current_inventory_label.id_stock_current_inventory_label = ${variable4} ORDER BY name_family, name_label`,
+    `SELECT  total_current_inventory_label, id_label_current_inventory_label, id_stock_current_inventory_label, name_label, id_family_label, name_family, code_label, code_two_label from current_inventory_label INNER JOIN label on current_inventory_label.id_label_current_inventory_label=label.id_label INNER JOIN family on label.id_family_label=family.id_family where current_inventory_label.id_stock_current_inventory_label = ${variable4} ORDER BY name_family, name_label`,
     { type: QueryTypes.SELECT }
   ); //
+  // rutina para chequear si lo introducido en el detalle cuadra con resumen
+ /*  let arrayIntroducido = [];
+  let totalIntroducido = 0;
+  let diferenciaIntroducido = 0;
+  let contador = 0;
+  for (const el of data) {
+    totalIntroducido = 0;
+    diferenciaIntroducido = 0;
+    contador = 0;
+    const data2 = await db.sequelize.query(
+      `SELECT qty_stock_detail_label, id_stock_stock_detail_label  from stock_detail_label WHERE id_label_stock_detail_label = ${el.id_label_current_inventory_label} AND id_stock_stock_detail_label = ${el.id_stock_current_inventory_label}`,
+      { type: QueryTypes.SELECT }
+    );
+    for (const el2 of data2) {
+      totalIntroducido =
+        totalIntroducido + parseFloat(el2.qty_stock_detail_label);
+      contador = contador + 1;
+    }
+    //console.log("data2", data2);
+    diferenciaIntroducido = el.total_current_inventory_label - totalIntroducido;
+    if (diferenciaIntroducido !== 0) {
+      arrayIntroducido.push(
+        el.name_pakage,
+        el.total_current_inventory_label,
+        totalIntroducido,
+        diferenciaIntroducido,
+        contador
+      );
+    }
+    //console.log(mesalgo);
+  }
+  console.log("arrayIntroducido", arrayIntroducido); */
+  //fin de la rutina
   if (data.length <= 0) {
     res.status(204).json({
       code: 204,
@@ -56,6 +89,27 @@ export const getCurrent_inventory_labelQuerySql2 = async (req, res) => {
     });
     return;
   }
+  /*   // codigo temporal para actualizar la tabla item el stock
+  let idLabel = 0;
+  let totalStock = 0;
+  for (const el of data) {
+    idLabel = el.id_label_current_inventory_label;
+    totalStock = el.total_current_inventory_label;
+    console.log("idLabel", idLabel, "totalStock", totalStock);
+    const resultNew2 = await db.sequelize.query(
+      ` UPDATE label SET stock_label = ${totalStock} WHERE label.id_label = ${idLabel}`,
+      {
+        type: QueryTypes.UPDATE, // Tipo de consulta
+      }
+    );
+    const resultNew3 = await db.sequelize.query(
+      ` UPDATE current_inventory_label SET initial = ${totalStock} WHERE current_inventory_label.id_label_current_inventory_label = ${idLabel} AND current_inventory_label.id_stock_current_inventory_label = ${variable4}`,
+      {
+        type: QueryTypes.UPDATE, // Tipo de consulta
+      }
+    );
+  } */
+
   res.status(200).json(data);
 };
 

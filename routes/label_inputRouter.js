@@ -4,6 +4,7 @@ import {
   getLabel_inputs,
   getLabel_input,
   getLabel_inputQuerySql2,
+  getLabel_inputs_Stock,
   createLabel_input,
   updateLabel_input,
   deleteLabel_input,
@@ -15,9 +16,11 @@ const router = express.Router();
 router.get("/label_inputs", getLabel_inputs);
 router.get("/label_input", getLabel_input);
 router.get("/label_input_query", getLabel_inputQuerySql2);
+router.get("/label_input/:idlabel/:idstock", getLabel_inputs_Stock);
 router.post("/label_input", createLabel_input);
 router.put("/label_input", updateLabel_input);
 router.delete("/label_input", deleteLabel_input);
+
 // end model label_input
 
 export default router;

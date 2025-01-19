@@ -1,12 +1,10 @@
-import { Stock_detail_pakage } from '../db/models/stock_detail_pakage.js';
-import {
-  Current_inventory_pakage,
-} from '../db/models/current_inventory_pakage.js';
-import { Pakage } from '../db/models/pakage.js';
+import { Stock_detail_pakage } from "../db/models/stock_detail_pakage.js";
+import { Current_inventory_pakage } from "../db/models/current_inventory_pakage.js";
+import { Pakage } from "../db/models/pakage.js";
 
-import {db} from '../db/conn.js';
-import _ from 'lodash';
-import { QueryTypes } from 'sequelize';
+import { db } from "../db/conn.js";
+import _ from "lodash";
+import { QueryTypes } from "sequelize";
 
 export const getStock_details_pakage = async (req, res) => {
   const data = await Stock_detail_pakage.findAll();
@@ -92,8 +90,9 @@ export const createStock_detail_pakage = async (req, res) => {
       },
     });
     let convertResultNew2 = resultNew2?.toJSON();
-    //console.log("primera consulta", convertResultNew2);
+    console.log("primera consulta", convertResultNew2);
     if (_.isEmpty(convertResultNew2)) {
+      console.log("entre a crear uno nuevo porque ");
       const resultNew3 = await Current_inventory_pakage.create({
         id_stock_current_inventory_pakage: req.body.idstockstockdetailpakage,
         id_pakage_current_inventory_pakage: req.body.idpakagestockdetailpakage,

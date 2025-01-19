@@ -16,5 +16,5 @@ router.get("/move_inventory", getMove_inventory);
 router.post("/move_inventory", createMove_inventory);
 router.put("/move_inventory", updateMove_inventory);
 router.delete("/move_inventory", deleteMove_inventory);
-router.get("/move_inventory/:iditempart/:idstock", getMove_inventorys_Stock);
+router.get("/move_inventory/:iditempart/:idstock/:idtypeinventory/:idsection", getMove_inventorys_Stock);
 export default router;

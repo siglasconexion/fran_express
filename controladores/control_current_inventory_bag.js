@@ -1,10 +1,8 @@
-import {
-  Current_inventory_bag,
-} from '../db/models/current_inventory_bag.js';
-import {db} from '../db/conn.js';
-import { QueryTypes } from 'sequelize';
-import { request } from 'http';
-import _ from 'lodash';
+import { Current_inventory_bag } from "../db/models/current_inventory_bag.js";
+import { db } from "../db/conn.js";
+import { QueryTypes } from "sequelize";
+import { request } from "http";
+import _ from "lodash";
 
 export const getCurrent_inventory_bag_plus = async (req, res) => {
   let variable = req.params.variable;
@@ -69,7 +67,82 @@ export const getCurrent_inventory_bagQuerySql2 = async (req, res) => {
 
   console.log("variable sola del objeto params", variablefinal);
   const data = await db.sequelize.query(
-    `SELECT  total_current_inventory_bag, name_bag, id_family_bag, name_family, code_bag, code_two_bag  from current_inventory_bag INNER JOIN bag on current_inventory_bag.id_bag_current_inventory_bag=bag.id_bag INNER JOIN family on bag.id_family_bag=family.id_family where current_inventory_bag.id_stock_current_inventory_bag = ${variable4} ORDER BY name_family, name_bag`,
+    `SELECT  total_current_inventory_bag, id_bag_current_inventory_bag, id_stock_current_inventory_bag, name_bag, id_family_bag,  name_family, code_bag, code_two_bag  from current_inventory_bag INNER JOIN bag on current_inventory_bag.id_bag_current_inventory_bag=bag.id_bag INNER JOIN family on bag.id_family_bag=family.id_family where current_inventory_bag.id_stock_current_inventory_bag = ${variable4} ORDER BY name_family, name_bag`,
+    { type: QueryTypes.SELECT }
+  );
+  // rutina para chequear si lo introducido en el detalle cuadra con resumen
+  /*   let arrayIntroducido = [];
+  let totalIntroducido = 0;
+  let diferenciaIntroducido = 0;
+  let contador = 0;
+  for (const el of data) {
+    totalIntroducido = 0;
+    diferenciaIntroducido = 0;
+    contador = 0;
+    const data2 = await db.sequelize.query(
+      `SELECT qty_stock_detail_bag, id_stock_stock_detail_bag  from stock_detail_bag WHERE id_bag_stock_detail_bag = ${el.id_bag_current_inventory_bag} AND id_stock_stock_detail_bag = ${el.id_stock_current_inventory_bag}`,
+      { type: QueryTypes.SELECT }
+    );
+    for (const el2 of data2) {
+      totalIntroducido =
+        totalIntroducido + parseFloat(el2.qty_stock_detail_bag);
+      contador = contador + 1;
+    }
+    //console.log("data2", data2);
+    diferenciaIntroducido = el.total_current_inventory_bag - totalIntroducido;
+    if (diferenciaIntroducido !== 0) {
+      arrayIntroducido.push(
+        el.name_pakage,
+        el.total_current_inventory_bag,
+        totalIntroducido,
+        diferenciaIntroducido,
+        contador
+      );
+    }
+    //console.log(mesalgo);
+  }
+  console.log("arrayIntroducido", arrayIntroducido); */
+  // fin de la rutina
+  if (data.length <= 0) {
+    res.status(204).json({
+      code: 204,
+      message: "Results not found",
+    });
+    return;
+  }
+  /*   // codigo temporal para actualizar la tabla item el stock
+  let idBag = 0;
+  let totalStock = 0;
+  for (const el of data) {
+    idBag = el.id_bag_current_inventory_bag;
+    totalStock = el.total_current_inventory_bag;
+    console.log("idBag", idBag, "totalStock", totalStock);
+    const resultNew2 = await db.sequelize.query(
+      ` UPDATE bag SET stock_bag = ${totalStock} WHERE bag.id_bag = ${idBag}`,
+      {
+        type: QueryTypes.UPDATE, // Tipo de consulta
+      }
+    );
+    const resultNew3 = await db.sequelize.query(
+      ` UPDATE current_inventory_bag SET initial = ${totalStock} WHERE current_inventory_bag.id_bag_current_inventory_bag = ${idBag} AND current_inventory_bag.id_stock_current_inventory_bag = ${variable4}`,
+      {
+        type: QueryTypes.UPDATE, // Tipo de consulta
+      }
+    );
+  }
+ */
+  res.status(200).json(data);
+  /* res.status(200).json({
+    data: data,
+    array: arrayIntroducido,
+  }); */
+};
+
+export const getCurrent_inventory_BagReport = async (req, res) => {
+  // rutas - routes
+  let variable = req.params.variable;
+  const data = await db.sequelize.query(
+    `SELECT  *, total_current_inventory_bag, name_bag, id_family_bag, name_family from current_inventory_bag INNER JOIN bag on current_inventory_bag.id_bag_current_inventory_bag=bag.id_bag  INNER JOIN family on bag.id_family_bag = family.id_family where current_inventory_bag.id_stock_current_inventory_bag = ${variable} ORDER BY name_family, name_bag`,
     { type: QueryTypes.SELECT }
   ); //
   if (data.length <= 0) {
@@ -196,4 +269,3 @@ export const deleteCurrent_inventory_bag = async (req, res) => {
     console.log(err.stack);
   }
 };
-

@@ -1,5 +1,5 @@
-import {db} from '../conn.js';
-import { DataTypes } from 'sequelize';
+import { db } from "../conn.js";
+import { DataTypes } from "sequelize";
 
 export const Bag_input = db.sequelize.define(
   "bag_input",
@@ -15,6 +15,10 @@ export const Bag_input = db.sequelize.define(
       allowNull: false,
     },
     id_user_bag_input: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    id_stock: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

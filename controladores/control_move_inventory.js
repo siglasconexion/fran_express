@@ -39,12 +39,39 @@ export const getMove_inventorys_Stock = async (req, res) => {
   console.log("req.params", req.params);
   let iditempart = req.params.iditempart;
   let idstock = req.params.idstock;
+  let idtypeinventory = req.params.idtypeinventory;
+  let idsection = req.params.idsection;
+  let table = "";
+  let campoid = "id_";
+  let camponame = "name_";
+  if (idtypeinventory == 4) {
+    table = "bag";
+    campoid = campoid + table;
+    camponame = camponame + table;
+  }
+  if (idtypeinventory == 2) {
+    table = "label";
+    campoid = campoid + table;
+    camponame = camponame + table;
+  }
+  if (idtypeinventory == 3) {
+    table = "pakage";
+    campoid = campoid + table;
+    camponame = camponame + table;
+  }
+  if (idtypeinventory == 1) {
+    table = "item";
+    campoid = campoid + table;
+    camponame = camponame + table;
+  }
+
   const resultGetOne = await db.sequelize.query(
-    `SELECT id, date, qty as total, id_process, id_part, id_user_made_item, id_user_two_made_item, name_label from move_inventory INNER JOIN made_item on move_inventory.id_process = made_item.id_made_item INNER JOIN label on move_inventory.id_part = label.id_label WHERE move_inventory.id_part =  ${iditempart} AND move_inventory.id_stock = ${idstock} AND id_type_inventory = 2`,
+    `SELECT id, date, qty as total, id_process, id_part, id_user_made_item, id_user_two_made_item, id_item_made_item, ${camponame} from move_inventory INNER JOIN made_item on move_inventory.id_process = made_item.id_made_item INNER JOIN ${table} on move_inventory.id_part = ${table}.${campoid} WHERE move_inventory.id_part =  ${iditempart} AND move_inventory.id_stock = ${idstock} AND id_type_inventory = ${idtypeinventory} AND id_section = ${idsection}`,
     {
       type: QueryTypes.SELECT,
     }
   );
+  console.log("resultGetOne", resultGetOne);
   if (resultGetOne.length <= 0) {
     res.json({
       message: "Results not found",
@@ -53,6 +80,8 @@ export const getMove_inventorys_Stock = async (req, res) => {
   }
   res.json(resultGetOne);
 };
+
+
 
 export const createMove_inventory = async (req, res) => {};
 

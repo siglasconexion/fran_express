@@ -42,17 +42,73 @@ export const getCurrent_inventory_itemQuerySql2 = async (req, res) => {
   );
   console.log("variable sola del objeto params", variablefinal);
   const data = await db.sequelize.query(
-    `SELECT  total_current_inventory_item, id_stock_current_inventory_item,  name_item, id_family_item, name_family, code_item, code_two_item from current_inventory_item INNER JOIN item on current_inventory_item.id_item_current_inventory_item=item.id_item INNER JOIN family on item.id_family_item=family.id_family where current_inventory_item.id_stock_current_inventory_item = ${variable4} ORDER BY name_family, name_item`,
+    `SELECT  total_current_inventory_item, id_stock_current_inventory_item, id_item_current_inventory_item,  name_item, id_family_item, name_family, code_item, code_two_item from current_inventory_item INNER JOIN item on current_inventory_item.id_item_current_inventory_item=item.id_item INNER JOIN family on item.id_family_item=family.id_family where current_inventory_item.id_stock_current_inventory_item = ${variable4} ORDER BY name_family, name_item`,
     { type: QueryTypes.SELECT }
   ); //
+  // rutina para chequear si lo introducido en el detalle cuadra con resumen
+  /*   let arrayIntroducido = [];
+  let totalIntroducido = 0;
+  let diferenciaIntroducido = 0;
+  let contador = 0;
+  for (const el of data) {
+    totalIntroducido = 0;
+    diferenciaIntroducido = 0;
+    contador = 0;
+    const data2 = await db.sequelize.query(
+      `SELECT total_stock_detail_item from stock_detail_item WHERE id_item_stock_detail_item = ${el.id_item_current_inventory_item} AND id_stock_stock_detail_item = ${el.id_stock_current_inventory_item}`,
+      { type: QueryTypes.SELECT }
+    );
+    for (const el2 of data2) {
+      totalIntroducido = totalIntroducido + el2.total_stock_detail_item;
+      contador = contador + 1;
+    }
+    diferenciaIntroducido = el.total_current_inventory_item - totalIntroducido;
+    // if (!diferenciaIntroducido === 0) {
+    arrayIntroducido.push(
+      el.name_item,
+      el.total_current_inventory_item,
+      totalIntroducido,
+      diferenciaIntroducido,
+      contador
+    );
+    //}
+  }
+  console.log("arrayIntroducido", arrayIntroducido); */
+  //  fin de la rutina
   if (data.length <= 0) {
     res.status(204).json({
       code: 204,
       message: "Results not found",
+      probando: arrayIntroducido,
     });
     return;
   }
+  /*   // codigo temporal para actualizar la tabla item el stock
+  let idItem = 0;
+  let totalStock = 0;
+  for (const el of data) {
+    idItem = el.id_item_current_inventory_item;
+    totalStock = el.total_current_inventory_item;
+    console.log("idItem", idItem, "totalStock", totalStock);
+    const resultNew2 = await db.sequelize.query(
+      ` UPDATE item SET stock_item = ${totalStock} WHERE item.id_item = ${idItem}`,
+      {
+        type: QueryTypes.UPDATE, // Tipo de consulta
+      }
+    );
+    const resultNew3 = await db.sequelize.query(
+      ` UPDATE current_inventory_item SET initial = ${totalStock} WHERE current_inventory_item.id_item_current_inventory_item = ${idItem} AND current_inventory_item.id_stock_current_inventory_item = ${variable4}`,
+      {
+        type: QueryTypes.UPDATE, // Tipo de consulta
+      }
+    );
+  } */
   res.status(200).json(data);
+/*   res.status(200).json({
+    data: data,
+    array: arrayIntroducido,
+  }); */
+  // res.json({ message: resAllQuerys });
 };
 
 export const getCurrent_inventory_itemReport = async (req, res) => {

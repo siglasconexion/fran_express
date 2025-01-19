@@ -1,6 +1,6 @@
-import { Item_part } from '../db/models/item_part.js';
-import {db} from '../db/conn.js';
-import _ from 'lodash';
+import { Item_part } from "../db/models/item_part.js";
+import { db } from "../db/conn.js";
+import _ from "lodash";
 
 //// ojo quitar de aca las funciones que no se usa y revisar otros archivos para hacer lo mismo
 
@@ -73,6 +73,7 @@ export const createItem_part = async (req, res) => {
     console.log("req.body.idtypeinventory", req.body.idtypeinventory);
     console.log("req.body.qtyitem", req.body.qtyitem);
     let longitud = Object.entries(resultNew).length;
+    console.log("resultNew", resultNew);
     Object.entries(resultNew).length === 0
       ? res.json({ message: "Register is not created" })
       : res.json({

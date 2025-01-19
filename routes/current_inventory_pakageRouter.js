@@ -3,6 +3,7 @@ import express from "express";
 import {
   getCurrent_inventorys_pakage,
   getCurrent_inventory_pakage,
+  getCurrent_inventory_PakageReport,
   createCurrent_inventory_pakage,
   updateCurrent_inventory_pakage,
   deleteCurrent_inventory_pakage,
@@ -31,5 +32,8 @@ router.get("/current_inventory_pakage/:variable", getCurrent_inventory_pakage);
 router.post("/current_inventory_pakage", createCurrent_inventory_pakage);
 router.put("/current_inventory_pakage", updateCurrent_inventory_pakage);
 router.delete("/current_inventory_pakage", deleteCurrent_inventory_pakage);
-
+router.get(
+  "/current_inventory_pakage_report/:variable",
+  getCurrent_inventory_PakageReport
+);
 export default router;

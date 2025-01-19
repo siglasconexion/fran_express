@@ -1,5 +1,5 @@
-import {db} from '../conn.js';
-import { DataTypes } from 'sequelize';
+import { db } from "../conn.js";
+import { DataTypes } from "sequelize";
 
 export const Pakage_input = db.sequelize.define(
   "pakage_input",
@@ -15,6 +15,10 @@ export const Pakage_input = db.sequelize.define(
       allowNull: false,
     },
     id_user_pakage_input: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    id_stock: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

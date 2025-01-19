@@ -1,12 +1,10 @@
-import { Item } from '../db/models/item.js';
-import {
-  Current_inventory_item,
-} from '../db/models/current_inventory_item.js';
-import { QueryTypes } from 'sequelize';
-import {db} from '../db/conn.js';
-import xlsxj from 'xlsx-to-json';
-import fs from 'fs';
-import _ from 'lodash';
+import { Item } from "../db/models/item.js";
+import { Current_inventory_item } from "../db/models/current_inventory_item.js";
+import { QueryTypes } from "sequelize";
+import { db } from "../db/conn.js";
+import xlsxj from "xlsx-to-json";
+import fs from "fs";
+import _ from "lodash";
 
 export const getItems = async (req, res) => {
   const data = await Item.findAll();
@@ -109,6 +107,15 @@ export const createItem = async (req, res) => {
   Object.entries(resultNew).length === 0
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
+
+  const resultNewCII = await Current_inventory_item.create({
+    id_stock_current_inventory_item: req.body.idstockcurrentinventoryitem,
+    id_item_current_inventory_item: req.body.iditemcurrentinventoryitem,
+    total_current_inventory_item: req.body.totalcurrentinventoryitem,
+  });
+  Object.entries(resultNewCII).length === 0
+    ? res.json({ message: "Register is not created" })
+    : res.json({ message: resultNewCII });
 };
 
 export const updateItem = async (req, res) => {

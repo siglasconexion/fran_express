@@ -7,7 +7,7 @@ import {
   updateMade_item,
   deleteMade_item,
   getMade_items_Stock,
-  //  getItem_type_rechargeQuerySql2,
+  getMade_Item_Report,
 } from "../controladores/control_made_item.js";
 
 const router = express.Router();
@@ -19,4 +19,5 @@ router.post("/made_item", createMade_item);
 router.put("/made_item", updateMade_item);
 router.delete("/made_item", deleteMade_item);
 router.get("/made_item/:iditem/:idstock", getMade_items_Stock);
+router.get("/made_item_report/:idstock", getMade_Item_Report);
 export default router;
