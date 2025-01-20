@@ -1,7 +1,7 @@
-const db = require("../conn.js");
-const { DataTypes } = require("sequelize");
+import {db} from '../conn.js';
+import { DataTypes } from 'sequelize';
 
-const Essential_oil = db.sequelize.define(
+export const Essential_oil = db.sequelize.define(
   "essential_oil",
   {
     // Model attributes are defined here
@@ -59,7 +59,3 @@ const Essential_oil = db.sequelize.define(
     freezeTableName: true,
   }
 );
-
-module.exports = {
-  Essential_oil,
-};

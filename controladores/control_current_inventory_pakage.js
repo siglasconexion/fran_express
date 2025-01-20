@@ -1,12 +1,10 @@
-const {
-  Current_inventory_pakage,
-} = require("../db/models/current_inventory_pakage.js");
-const db = require("../db/conn.js");
-const { QueryTypes } = require("sequelize");
-const { request } = require("http");
-const _ = require("lodash");
+import { Current_inventory_pakage } from "../db/models/current_inventory_pakage.js";
+import { db } from "../db/conn.js";
+import { QueryTypes } from "sequelize";
+import { request } from "http";
+import _ from "lodash";
 
-const getCurrent_inventory_pakage_plus = async (req, res) => {
+export const getCurrent_inventory_pakage_plus = async (req, res) => {
   let variable = req.params.variable;
   let resultGetOne = await Current_inventory_pakage.findAll({
     where: {
@@ -27,7 +25,7 @@ const getCurrent_inventory_pakage_plus = async (req, res) => {
   return res.status(200).json(resultGetOne);
 };
 
-const getCurrent_inventorys_pakage = async (req, res) => {
+export const getCurrent_inventorys_pakage = async (req, res) => {
   const data = await Current_inventory_pakage.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -45,7 +43,7 @@ const getCurrent_inventorys_pakage = async (req, res) => {
 
 getCurrent_inventorys_pakage;
 
-const getCurrent_inventory_pakageQuerySql2 = async (req, res) => {
+export const getCurrent_inventory_pakageQuerySql2 = async (req, res) => {
   // rutas - routes
   let variablefinal = req.params.variable;
   let variable33 = req.params.variable;
@@ -69,7 +67,85 @@ const getCurrent_inventory_pakageQuerySql2 = async (req, res) => {
 
   console.log("variable sola del objeto params", variablefinal);
   const data = await db.sequelize.query(
-    `SELECT  total_current_inventory_pakage, name_pakage, id_family_pakage, name_family, code_pakage from current_inventory_pakage INNER JOIN pakage on current_inventory_pakage.id_pakage_current_inventory_pakage=pakage.id_pakage INNER JOIN family on pakage.id_family_pakage=family.id_family where current_inventory_pakage.id_stock_current_inventory_pakage = ${variable4} ORDER BY name_family, name_pakage`,
+    `SELECT  total_current_inventory_pakage, id_pakage_current_inventory_pakage, name_pakage, id_family_pakage, id_stock_current_inventory_pakage, name_family, code_pakage from current_inventory_pakage INNER JOIN pakage on current_inventory_pakage.id_pakage_current_inventory_pakage=pakage.id_pakage INNER JOIN family on pakage.id_family_pakage=family.id_family where current_inventory_pakage.id_stock_current_inventory_pakage = ${variable4} ORDER BY name_family, name_pakage`,
+    { type: QueryTypes.SELECT }
+  ); //
+  // rutina para chequear si lo introducido en el detalle cuadra con resumen
+  /* let arrayIntroducido = [];
+  let totalIntroducido = 0;
+  let diferenciaIntroducido = 0;
+  let contador = 0;
+  for (const el of data) {
+    totalIntroducido = 0;
+    diferenciaIntroducido = 0;
+    contador = 0;
+    const data2 = await db.sequelize.query(
+      `SELECT qty_stock_detail_pakage, id_stock_stock_detail_pakage  from stock_detail_pakage WHERE id_pakage_stock_detail_pakage = ${el.id_pakage_current_inventory_pakage} AND id_stock_stock_detail_pakage = ${el.id_stock_current_inventory_pakage}`,
+      { type: QueryTypes.SELECT }
+    );
+    for (const el2 of data2) {
+      totalIntroducido =
+        totalIntroducido + parseFloat(el2.qty_stock_detail_pakage);
+      contador = contador + 1;
+    }
+    //console.log("data2", data2);
+    diferenciaIntroducido =
+      el.total_current_inventory_pakage - totalIntroducido;
+    if (diferenciaIntroducido !== 0) {
+      arrayIntroducido.push(
+        el.name_pakage,
+        el.total_current_inventory_pakage,
+        totalIntroducido,
+        diferenciaIntroducido,
+        contador
+      );
+    }
+    //console.log(mesalgo);
+  }
+  console.log("arrayIntroducido", arrayIntroducido); */
+
+  //fin de la rutina
+  if (data.length <= 0) {
+    res.status(204).json({
+      code: 204,
+      message: "Results not found",
+    });
+    return;
+  }
+  /*   // codigo temporal para actualizar la tabla item el stock
+  let idPakage = 0;
+  let totalStock = 0;
+  for (const el of data) {
+    idPakage = el.id_pakage_current_inventory_pakage;
+    totalStock = el.total_current_inventory_pakage;
+    console.log("idPakege", idPakage, "totalStock", totalStock);
+    const resultNew2 = await db.sequelize.query(
+      ` UPDATE pakage SET stock_pakage = ${totalStock} WHERE pakage.id_pakage = ${idPakage}`,
+      {
+        type: QueryTypes.UPDATE, // Tipo de consulta
+      }
+    );
+    const resultNew3 = await db.sequelize.query(
+      ` UPDATE current_inventory_pakage SET initial = ${totalStock} WHERE current_inventory_pakage.id_pakage_current_inventory_pakage = ${idPakage} AND current_inventory_pakage.id_stock_current_inventory_pakage = ${variable4}`,
+      {
+        type: QueryTypes.UPDATE, // Tipo de consulta
+      }
+    );
+  }
+ */
+  res.status(200).json(data);
+  /*   res.status(200).json({
+    data: data,
+    array: arrayIntroducido,
+  });
+ */
+};
+
+export const getCurrent_inventory_PakageReport = async (req, res) => {
+  // rutas - routes
+  let variable = req.params.variable;
+  const data = await db.sequelize.query(
+    `SELECT  *, total_current_inventory_pakage, name_pakage, id_family_pakage, name_family from current_inventory_pakage INNER JOIN pakage on current_inventory_pakage.id_pakage_current_inventory_pakage=pakage.id_pakage  INNER JOIN family on pakage.id_family_pakage = family.id_family where current_inventory_pakage.id_stock_current_inventory_pakage = ${variable} ORDER BY name_family, name_pakage`,
     { type: QueryTypes.SELECT }
   ); //
   if (data.length <= 0) {
@@ -83,7 +159,7 @@ const getCurrent_inventory_pakageQuerySql2 = async (req, res) => {
 };
 
 //*****************************
-const getCurrent_inventory_pakagedetailQuerySql2 = async (req, res) => {
+export const getCurrent_inventory_pakagedetailQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query(
     `SELECT id_pakage_pakage_input as id_pakage, quantity_received_pakage_input as qty, date_received_pakage_input as received, stock_pakage_input as stock, comment_pakage_input as comment, units_received_pakage_input as units, name_pakage as name FROM pakage_input INNER JOIN pakage on id_pakage_pakage_input = id_pakage ORDER BY name,received`,
     {
@@ -102,7 +178,7 @@ const getCurrent_inventory_pakagedetailQuerySql2 = async (req, res) => {
 };
 
 //**********************************
-const getCurrent_inventory_pakage = async (req, res) => {
+export const getCurrent_inventory_pakage = async (req, res) => {
   //quitar _ y usar camelcase
   console.log("ojo ver akika manin uno ", req.params);
   let variable = req.params.variable;
@@ -129,7 +205,7 @@ const getCurrent_inventory_pakage = async (req, res) => {
   return res.status(200).json({ resultGetOne, success: true, prueba, prueba2 });
 };
 
-const createCurrent_inventory_pakage = async (req, res) => {
+export const createCurrent_inventory_pakage = async (req, res) => {
   //console.log("req.body", req.body);
   const resultNew = await Current_inventory_pakage.create({
     id_stock_current_inventory_pakage: req.body.idstockcurrentinventorypakage,
@@ -141,7 +217,7 @@ const createCurrent_inventory_pakage = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateCurrent_inventory_pakage = async (req, res) => {
+export const updateCurrent_inventory_pakage = async (req, res) => {
   try {
     const obj = req.body;
     const id_current_inventory_pakage = req.body.id_current_inventory_pakage;
@@ -174,7 +250,7 @@ const updateCurrent_inventory_pakage = async (req, res) => {
   }
 };
 
-const deleteCurrent_inventory_pakage = async (req, res) => {
+export const deleteCurrent_inventory_pakage = async (req, res) => {
   try {
     console.log(req.body);
     const id_pakage_current_inventory_pakage = req.body.id;
@@ -195,15 +271,4 @@ const deleteCurrent_inventory_pakage = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getCurrent_inventory_pakage_plus,
-  getCurrent_inventorys_pakage,
-  getCurrent_inventory_pakageQuerySql2,
-  getCurrent_inventory_pakagedetailQuerySql2,
-  getCurrent_inventory_pakage,
-  createCurrent_inventory_pakage,
-  updateCurrent_inventory_pakage,
-  deleteCurrent_inventory_pakage,
 };

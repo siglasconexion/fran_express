@@ -1,13 +1,13 @@
-const { Stock_detail_bag } = require("../db/models/stock_detail_bag.js");
-const {
+import { Stock_detail_bag } from '../db/models/stock_detail_bag.js';
+import {
   Current_inventory_bag,
-} = require("../db/models/current_inventory_bag.js");
-const { Bag } = require("../db/models/bag.js");
-const db = require("../db/conn.js");
-const _ = require("lodash");
-const { QueryTypes } = require("sequelize");
+} from '../db/models/current_inventory_bag.js';
+import { Bag } from '../db/models/bag.js';
+import {db} from '../db/conn.js';
+import _ from 'lodash';
+import { QueryTypes } from 'sequelize';
 
-const getStock_details_bag = async (req, res) => {
+export const getStock_details_bag = async (req, res) => {
   const data = await Stock_detail_bag.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -21,7 +21,7 @@ const getStock_details_bag = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_detail_bagQuerySql2 = async (req, res) => {
+export const getStock_detail_bagQuerySql2 = async (req, res) => {
   let variablefinal = req.params.variable;
   const data = await db.sequelize.query(
     `SELECT id_stock_detail_bag, id_stock_stock_detail_bag , id_bag_stock_detail_bag, qty_stock_detail_bag,  name_bag FROM stock_detail_bag INNER JOIN bag ON id_bag_stock_detail_bag=id_bag where id_stock_stock_detail_bag = ${variablefinal}  ORDER BY id_stock_detail_bag `,
@@ -38,7 +38,7 @@ const getStock_detail_bagQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_detail_bag = async (req, res) => {
+export const getStock_detail_bag = async (req, res) => {
   let variable = req.params.variable;
   let resultGetOne = await Stock_detail_bag.findOne({
     where: {
@@ -66,7 +66,7 @@ const getStock_detail_bag = async (req, res) => {
   //res.json({ resultGetOne, d: "probando" });
 };
 
-const createStock_detail_bag = async (req, res) => {
+export const createStock_detail_bag = async (req, res) => {
   try {
     await Stock_detail_bag.create({
       id_stock_stock_detail_bag: req.body.idstockstockdetailbag,
@@ -142,7 +142,7 @@ const createStock_detail_bag = async (req, res) => {
   }
 };
 
-const updateStock_detail_bag = async (req, res) => {
+export const updateStock_detail_bag = async (req, res) => {
   //esto no se usa hay que borrarla
   try {
     const obj = req.body;
@@ -174,7 +174,7 @@ const updateStock_detail_bag = async (req, res) => {
   }
 };
 
-const deleteStock_detail_bag = async (req, res) => {
+export const deleteStock_detail_bag = async (req, res) => {
   try {
     // console.log(req.body);
     const id_stock_detail_bag = req.body.id;
@@ -236,13 +236,4 @@ const deleteStock_detail_bag = async (req, res) => {
     console.log(err.stack);
     console.log("otro error", err.error);
   }
-};
-
-module.exports = {
-  getStock_details_bag,
-  getStock_detail_bagQuerySql2,
-  getStock_detail_bag,
-  createStock_detail_bag,
-  updateStock_detail_bag,
-  deleteStock_detail_bag,
 };

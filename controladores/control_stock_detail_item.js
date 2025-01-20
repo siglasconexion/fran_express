@@ -1,14 +1,14 @@
-const { Stock_detail_item } = require("../db/models/stock_detail_item.js");
-const {
+import { Stock_detail_item } from '../db/models/stock_detail_item.js';
+import {
   Current_inventory_item,
-} = require("../db/models/current_inventory_item.js");
-const { QueryTypes } = require("sequelize");
-const db = require("../db/conn.js");
-const _ = require("lodash");
-const xlsxj = require("xlsx-to-json");
-const fs = require("fs");
+} from '../db/models/current_inventory_item.js';
+import { QueryTypes } from 'sequelize';
+import {db} from '../db/conn.js';
+import _ from 'lodash';
+import xlsxj from 'xlsx-to-json';
+import fs from 'fs';
 
-const getStock_details_item = async (req, res) => {
+export const getStock_details_item = async (req, res) => {
   const data = await Stock_detail_item.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -22,7 +22,7 @@ const getStock_details_item = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_detail_itemQuerySql2 = async (req, res) => {
+export const getStock_detail_itemQuerySql2 = async (req, res) => {
   let variablefinal = req.params.variable;
   const data = await db.sequelize.query(
     `SELECT  id_stock_detail_item, id_item_stock_detail_item, id_container_stock_detail_item, id_place_stock_detail_item, id_stock_stock_detail_item, qty_container_stock_detail_item, units_stock_detail_item, total_stock_detail_item, name_item, code_item, name_container, qty_container FROM stock_detail_item INNER join item on stock_detail_item.id_item_stock_detail_item=item.id_item INNER JOIN container on stock_detail_item.id_container_stock_detail_item=id_container where id_stock_stock_detail_item = ${variablefinal} ORDER BY stock_detail_item.id_stock_detail_item`,
@@ -39,7 +39,7 @@ const getStock_detail_itemQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_detail_item = async (req, res) => {
+export const getStock_detail_item = async (req, res) => {
   let resultGetOne = await Stock_detail_item.findAll({
     // select * from Stock_detail_item
     where: {
@@ -55,7 +55,7 @@ const getStock_detail_item = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createStock_detail_item = async (req, res) => {
+export const createStock_detail_item = async (req, res) => {
   try {
     await Stock_detail_item.create({
       id_stock_stock_detail_item: req.body.idstockstockdetailitem,
@@ -132,7 +132,7 @@ const createStock_detail_item = async (req, res) => {
   }
 };
 
-const updateStock_detail_item = async (req, res) => {
+export const updateStock_detail_item = async (req, res) => {
   try {
     const obj = req.body;
     const id_stock_detail_item = req.body.id_stock_detail_item;
@@ -163,7 +163,7 @@ const updateStock_detail_item = async (req, res) => {
   }
 };
 
-const deleteStock_detail_item = async (req, res) => {
+export const deleteStock_detail_item = async (req, res) => {
   try {
     console.log(req.body);
     const id_stock_detail_item = req.body.id;
@@ -222,13 +222,4 @@ const deleteStock_detail_item = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getStock_details_item,
-  getStock_detail_itemQuerySql2,
-  getStock_detail_item,
-  createStock_detail_item,
-  updateStock_detail_item,
-  deleteStock_detail_item,
 };

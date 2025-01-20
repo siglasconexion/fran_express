@@ -1,13 +1,13 @@
-const { Stock_item } = require("../db/models/stock_item.js");
-const db = require("../db/conn.js");
-const { Item } = require("../db/models/item.js");
-const {
+import { Stock_item } from '../db/models/stock_item.js';
+import {db} from '../db/conn.js';
+import { Item } from '../db/models/item.js';
+import {
   Current_inventory_item,
-} = require("../db/models/current_inventory_item.js");
-const { QueryTypes } = require("sequelize");
-const _ = require("lodash");
+} from '../db/models/current_inventory_item.js';
+import { QueryTypes } from 'sequelize';
+import _ from 'lodash';
 
-const getStocks_item = async (req, res) => {
+export const getStocks_item = async (req, res) => {
   const data = await Stock_item.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -21,7 +21,7 @@ const getStocks_item = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_itemQuerySql2 = async (req, res) => {
+export const getStock_itemQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query("SELECT  * from stock_item"); //
   if (data.length <= 0) {
     res.status(204).json({
@@ -33,7 +33,7 @@ const getStock_itemQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_item = async (req, res) => {
+export const getStock_item = async (req, res) => {
   let resultGetOne = await Stock_item.findAll({
     where: {
       id_status_stock_item: 1,
@@ -42,7 +42,7 @@ const getStock_item = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createStock_item = async (req, res) => {
+export const createStock_item = async (req, res) => {
   const resultNew = await Stock_item.create({
     id_company_stock_item: req.body.idcompanystockitem,
     id_status_stock_item: req.body.idstatusstockitem,
@@ -56,7 +56,7 @@ const createStock_item = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateStock_item = async (req, res) => {
+export const updateStock_item = async (req, res) => {
   try {
     const obj = req.body;
     const id_stock_item = req.body.id_stock_item;
@@ -88,7 +88,7 @@ const updateStock_item = async (req, res) => {
   }
 };
 
-const deleteStock_item = async (req, res) => {
+export const deleteStock_item = async (req, res) => {
   try {
     console.log(req.body);
     const id_stock_item = req.body.id;
@@ -111,7 +111,7 @@ const deleteStock_item = async (req, res) => {
   }
 };
 
-const getStock_item_closed = async (req, res) => {
+export const getStock_item_closed = async (req, res) => {
   let fecha = new Date();
   let año = fecha.getFullYear();
   let mes = ("0" + (fecha.getMonth() + 1)).slice(-2); // Se agrega 1 porque los meses van de 0 a 11
@@ -241,14 +241,4 @@ const getStock_item_closed = async (req, res) => {
     respuestas: respuestas,
   });
   //return;
-};
-
-module.exports = {
-  getStocks_item,
-  getStock_itemQuerySql2,
-  getStock_item,
-  createStock_item,
-  updateStock_item,
-  deleteStock_item,
-  getStock_item_closed,
 };

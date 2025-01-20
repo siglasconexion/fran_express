@@ -1,13 +1,12 @@
-const { Stock_detail_pakage } = require("../db/models/stock_detail_pakage.js");
-const {
-  Current_inventory_pakage,
-} = require("../db/models/current_inventory_pakage.js");
-const { Pakage } = require("../db/models/pakage.js");
+import { Stock_detail_pakage } from "../db/models/stock_detail_pakage.js";
+import { Current_inventory_pakage } from "../db/models/current_inventory_pakage.js";
+import { Pakage } from "../db/models/pakage.js";
 
-const db = require("../db/conn.js");
-const _ = require("lodash");
-const { QueryTypes } = require("sequelize");
-const getStock_details_pakage = async (req, res) => {
+import { db } from "../db/conn.js";
+import _ from "lodash";
+import { QueryTypes } from "sequelize";
+
+export const getStock_details_pakage = async (req, res) => {
   const data = await Stock_detail_pakage.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -21,7 +20,7 @@ const getStock_details_pakage = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_detail_pakageQuerySql2 = async (req, res) => {
+export const getStock_detail_pakageQuerySql2 = async (req, res) => {
   let variablefinal = req.params.variable;
   const data = await db.sequelize.query(
     `SELECT id_stock_detail_pakage, id_stock_stock_detail_pakage , id_pakage_stock_detail_pakage, qty_stock_detail_pakage,  name_pakage FROM stock_detail_pakage INNER JOIN pakage ON id_pakage_stock_detail_pakage=id_pakage where id_stock_stock_detail_pakage = ${variablefinal} ORDER BY id_stock_detail_pakage  `,
@@ -38,7 +37,7 @@ const getStock_detail_pakageQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_detail_pakage = async (req, res) => {
+export const getStock_detail_pakage = async (req, res) => {
   let variable = req.params.variable;
   let resultGetOne = await Stock_detail_pakage.findOne({
     where: {
@@ -67,7 +66,7 @@ const getStock_detail_pakage = async (req, res) => {
   //res.json({ resultGetOne, d: "probando" });
 };
 
-const createStock_detail_pakage = async (req, res) => {
+export const createStock_detail_pakage = async (req, res) => {
   try {
     await Stock_detail_pakage.create({
       id_stock_stock_detail_pakage: req.body.idstockstockdetailpakage,
@@ -91,8 +90,9 @@ const createStock_detail_pakage = async (req, res) => {
       },
     });
     let convertResultNew2 = resultNew2?.toJSON();
-    //console.log("primera consulta", convertResultNew2);
+    console.log("primera consulta", convertResultNew2);
     if (_.isEmpty(convertResultNew2)) {
+      console.log("entre a crear uno nuevo porque ");
       const resultNew3 = await Current_inventory_pakage.create({
         id_stock_current_inventory_pakage: req.body.idstockstockdetailpakage,
         id_pakage_current_inventory_pakage: req.body.idpakagestockdetailpakage,
@@ -144,7 +144,7 @@ const createStock_detail_pakage = async (req, res) => {
   }
 };
 
-const updateStock_detail_pakage = async (req, res) => {
+export const updateStock_detail_pakage = async (req, res) => {
   //esto no se usa hay que borrarla
   try {
     const obj = req.body;
@@ -176,7 +176,7 @@ const updateStock_detail_pakage = async (req, res) => {
   }
 };
 
-const deleteStock_detail_pakage = async (req, res) => {
+export const deleteStock_detail_pakage = async (req, res) => {
   try {
     console.log(req.body);
     const id_stock_detail_pakage = req.body.id;
@@ -236,13 +236,4 @@ const deleteStock_detail_pakage = async (req, res) => {
     console.log(err.stack);
     console.log("otro error", err.error);
   }
-};
-
-module.exports = {
-  getStock_details_pakage,
-  getStock_detail_pakageQuerySql2,
-  getStock_detail_pakage,
-  createStock_detail_pakage,
-  updateStock_detail_pakage,
-  deleteStock_detail_pakage,
 };

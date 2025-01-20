@@ -1,7 +1,7 @@
-const db = require("../conn.js");
-const { DataTypes } = require("sequelize");
+import { db } from "../conn.js";
+import { DataTypes } from "sequelize";
 
-const Made_item = db.sequelize.define(
+export const Made_item = db.sequelize.define(
   "made_item",
   {
     // Model attributes are defined here
@@ -34,6 +34,10 @@ const Made_item = db.sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    id_stock_made_item: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     start_date_made_item: {
       type: DataTypes.DATE,
       allowNull: true,
@@ -47,6 +51,10 @@ const Made_item = db.sequelize.define(
       allowNull: true,
     },
     qty_made_item: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    total_units_made_item: {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
@@ -103,7 +111,3 @@ const Made_item = db.sequelize.define(
     freezeTableName: true,
   }
 );
-
-module.exports = {
-  Made_item,
-};

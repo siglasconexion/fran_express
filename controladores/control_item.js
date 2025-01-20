@@ -1,14 +1,12 @@
-const { Item } = require("../db/models/item.js");
-const {
-  Current_inventory_item,
-} = require("../db/models/current_inventory_item.js");
-const { QueryTypes } = require("sequelize");
-const db = require("../db/conn.js");
-const xlsxj = require("xlsx-to-json");
-const fs = require("fs");
-const _ = require("lodash");
+import { Item } from "../db/models/item.js";
+import { Current_inventory_item } from "../db/models/current_inventory_item.js";
+import { QueryTypes } from "sequelize";
+import { db } from "../db/conn.js";
+import xlsxj from "xlsx-to-json";
+import fs from "fs";
+import _ from "lodash";
 
-const getItems = async (req, res) => {
+export const getItems = async (req, res) => {
   const data = await Item.findAll();
   /*  data = await db.sequelize.query(`SELECT  * from item ORDER BY id_item`, {
     type: QueryTypes.SELECT,
@@ -76,7 +74,7 @@ const getItems = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getItem = async (req, res) => {
+export const getItem = async (req, res) => {
   let resultGetOne = await Item.findAll({
     where: {
       id_item: req.body.id,
@@ -91,7 +89,7 @@ const getItem = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createItem = async (req, res) => {
+export const createItem = async (req, res) => {
   const resultNew = await Item.create({
     id_status_item: req.body.idstatusitem,
     code_item: req.body.codeitem,
@@ -109,9 +107,18 @@ const createItem = async (req, res) => {
   Object.entries(resultNew).length === 0
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
+
+  const resultNewCII = await Current_inventory_item.create({
+    id_stock_current_inventory_item: req.body.idstockcurrentinventoryitem,
+    id_item_current_inventory_item: req.body.iditemcurrentinventoryitem,
+    total_current_inventory_item: req.body.totalcurrentinventoryitem,
+  });
+  Object.entries(resultNewCII).length === 0
+    ? res.json({ message: "Register is not created" })
+    : res.json({ message: resultNewCII });
 };
 
-const updateItem = async (req, res) => {
+export const updateItem = async (req, res) => {
   try {
     const obj = req.body;
     const id_item = req.body.id_item;
@@ -143,7 +150,7 @@ const updateItem = async (req, res) => {
   }
 };
 
-const deleteItem = async (req, res) => {
+export const deleteItem = async (req, res) => {
   try {
     const id_item = req.body.id;
     let resultDelete = await Item.destroy({
@@ -163,12 +170,4 @@ const deleteItem = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getItems,
-  getItem,
-  createItem,
-  updateItem,
-  deleteItem,
 };

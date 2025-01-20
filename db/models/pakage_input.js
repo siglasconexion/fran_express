@@ -1,7 +1,7 @@
-const db = require("../conn.js");
-const { DataTypes } = require("sequelize");
+import { db } from "../conn.js";
+import { DataTypes } from "sequelize";
 
-const Pakage_input = db.sequelize.define(
+export const Pakage_input = db.sequelize.define(
   "pakage_input",
   {
     // Model attributes are defined here
@@ -15,6 +15,10 @@ const Pakage_input = db.sequelize.define(
       allowNull: false,
     },
     id_user_pakage_input: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    id_stock: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -43,7 +47,3 @@ const Pakage_input = db.sequelize.define(
     freezeTableName: true,
   }
 );
-
-module.exports = {
-  Pakage_input,
-};

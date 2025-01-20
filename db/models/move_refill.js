@@ -1,7 +1,7 @@
-const db = require("../conn.js");
-const { DataTypes } = require("sequelize");
+import {db} from '../conn.js';
+import { DataTypes } from 'sequelize';
 
-const Move_refill = db.sequelize.define(
+export const Move_refill = db.sequelize.define(
   "move_refill",
   {
     // Model attributes are defined here
@@ -43,7 +43,3 @@ const Move_refill = db.sequelize.define(
     freezeTableName: true,
   }
 );
-
-module.exports = {
-  Move_refill,
-};

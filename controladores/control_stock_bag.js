@@ -1,12 +1,12 @@
-const { Stock_bag } = require("../db/models/stock_bag.js");
-const { QueryTypes } = require("sequelize");
-const db = require("../db/conn.js");
-const {
+import { Stock_bag } from  '../db/models/stock_bag.js';
+import { QueryTypes } from  'sequelize';
+import {db} from '../db/conn.js';
+import {
   Current_inventory_bag,
-} = require("../db/models/current_inventory_bag.js");
-const _ = require("lodash");
+} from '../db/models/current_inventory_bag.js';
+import _ from 'lodash';
 
-const getStocks_bag = async (req, res) => {
+export const getStocks_bag = async (req, res) => {
   const data = await Stock_bag.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -20,7 +20,7 @@ const getStocks_bag = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_bagQuerySql2 = async (req, res) => {
+export const getStock_bagQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query("SELECT  * from stock_bag"); //
   if (data.length <= 0) {
     res.status(204).json({
@@ -32,7 +32,7 @@ const getStock_bagQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_bag = async (req, res) => {
+export const getStock_bag = async (req, res) => {
   let resultGetOne = await Stock_bag.findAll({
     where: {
       id_status_stock_bag: 1,
@@ -41,7 +41,7 @@ const getStock_bag = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createStock_bag = async (req, res) => {
+export const createStock_bag = async (req, res) => {
   const resultNew = await Stock_bag.create({
     id_company_stock_bag: req.body.idcompanystockbag,
     id_status_stock_bag: req.body.idstatusstockbag,
@@ -55,7 +55,7 @@ const createStock_bag = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateStock_bag = async (req, res) => {
+export const updateStock_bag = async (req, res) => {
   try {
     const obj = req.body;
     const id_stock_bag = req.body.id_stock_bag;
@@ -87,7 +87,7 @@ const updateStock_bag = async (req, res) => {
   }
 };
 
-const deleteStock_bag = async (req, res) => {
+export const deleteStock_bag = async (req, res) => {
   try {
     console.log(req.body);
     const id_stock_bag = req.body.id;
@@ -110,7 +110,7 @@ const deleteStock_bag = async (req, res) => {
   }
 };
 
-const getStock_bag_closed = async (req, res) => {
+export const getStock_bag_closed = async (req, res) => {
   let fecha = new Date();
   let año = fecha.getFullYear();
   let mes = ("0" + (fecha.getMonth() + 1)).slice(-2); // Se agrega 1 porque los meses van de 0 a 11
@@ -224,13 +224,4 @@ const getStock_bag_closed = async (req, res) => {
     respuestas: respuestas,
   });
   //return;
-};
-module.exports = {
-  getStocks_bag,
-  getStock_bagQuerySql2,
-  getStock_bag,
-  createStock_bag,
-  updateStock_bag,
-  deleteStock_bag,
-  getStock_bag_closed,
 };

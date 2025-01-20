@@ -1,13 +1,14 @@
-const { Stock_detail_label } = require("../db/models/stock_detail_label.js");
-const {
+import { Stock_detail_label } from '../db/models/stock_detail_label.js';
+import {
   Current_inventory_label,
-} = require("../db/models/current_inventory_label.js");
-const { Label } = require("../db/models/label.js");
+} from '../db/models/current_inventory_label.js';
+import { Label } from '../db/models/label.js';
 
-const db = require("../db/conn.js");
-const _ = require("lodash");
-const { QueryTypes } = require("sequelize");
-const getStock_details_label = async (req, res) => {
+import {db} from '../db/conn.js';
+import _ from 'lodash';
+import { QueryTypes } from 'sequelize';
+
+export const getStock_details_label = async (req, res) => {
   const data = await Stock_detail_label.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -21,7 +22,7 @@ const getStock_details_label = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_detail_labelQuerySql2 = async (req, res) => {
+export const getStock_detail_labelQuerySql2 = async (req, res) => {
   let variablefinal = req.params.variable;
   const data = await db.sequelize.query(
     `SELECT id_stock_detail_label, id_stock_stock_detail_label , id_label_stock_detail_label, qty_stock_detail_label,  name_label FROM stock_detail_label INNER JOIN label ON id_label_stock_detail_label=id_label  where id_stock_stock_detail_label = ${variablefinal} ORDER BY id_stock_detail_label `,
@@ -38,7 +39,7 @@ const getStock_detail_labelQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_detail_label = async (req, res) => {
+export const getStock_detail_label = async (req, res) => {
   let variable = req.params.variable;
   let resultGetOne = await Stock_detail_label.findOne({
     // select * from Stock_detail_label
@@ -67,7 +68,7 @@ const getStock_detail_label = async (req, res) => {
   //res.json({ resultGetOne, d: "probando" });
 };
 
-const createStock_detail_label = async (req, res) => {
+export const createStock_detail_label = async (req, res) => {
   let wsupport = req.body.weightsupportlabel;
   try {
     await Stock_detail_label.create({
@@ -152,7 +153,7 @@ const createStock_detail_label = async (req, res) => {
   }
 };
 
-const updateStock_detail_label = async (req, res) => {
+export const updateStock_detail_label = async (req, res) => {
   //esto no se usa hay que borrarla
   try {
     const obj = req.body;
@@ -184,7 +185,7 @@ const updateStock_detail_label = async (req, res) => {
   }
 };
 
-const deleteStock_detail_label = async (req, res) => {
+export const deleteStock_detail_label = async (req, res) => {
   try {
     console.log(req.body);
     const id_stock_detail_label = req.body.id;
@@ -244,13 +245,4 @@ const deleteStock_detail_label = async (req, res) => {
     console.log(err.stack);
     console.log("otro error", err.error);
   }
-};
-
-module.exports = {
-  getStock_details_label,
-  getStock_detail_labelQuerySql2,
-  getStock_detail_label,
-  createStock_detail_label,
-  updateStock_detail_label,
-  deleteStock_detail_label,
 };

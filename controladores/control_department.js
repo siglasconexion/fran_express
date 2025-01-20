@@ -1,9 +1,9 @@
-const { Department } = require("../db/models/department.js");
-const db = require("../db/conn.js");
-const xlsxj = require("xlsx-to-json");
-const fs = require("fs");
+import { Department } from '../db/models/department.js';
+import {db} from '../db/conn.js';
+import xlsxj from 'xlsx-to-json';
+import fs from 'fs';
 
-const getDepartments = async (req, res) => {
+export const getDepartments = async (req, res) => {
   const data = await Department.findAll();
   if (data.length <= 0) {
     res.status(204).json({
@@ -15,7 +15,7 @@ const getDepartments = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getDepartmentQuerySql = async (req, res) => {
+export const getDepartmentQuerySql = async (req, res) => {
   const data = await db.sequelize.query("SELECT * FROM department");
   if (data.length <= 0) {
     res.status(204).json({
@@ -27,7 +27,7 @@ const getDepartmentQuerySql = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getDepartment = async (req, res) => {
+export const getDepartment = async (req, res) => {
   let resultGetOne = await Department.findAll({
     where: {
       id_department: req.body.id,
@@ -42,7 +42,7 @@ const getDepartment = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createDepartment = async (req, res) => {
+export const createDepartment = async (req, res) => {
   const resultNew = await Department.create({
     id_company_department: req.body.idcompanydepartment,
     id_status_department: req.body.idstatusdepartment,
@@ -53,7 +53,7 @@ const createDepartment = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateDepartment = async (req, res) => {
+export const updateDepartment = async (req, res) => {
   const obj = req.body;
   let resultUpdate = await Department.update(obj, {
     where: {
@@ -71,7 +71,7 @@ const updateDepartment = async (req, res) => {
       });
 };
 
-const deleteDepartment = async (req, res) => {
+export const deleteDepartment = async (req, res) => {
   try {
     const id_department = req.body.id;
     let resultDelete = await Department.destroy({
@@ -94,7 +94,7 @@ const deleteDepartment = async (req, res) => {
   }
 };
 
-const getDataExcel = async (req, res) => {
+export const getDataExcel = async (req, res) => {
   try {
     xlsxj(
       {
@@ -123,14 +123,4 @@ const getDataExcel = async (req, res) => {
   } catch (e) {
     console.log(e.stack);
   }
-};
-
-module.exports = {
-  getDepartments,
-  getDepartmentQuerySql,
-  getDepartment,
-  createDepartment,
-  updateDepartment,
-  deleteDepartment,
-  getDataExcel,
 };

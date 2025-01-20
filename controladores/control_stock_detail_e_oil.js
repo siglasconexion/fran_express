@@ -1,14 +1,15 @@
-const { Stock_detail_e_oil } = require("../db/models/stock_detail_e_oil.js");
-const {
+import { Stock_detail_e_oil } from '../db/models/stock_detail_e_oil.js';
+import {
   Current_inventory_e_oil,
-} = require("../db/models/current_inventory_e_oil.js");
+} from '../db/models/current_inventory_e_oil.js';
 
-const db = require("../db/conn.js");
-const _ = require("lodash");
-const xlsxj = require("xlsx-to-json");
-const fs = require("fs");
-const { QueryTypes } = require("sequelize");
-const getStock_details_e_oil = async (req, res) => {
+import {db} from '../db/conn.js';
+import _ from 'lodash';
+import xlsxj from 'xlsx-to-json';
+import fs from 'fs';
+import { QueryTypes } from 'sequelize';
+
+export const getStock_details_e_oil = async (req, res) => {
   const data = await Stock_detail_e_oil.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -22,7 +23,7 @@ const getStock_details_e_oil = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_detail_e_oilQuerySql2 = async (req, res) => {
+export const getStock_detail_e_oilQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query(
     "SELECT id_stock_detail_e_oil, id_stock_stock_detail_e_oil , id_e_oil_stock_detail_e_oil, qty_container_one_stock_detail_e_oil, name_essential_oil FROM stock_detail_e_oil INNER JOIN essential_oil ON id_e_oil_stock_detail_e_oil=id_essential_oil ORDER BY id_stock_detail_e_oil ",
     { type: QueryTypes.SELECT }
@@ -38,7 +39,7 @@ const getStock_detail_e_oilQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_detail_e_oil = async (req, res) => {
+export const getStock_detail_e_oil = async (req, res) => {
   let variable = req.params.variable;
   let resultGetOne = await Stock_detail_e_oil.findOne({
     // select * from Stock_detail_item
@@ -67,7 +68,7 @@ const getStock_detail_e_oil = async (req, res) => {
   //res.json({ resultGetOne, d: "probando" });
 };
 
-const createStock_detail_e_oil = async (req, res) => {
+export const createStock_detail_e_oil = async (req, res) => {
   //  if (req.body.idhelpercontainerstockdetaileoil)
   try {
     await Stock_detail_e_oil.create({
@@ -146,7 +147,7 @@ const createStock_detail_e_oil = async (req, res) => {
   }
 };
 
-const updateStock_detail_e_oil = async (req, res) => {
+export const updateStock_detail_e_oil = async (req, res) => {
   try {
     const obj = req.body;
     const id_stock_detail_e_oil = req.body.id_stock_detail_e_oil;
@@ -177,7 +178,7 @@ const updateStock_detail_e_oil = async (req, res) => {
   }
 };
 
-const deleteStock_detail_e_oil = async (req, res) => {
+export const deleteStock_detail_e_oil = async (req, res) => {
   try {
     console.log(req.body);
     const id_stock_detail_e_oil = req.body.id;
@@ -227,13 +228,4 @@ const deleteStock_detail_e_oil = async (req, res) => {
     console.log(err.stack);
     console.log("otro error", err.error);
   }
-};
-
-module.exports = {
-  getStock_details_e_oil,
-  getStock_detail_e_oilQuerySql2,
-  getStock_detail_e_oil,
-  createStock_detail_e_oil,
-  updateStock_detail_e_oil,
-  deleteStock_detail_e_oil,
 };

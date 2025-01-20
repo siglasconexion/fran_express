@@ -1,9 +1,9 @@
-const { Family } = require("../db/models/Family.js");
-const db = require("../db/conn.js");
-const xlsxj = require("xlsx-to-json");
-const fs = require("fs");
+import { Family } from '../db/models/Family.js';
+import {db} from '../db/conn.js';
+import xlsxj from 'xlsx-to-json';
+import fs from 'fs';
 
-const getFamilys = async (req, res) => {
+export const getFamilys = async (req, res) => {
   const data = await Family.findAll();
   if (data.length <= 0) {
     res.status(204).json({
@@ -15,7 +15,7 @@ const getFamilys = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getUserQuerySql = async (req, res) => {
+export const getUserQuerySql = async (req, res) => {
   const data = await db.sequelize.query("SELECT * FROM users");
   if (data.length <= 0) {
     res.status(204).json({
@@ -27,7 +27,7 @@ const getUserQuerySql = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getFamily = async (req, res) => {
+export const getFamily = async (req, res) => {
   let resultGetOne = await Family.findAll({
     where: {
       id_family: req.body.id,
@@ -42,7 +42,7 @@ const getFamily = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createFamily = async (req, res) => {
+export const createFamily = async (req, res) => {
   const resultNew = await Family.create({
     id_company_family: req.body.idcompanyfamily,
     id_status_family: req.body.idstatusfamily,
@@ -54,7 +54,7 @@ const createFamily = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateFamily = async (req, res) => {
+export const updateFamily = async (req, res) => {
   const obj = req.body;
   let resultUpdate = await Family.update(obj, {
     where: {
@@ -72,7 +72,7 @@ const updateFamily = async (req, res) => {
       });
 };
 
-const deleteFamily = async (req, res) => {
+export const deleteFamily = async (req, res) => {
   try {
     const id_family = req.body.id;
     let resultDelete = await Family.destroy({
@@ -95,7 +95,7 @@ const deleteFamily = async (req, res) => {
   }
 };
 
-const getDataExcel = async (req, res) => {
+export const getDataExcel = async (req, res) => {
   try {
     xlsxj(
       {
@@ -124,14 +124,4 @@ const getDataExcel = async (req, res) => {
   } catch (e) {
     console.log(e.stack);
   }
-};
-
-module.exports = {
-  getFamilys,
-  getUserQuerySql,
-  getFamily,
-  createFamily,
-  updateFamily,
-  deleteFamily,
-  getDataExcel,
 };

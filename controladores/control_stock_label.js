@@ -1,13 +1,13 @@
-const { Stock_label } = require("../db/models/stock_label.js");
-const db = require("../db/conn.js");
-const { Label } = require("../db/models/label.js");
-const {
+import { Stock_label } from '../db/models/stock_label.js';
+import {db} from '../db/conn.js';
+import { Label } from '../db/models/label.js';
+import {
   Current_inventory_label,
-} = require("../db/models/current_inventory_label.js");
-const { QueryTypes } = require("sequelize");
-const _ = require("lodash");
+} from '../db/models/current_inventory_label.js';
+import { QueryTypes } from 'sequelize';
+import _ from 'lodash';
 
-const getStocks_label = async (req, res) => {
+export const getStocks_label = async (req, res) => {
   const data = await Stock_label.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -21,7 +21,7 @@ const getStocks_label = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_labelQuerySql2 = async (req, res) => {
+export const getStock_labelQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query("SELECT  * from stock_label"); //
   if (data.length <= 0) {
     res.status(204).json({
@@ -33,7 +33,7 @@ const getStock_labelQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStock_label = async (req, res) => {
+export const getStock_label = async (req, res) => {
   let resultGetOne = await Stock_label.findAll({
     where: {
       id_status_stock_label: 1,
@@ -42,7 +42,7 @@ const getStock_label = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createStock_label = async (req, res) => {
+export const createStock_label = async (req, res) => {
   const resultNew = await Stock_label.create({
     id_company_stock_label: req.body.idcompanystocklabel,
     id_status_stock_label: req.body.idstatusstocklabel,
@@ -56,7 +56,7 @@ const createStock_label = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateStock_label = async (req, res) => {
+export const updateStock_label = async (req, res) => {
   try {
     const obj = req.body;
     const id_stock_label = req.body.id_stock_label;
@@ -88,7 +88,7 @@ const updateStock_label = async (req, res) => {
   }
 };
 
-const deleteStock_label = async (req, res) => {
+export const deleteStock_label = async (req, res) => {
   try {
     console.log(req.body);
     const id_stock_label = req.body.id;
@@ -111,7 +111,7 @@ const deleteStock_label = async (req, res) => {
   }
 };
 
-const getStock_label_closed = async (req, res) => {
+export const getStock_label_closed = async (req, res) => {
   let fecha = new Date();
   let año = fecha.getFullYear();
   let mes = ("0" + (fecha.getMonth() + 1)).slice(-2); // Se agrega 1 porque los meses van de 0 a 11
@@ -235,14 +235,4 @@ const getStock_label_closed = async (req, res) => {
     respuestas: respuestas,
   });
   //return;
-};
-
-module.exports = {
-  getStocks_label,
-  getStock_labelQuerySql2,
-  getStock_label,
-  createStock_label,
-  updateStock_label,
-  deleteStock_label,
-  getStock_label_closed,
 };

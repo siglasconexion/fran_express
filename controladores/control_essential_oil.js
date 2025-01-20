@@ -1,9 +1,9 @@
-const { Essential_oil } = require("../db/models/essential_oil.js");
-const db = require("../db/conn.js");
-const xlsxj = require("xlsx-to-json");
-const fs = require("fs");
+import { Essential_oil } from '../db/models/essential_oil.js';
+import {db} from '../db/conn.js';
+import xlsxj from 'xlsx-to-json';
+import fs from 'fs';
 
-const getEssential_oils = async (req, res) => {
+export const getEssential_oils = async (req, res) => {
   const data = await Essential_oil.findAll();
   if (data.length <= 0) {
     res.status(201).json({
@@ -17,7 +17,7 @@ const getEssential_oils = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getEssential_oil = async (req, res) => {
+export const getEssential_oil = async (req, res) => {
   let resultGetOne = await Essential_oil.findAll({
     where: {
       id_essential_oil: req.body.id,
@@ -32,7 +32,7 @@ const getEssential_oil = async (req, res) => {
   res.json(resultGetOne);
 };
 
-const createEssential_oil = async (req, res) => {
+export const createEssential_oil = async (req, res) => {
   console.log("aca el reg", req.body);
   const resultNew = await Essential_oil.create({
     id_company_essential_oil: req.body.idcompanyessentialoil,
@@ -52,7 +52,7 @@ const createEssential_oil = async (req, res) => {
     : res.json({ message: resultNew });
 };
 
-const updateEssential_oil = async (req, res) => {
+export const updateEssential_oil = async (req, res) => {
   try {
     const obj = req.body;
     const id_essential_oil = req.body.id_essential_oil;
@@ -84,7 +84,7 @@ const updateEssential_oil = async (req, res) => {
   }
 };
 
-const deleteEssential_oil = async (req, res) => {
+export const deleteEssential_oil = async (req, res) => {
   try {
     const id_essential_oil = req.body.id;
     let resultDelete = await Essential_oil.destroy({
@@ -104,12 +104,4 @@ const deleteEssential_oil = async (req, res) => {
   } catch (err) {
     console.log(err.stack);
   }
-};
-
-module.exports = {
-  getEssential_oils,
-  getEssential_oil,
-  createEssential_oil,
-  updateEssential_oil,
-  deleteEssential_oil,
 };
