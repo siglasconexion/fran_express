@@ -1,41 +1,57 @@
 import {db} from '../conn.js';
 import { DataTypes } from 'sequelize';
 
-export const User = db.sequelize.define(
-  "user",
+export const Container = db.sequelize.define(
+  "container",
   {
     // Model attributes are defined here
-    id_user: {
+    id_container: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    id_company_user: {
+    id_status_container: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_type_user: {
+    id_company_container: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_status_user: {
+    id_family_container: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    name_user: {
+    id_measure_container: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    id_department_container: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    name_container: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    name_key_user: {
+    size_container: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    email_user: {
+    qty_container: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    password_user: {
+    container_tare: {
       type: DataTypes.STRING,
+      allowNull: true,
+    },
+    container_tare_lbs: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    is_helper_container: {
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
   },

@@ -1,42 +1,42 @@
 import {db} from '../conn.js';
 import { DataTypes } from 'sequelize';
 
-export const User = db.sequelize.define(
-  "user",
+export const Move_refill = db.sequelize.define(
+  "move_refill",
   {
     // Model attributes are defined here
-    id_user: {
+    id_move_refill: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    id_company_user: {
+    id_user: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_type_user: {
+    id_type_recharge: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_status_user: {
+    id_product: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    name_user: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    id_made_item: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
-    name_key_user: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    date: {
+      type: DataTypes.DATE,
+      allowNull: true,
     },
-    email_user: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    qty_refill: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
-    password_user: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    observation: {
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
   },
   {

@@ -1,42 +1,48 @@
 import {db} from '../conn.js';
 import { DataTypes } from 'sequelize';
 
-export const User = db.sequelize.define(
-  "user",
+export const Company = db.sequelize.define(
+  "company",
   {
     // Model attributes are defined here
-    id_user: {
+    id_company: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    id_company_user: {
+    id_status_company: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_type_user: {
+    code_company: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    name_company: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    address_company: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    city_company: {
+      type: DataTypes.STRING,
+    },
+    unit_company: {
+      type: DataTypes.STRING,
+    },
+    postal_code_company: {
+      type: DataTypes.STRING,
+    },
+    phone_number_company: {
+      type: DataTypes.STRING,
+    },
+    email_company: {
+      type: DataTypes.STRING,
+    },
+    id_social_media_company: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    id_status_user: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    name_user: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    name_key_user: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email_user: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    password_user: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
   },
   {

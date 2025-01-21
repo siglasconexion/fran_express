@@ -1,42 +1,34 @@
 import {db} from '../conn.js';
 import { DataTypes } from 'sequelize';
 
-export const User = db.sequelize.define(
-  "user",
+export const Measure = db.sequelize.define(
+  "measure",
   {
     // Model attributes are defined here
-    id_user: {
+    id_measure: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    id_company_user: {
+    id_company_measure: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_type_user: {
+    id_status_measure: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_status_user: {
+    id_department_measure: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    name_user: {
+    name_measure: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    name_key_user: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    email_user: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    password_user: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    mililitros: {
+      type: DataTypes.DECIMAL,
+      allowNull: true,
     },
   },
   {
