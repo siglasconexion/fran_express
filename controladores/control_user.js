@@ -1,6 +1,7 @@
 import { User } from '../db/models/User.js';
-import {db} from '../db/conn.js';
+import { db } from '../db/conn.js';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 
 export const getUsers = async (req, res) => {
   const data = await User.findAll();
@@ -29,9 +30,7 @@ export const getUserQuerySql2 = async (req, res) => {
 };
 
 export const getUser = async (req, res) => {
-  let usuario = req.params.usuario;
-  let password = req.params.password;
-  const { usuario2, password2 } = req.params;
+  const { usuario, password } = req.params;
 
   let resultGetOne = await User.findOne({
     where: {
@@ -111,35 +110,166 @@ export const deleteUser = async (req, res) => {
     });
     resultDelete === 1
       ? res.json({
-          message: "Status was deleted successfully",
-          resultDelete: resultDelete,
-        })
+        message: "Status was deleted successfully",
+        resultDelete: resultDelete,
+      })
       : res.json({
-          message: "Status Not deleted successfully",
-          resultdelete: resultDelete,
-        });
+        message: "Status Not deleted successfully",
+        resultdelete: resultDelete,
+      });
   } catch (err) {
     console.log(err.stack);
   }
 };
 
-const login = (req, res) => {
-  // Aquí deberías realizar la lógica de autenticación del usuario
-  // Asumiremos que tienes un sistema de usuarios con contraseñas seguras almacenadas
-  const { username, password } = req.body;
-  // Verifica las credenciales (esto debe ser reemplazado con tu lógica de autenticación real)
-  if (username === "usuario" && password === "contraseña") {
-    // Genera un token JWT
+export const login = async (req, res) => {
+  const secretKey = 'tu_clave_secreta'; // Obtén la clave secreta desde las variables de entorno
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.findOne({
+      where: {
+        email_user: email,
+      },
+    });
+
+    if (!user) {
+      return res.status(401).json({ message: "Credenciales inválidas" });
+    }
+    const passwordMatch = await bcrypt.compare(password, user.password_user);
+    if (!passwordMatch) {
+      return res.status(401).json({ message: "Credenciales inválidas" });
+    }
     const token = jwt.sign(
       {
-        user: username,
+        user: {
+          id: user.id,
+          email: user.email_user,
+        },
       },
       secretKey,
       { expiresIn: "1h" }
     );
+    return res.json({ token, name_user: user.name_user });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Error interno del servidor" });
+  }
+};
 
-    res.json({ token });
-  } else {
-    res.status(401).json({ message: "Credenciales inválidas" });
+
+export const register = async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    let user = await User.findOne({
+      where: { email_user: email },
+    });
+
+    if (user) {
+      await user.update({
+        password_user: hashedPassword,
+      });
+      return res.status(200).json({
+        message: 'Usuario actualizado con éxito',
+        user,
+      });
+    }
+    user = await User.create({
+      email_user: email,
+      password_user: hashedPassword,
+    });
+
+    return res.status(201).json({
+      message: 'Usuario creado con éxito',
+      user,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: 'Error interno del servidor' });
+  }
+};
+
+export const findUserById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findOne({
+      where: {
+        id_user: id,
+      },
+    });
+    console.log("User found:", user);
+    if (!user) {
+      return res.status(404).json({
+        message: "User not found",
+        code: 404,
+        ok: false,
+      });
+    }
+    return res.status(200).json(user);
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    return res.status(500).json({
+      message: "Internal server error",
+      code: 500,
+      ok: false,
+    });
+  }
+};
+
+export const createOrUpdateUser = async (req, res) => {
+  const {
+    idcompanyuser,
+    idtypeuser,
+    idstatususer,
+    nameuser,
+    namekeyuser,
+    emailuser,
+    passworduser,
+  } = req.body;
+
+  try {
+    // Cifrar la contraseña antes de usarla
+    const hashedPassword = await bcrypt.hash(passworduser, 10);
+
+    // Buscar si ya existe un usuario con ese email
+    let user = await User.findOne({
+      where: { email_user: emailuser },
+    });
+
+    if (user) {
+      await user.update({
+        id_company_user: idcompanyuser,
+        id_type_user: idtypeuser,
+        id_status_user: idstatususer,
+        name_user: nameuser,
+        name_key_user: namekeyuser,
+        password_user: hashedPassword,
+      });
+
+      return res.status(200).json({
+        message: "Usuario actualizado con éxito",
+        user,
+      });
+    }
+
+    user = await User.create({
+      id_company_user: idcompanyuser,
+      id_type_user: idtypeuser,
+      id_status_user: idstatususer,
+      name_user: nameuser,
+      name_key_user: namekeyuser,
+      email_user: emailuser,
+      password_user: hashedPassword,
+    });
+
+    return res.status(201).json({
+      message: "Usuario creado con éxito",
+      user,
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Error interno del servidor" });
   }
 };

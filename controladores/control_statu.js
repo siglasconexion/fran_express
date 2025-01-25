@@ -1,5 +1,5 @@
 import { Statu } from '../db/models/statu.js';
-import {db} from '../db/conn.js';
+import { db } from '../db/conn.js';
 import xlsxj from 'xlsx-to-json';
 import fs from 'fs';
 
@@ -83,13 +83,13 @@ export const deleteStatu = async (req, res) => {
     });
     resultDelete === 1
       ? res.json({
-          message: "Status was deleted successfully",
-          resultDelete: resultDelete,
-        })
+        message: "Status was deleted successfully",
+        resultDelete: resultDelete,
+      })
       : res.json({
-          message: "Status Not deleted successfully",
-          resultdelete: resultDelete,
-        });
+        message: "Status Not deleted successfully",
+        resultdelete: resultDelete,
+      });
   } catch (err) {
     console.log(err.stack);
   }
