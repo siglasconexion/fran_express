@@ -96,6 +96,14 @@ export const createStock_detail_pakage = async (req, res) => {
       const resultNew3 = await Current_inventory_pakage.create({
         id_stock_current_inventory_pakage: req.body.idstockstockdetailpakage,
         id_pakage_current_inventory_pakage: req.body.idpakagestockdetailpakage,
+        initial: 0,
+        production: 0,
+        purchase: 0,
+        other_entries: 0,
+        damaged: 0,
+        defeated: 0,
+        returned: 0,
+        adjustment: 0,
         total_current_inventory_pakage: req.body.qtystockdetailpakage,
       });
       console.log("segunda", resultNew3);

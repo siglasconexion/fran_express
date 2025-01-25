@@ -61,7 +61,7 @@ export const Current_inventory_item = db.sequelize.define(
 
     total_current_inventory_item: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
   },
   {

@@ -1,5 +1,5 @@
-import {db} from '../conn.js';
-import { DataTypes } from 'sequelize';
+import { db } from "../conn.js";
+import { DataTypes } from "sequelize";
 
 export const Current_inventory_label = db.sequelize.define(
   "current_inventory_label",
@@ -53,7 +53,7 @@ export const Current_inventory_label = db.sequelize.define(
 
     total_current_inventory_label: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
   },
   {
