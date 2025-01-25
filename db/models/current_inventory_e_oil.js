@@ -52,7 +52,7 @@ export const Current_inventory_e_oil = db.sequelize.define(
     },
     total_current_inventory_e_oil: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
   },
   {

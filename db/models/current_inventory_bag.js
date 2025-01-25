@@ -1,5 +1,5 @@
-import {db} from '../conn.js';
-import { DataTypes } from 'sequelize';
+import { db } from "../conn.js";
+import { DataTypes } from "sequelize";
 
 export const Current_inventory_bag = db.sequelize.define(
   "current_inventory_bag",
@@ -52,7 +52,7 @@ export const Current_inventory_bag = db.sequelize.define(
     },
     total_current_inventory_bag: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      allowNull: true,
     },
   },
   {
