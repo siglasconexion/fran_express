@@ -11,8 +11,8 @@ export const getStock_details_label = async (req, res) => {
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,
-      message: "Results not foundssdsdasdasd",
-      statusText: "nuevo mensaje",
+      message: "Results not found",
+      statusText: "new message",
       ok: "false",
     });
     return;
@@ -26,7 +26,6 @@ export const getStock_detail_labelQuerySql2 = async (req, res) => {
     `SELECT id_stock_detail_label, id_stock_stock_detail_label , id_label_stock_detail_label, qty_stock_detail_label,  name_label FROM stock_detail_label INNER JOIN label ON id_label_stock_detail_label=id_label  where id_stock_stock_detail_label = ${variablefinal} ORDER BY id_stock_detail_label `,
     { type: QueryTypes.SELECT }
   );
-
   if (data.length <= 0) {
     res.status(204).json({
       code: 204,
@@ -40,30 +39,22 @@ export const getStock_detail_labelQuerySql2 = async (req, res) => {
 export const getStock_detail_label = async (req, res) => {
   let variable = req.params.variable;
   let resultGetOne = await Stock_detail_label.findOne({
-    // select * from Stock_detail_label
     where: {
       id_label_stock_detail_label: variable,
     },
   });
   let convertResultNew2 = resultGetOne?.toJSON();
-  /*  if (resultGetOne.length <= 0) {
-    res.json({
-      message: "Results not found",
-    });
-    return;
-  } */
   console.log("ver aqui", convertResultNew2);
   if (_.isEmpty(convertResultNew2)) {
     res.status(201).json({
       code: 201,
-      message: "Results not foundssdsdasdasd",
-      statusText: "nuevo mensaje",
+      message: "Results not found",
+      statusText: "new message",
       ok: "false",
     });
     return;
   }
   res.json(resultGetOne);
-  //res.json({ resultGetOne, d: "probando" });
 };
 
 export const createStock_detail_label = async (req, res) => {
@@ -80,7 +71,7 @@ export const createStock_detail_label = async (req, res) => {
       transaction
     );
     resAllQuerys.push({
-      stock_detail_label: "creado correctamente",
+      stock_detail_label: "Created successfully",
       newRegister: newRegister,
     });
     //      id_label: req.body.idlabelstockdetaillabel,
@@ -96,7 +87,7 @@ export const createStock_detail_label = async (req, res) => {
       },
       transaction
     );
-    resAllQuerys.push({ label: " Registro Actualizado correctamente" });
+    resAllQuerys.push({ label: " Record updated successfully" });
 
     const resultNew2 = await Current_inventory_label.findOne(
       {
@@ -116,6 +107,7 @@ export const createStock_detail_label = async (req, res) => {
           id_label_current_inventory_label: req.body.idlabelstockdetaillabel,
           initial: 0,
           production: 0,
+          purchase: 0,
           other_entries: 0,
           damaged: 0,
           defeated: 0,
@@ -152,7 +144,6 @@ export const createStock_detail_label = async (req, res) => {
         },
         transaction
       );
-
       if (resultUpdate[0] === 1) {
         resAllQuerys.push({
           Current_inventory_label: " Record was updated successfully",
@@ -173,7 +164,10 @@ export const createStock_detail_label = async (req, res) => {
     console.log("aquir muestra la descripcion de error message", error.message);
     console.log("aquir el error stack", error.stack);
     console.log("aca el error erros", error.errors);
-    console.log("aqui va el error de la funcion Create_stock_detail", error);
+    console.log(
+      "aqui va el error de la funcion Create_stock_detail_label",
+      error
+    );
     return res.status(400).json({
       message: "Records were not updated or created, commit aborted",
       details: error.message,
@@ -274,7 +268,10 @@ export const deleteStock_detail_label = async (req, res) => {
     console.log("aquir muestra la descripcion de error message", error.message);
     console.log("aquir el error stack", error.stack);
     console.log("aca el error erros", error.errors);
-    console.log("aqui va el error de la funcion Create_stock_detail", error);
+    console.log(
+      "aqui va el error de la funcion delete_stock_detail_label",
+      error
+    );
     return res.status(400).json({
       message: "Records were not updated, commit aborted",
       details: error.message,
@@ -282,8 +279,6 @@ export const deleteStock_detail_label = async (req, res) => {
       status: "false",
       resAllQuerys: resAllQuerys,
     });
-    console.log(err.stack);
-    console.log("otro error", err.error);
   }
   return res.json({ message: resAllQuerys });
 };
