@@ -157,13 +157,11 @@ export const createMade_item = async (req, res) => {
     const resultNew2 = await db.sequelize.query(
       ` UPDATE item SET stock_item = stock_item + ${req.body.totalmade} WHERE item.id_item = ${req.body.iditemmadeitem}`,
       {
-        //replacements: { `${campoStock}`, stockItem }, // Reemplazos seguros para evitar inyección SQL
         type: QueryTypes.UPDATE, // Tipo de consulta
         transaction, // Asocia la transacción a la consulta, si es necesario
       }
     );
     // fin actualizacion tabla item
-
     // actulizar la tabla current_inventory_item
     const resultNew4 = await db.sequelize.query(
       ` UPDATE current_inventory_item SET production = production + ${cant} WHERE id_stock_current_inventory_item = ${idStockItem} AND id_item_current_inventory_item  = ${req.body.iditemmadeitem}`,

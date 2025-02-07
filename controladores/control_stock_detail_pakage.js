@@ -42,16 +42,9 @@ export const getStock_detail_pakage = async (req, res) => {
   let resultGetOne = await Stock_detail_pakage.findOne({
     where: {
       id_pakage_stock_detail_pakage: variable,
-      //id_stock_current_inventory_pakage: req.body.idstockstockdetailpakage,
     },
   });
   let convertResultNew2 = resultGetOne?.toJSON();
-  /*  if (resultGetOne.length <= 0) {
-    res.json({
-      message: "Results not found",
-    });
-    return;
-  } */
   console.log("ver aqui", convertResultNew2);
   if (_.isEmpty(convertResultNew2)) {
     res.status(201).json({
@@ -63,18 +56,27 @@ export const getStock_detail_pakage = async (req, res) => {
     return;
   }
   res.json(resultGetOne);
-  //res.json({ resultGetOne, d: "probando" });
 };
 
 export const createStock_detail_pakage = async (req, res) => {
+  let resAllQuerys = [];
+  const transaction = await db.sequelize.transaction(); // Inicia la transaccion
   try {
-    await Stock_detail_pakage.create({
-      id_stock_stock_detail_pakage: req.body.idstockstockdetailpakage,
-      id_pakage_stock_detail_pakage: req.body.idpakagestockdetailpakage,
-      qty_stock_detail_pakage: req.body.qtystockdetailpakage,
+    const newRegister = await Stock_detail_pakage.create(
+      {
+        id_stock_stock_detail_pakage: req.body.idstockstockdetailpakage,
+        id_pakage_stock_detail_pakage: req.body.idpakagestockdetailpakage,
+        qty_stock_detail_pakage: req.body.qtystockdetailpakage,
+      },
+      { transaction }
+    );
+    resAllQuerys.push({
+      stock_detail_pakage: "Created successfully",
+      newRegister: newRegister,
     });
+
+    //      id_pakage: req.body.idpakagestockdetailpakage,
     let obj2 = {
-      id_pakage: req.body.idpakagestockdetailpakage,
       weight_box_pakage: req.body.weightboxpakage,
       weight_pakage: req.body.weightpakage,
     };
@@ -82,7 +84,10 @@ export const createStock_detail_pakage = async (req, res) => {
       where: {
         id_pakage: req.body.idpakagestockdetailpakage,
       },
+      transaction,
     });
+    resAllQuerys.push({ pakage: " Record updated successfully" });
+
     const resultNew2 = await Current_inventory_pakage.findOne({
       where: {
         id_pakage_current_inventory_pakage: req.body.idpakagestockdetailpakage,
@@ -93,98 +98,91 @@ export const createStock_detail_pakage = async (req, res) => {
     console.log("primera consulta", convertResultNew2);
     if (_.isEmpty(convertResultNew2)) {
       console.log("entre a crear uno nuevo porque ");
-      const resultNew3 = await Current_inventory_pakage.create({
-        id_stock_current_inventory_pakage: req.body.idstockstockdetailpakage,
-        id_pakage_current_inventory_pakage: req.body.idpakagestockdetailpakage,
-        initial: 0,
-        production: 0,
-        purchase: 0,
-        other_entries: 0,
-        damaged: 0,
-        defeated: 0,
-        returned: 0,
-        adjustment: 0,
-        total_current_inventory_pakage: req.body.qtystockdetailpakage,
-      });
+      const resultNew3 = await Current_inventory_pakage.create(
+        {
+          id_stock_current_inventory_pakage: req.body.idstockstockdetailpakage,
+          id_pakage_current_inventory_pakage:
+            req.body.idpakagestockdetailpakage,
+          initial: 0,
+          production: 0,
+          purchase: 0,
+          other_entries: 0,
+          damaged: 0,
+          defeated: 0,
+          returned: 0,
+          adjustment: 0,
+          total_current_inventory_pakage: req.body.qtystockdetailpakage,
+        },
+        { transaction }
+      );
       console.log("segunda", resultNew3);
 
       Object.entries(resultNew3).length === 0
-        ? res.json({ message: "Register is not created" })
-        : res.json({ message: resultNew3 });
-      return;
-    }
-
-    let previousTotal = convertResultNew2.total_current_inventory_pakage;
-
-    let totalNew =
-      parseFloat(req.body.qtystockdetailpakage) + parseFloat(previousTotal);
-
-    let obj = {
-      id_stock_current_inventory_pakage: req.body.idstockstockdetailpakage,
-      id_pakage_current_inventory_pakage: req.body.idpakagestockdetailpakage,
-      total_current_inventory_pakage: totalNew,
-    };
-    const resultUpdate = await Current_inventory_pakage.update(obj, {
-      where: {
-        id_pakage_current_inventory_pakage: req.body.idpakagestockdetailpakage,
-        id_stock_current_inventory_pakage: req.body.idstockstockdetailpakage,
-      },
-    });
-    if (resultUpdate[0] === 1) {
-      /*       res.status(200).json({
-        message: "Status Update successfully",
-        resultUpdate: resultUpdate,
-      });
- */
-      res.json({ message: resultUpdate });
+        ? resAllQuerys.push({
+            Current_inventory_pakage: " Record is not created",
+          })
+        : resAllQuerys.push({
+            Current_inventory_pakage: " Record was created successfully",
+          });
     } else {
-      res.status(400).json({
-        error: "valor demasiado grande",
-        message: "Status not successfully",
-        resultUpdate: resultUpdate,
+      let previousTotal = convertResultNew2.total_current_inventory_pakage;
+      let totalNew =
+        parseFloat(req.body.qtystockdetailpakage) + parseFloat(previousTotal);
+      let obj = {
+        id_stock_current_inventory_pakage: req.body.idstockstockdetailpakage,
+        id_pakage_current_inventory_pakage: req.body.idpakagestockdetailpakage,
+        total_current_inventory_pakage: totalNew,
+      };
+      const resultUpdate = await Current_inventory_pakage.update(obj, {
+        where: {
+          id_pakage_current_inventory_pakage:
+            req.body.idpakagestockdetailpakage,
+          id_stock_current_inventory_pakage: req.body.idstockstockdetailpakage,
+        },
+        transaction,
       });
+      if (resultUpdate[0] === 1) {
+        resAllQuerys.push({
+          Current_inventory_label: " Record was updated successfully",
+          resultUpdate: resultUpdate,
+        });
+      } else {
+        resAllQuerys.push({
+          Current_inventory_label: " Record was not updated",
+          resultUpdate: resultUpdate,
+          status: 400,
+          error: "An error occurred",
+        });
+      }
     }
+    await transaction.commit(); // Confirma la transacción
   } catch (error) {
+    await transaction.rollback(); // Revierte la transacción en caso de error
     console.log("aquir muestra la descripcion de error message", error.message);
     console.log("aquir el error stack", error.stack);
     console.log("aca el error erros", error.errors);
-    console.log("aqui va el error de la funcion Create_stock_detail", error);
+    console.log(
+      "aqui va el error de la funcion Create_stock_detail_pakage",
+      error
+    );
+    return res.status(400).json({
+      message: "Records were not updated or created, commit aborted",
+      details: error.message,
+      error: error.stack,
+      status: "false",
+      resAllQuerys: resAllQuerys,
+    });
   }
+  return res.json({ message: resAllQuerys });
 };
 
 export const updateStock_detail_pakage = async (req, res) => {
   //esto no se usa hay que borrarla
-  try {
-    const obj = req.body;
-    const id_stock_detail_pakage = req.body.id_stock_detail_pakage;
-    let resultUpdate = await Stock_detail_pakage.update(obj, {
-      where: {
-        id_stock_detail_pakage: id_stock_detail_pakage,
-      },
-    });
-    if (resultUpdate[0] === 1) {
-      res.status(200).json({
-        message: "Status Update successfully",
-        resultUpdate: resultUpdate,
-      });
-    } else {
-      res.status(400).json({
-        error: "valor demasiado grande",
-        message: "Status not successfully",
-        resultUpdate: resultUpdate,
-      });
-    }
-  } catch (err) {
-    res.status(400).json({
-      error: "valor demasiado grande",
-      message: "Status not successfully",
-    });
-    console.log(err.stack);
-    console.log("aca solo el error", err);
-  }
 };
 
 export const deleteStock_detail_pakage = async (req, res) => {
+  let resAllQuerys = [];
+  const transaction = await db.sequelize.transaction(); // Inicia la transaccion
   try {
     console.log(req.body);
     const id_stock_detail_pakage = req.body.id;
@@ -195,7 +193,9 @@ export const deleteStock_detail_pakage = async (req, res) => {
         id_stock_detail_pakage,
         id_stock_stock_detail_pakage,
       },
+      transaction,
     });
+    resAllQuerys.push({ pakage: " Record was deleted successfully" });
 
     const resultNew2 = await Current_inventory_pakage.findOne({
       where: {
@@ -207,15 +207,6 @@ export const deleteStock_detail_pakage = async (req, res) => {
     if (!_.isEmpty(convertResultNew2)) {
       let previousTotal = convertResultNew2.total_current_inventory_pakage;
       let totalNew = previousTotal - parseFloat(req.body.total);
-      //if (totalNew <= 0) {
-      /*        let resultDelete = await Current_inventory_pakage.destroy({
-          where: {
-            id_pakage_current_inventory_pakage: req.body.idpakage,
-            id_stock_current_inventory_pakage: req.body.idstock,
-          },
-        }); */
-      //return res.json();
-      //}
       let obj = {
         id_stock_current_inventory_pakage: req.body.idstock,
         id_pakage_current_inventory_pakage: req.body.idpakage,
@@ -226,22 +217,39 @@ export const deleteStock_detail_pakage = async (req, res) => {
           id_pakage_current_inventory_pakage: req.body.idpakage,
           id_stock_current_inventory_pakage: req.body.idstock,
         },
+        transaction,
       });
       if (resultUpdate[0] === 1) {
-        res.status(200).json({
-          message: "Status Update successfully",
+        resAllQuerys.push({
+          Current_inventory_pakage: " Record was updated successfully",
           resultUpdate: resultUpdate,
         });
       } else {
-        res.status(400).json({
-          error: "valor demasiado grande",
-          message: "Status not successfully",
+        resAllQuerys.push({
+          Current_inventory_label: " Record was not updated",
           resultUpdate: resultUpdate,
+          status: 400,
+          error: "An error occurred",
         });
       }
     }
+    await transaction.commit(); // Confirma la transacción
   } catch (err) {
-    console.log(err.stack);
-    console.log("otro error", err.error);
+    await transaction.rollback(); // Revierte la transacción en caso de error
+    console.log("aquir muestra la descripcion de error message", error.message);
+    console.log("aquir el error stack", error.stack);
+    console.log("aca el error erros", error.errors);
+    console.log(
+      "aqui va el error de la funcion delete_stock_detail_pakage",
+      error
+    );
+    return res.status(400).json({
+      message: "Records were not updated, commit aborted",
+      details: error.message,
+      error: error.stack,
+      status: "false",
+      resAllQuerys: resAllQuerys,
+    });
   }
+  return res.json({ message: resAllQuerys });
 };

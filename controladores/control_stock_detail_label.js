@@ -68,36 +68,31 @@ export const createStock_detail_label = async (req, res) => {
         id_label_stock_detail_label: req.body.idlabelstockdetaillabel,
         qty_stock_detail_label: req.body.qtystockdetaillabel,
       },
-      transaction
+      { transaction }
     );
     resAllQuerys.push({
       stock_detail_label: "Created successfully",
       newRegister: newRegister,
     });
+
     //      id_label: req.body.idlabelstockdetaillabel,
     let obj2 = {
       weight_support_label: req.body.weightsupportlabel,
     };
-    const resultUpdate2 = await Label.update(
-      obj2,
-      {
-        where: {
-          id_label: req.body.idlabelstockdetaillabel,
-        },
+    const resultUpdate2 = await Label.update(obj2, {
+      where: {
+        id_label: req.body.idlabelstockdetaillabel,
       },
-      transaction
-    );
+      transaction,
+    });
     resAllQuerys.push({ label: " Record updated successfully" });
 
-    const resultNew2 = await Current_inventory_label.findOne(
-      {
-        where: {
-          id_label_current_inventory_label: req.body.idlabelstockdetaillabel,
-          id_stock_current_inventory_label: req.body.idstockstockdetaillabel,
-        },
-      }
-      //      { type: QueryTypes.SELECT, transaction }
-    );
+    const resultNew2 = await Current_inventory_label.findOne({
+      where: {
+        id_label_current_inventory_label: req.body.idlabelstockdetaillabel,
+        id_stock_current_inventory_label: req.body.idstockstockdetaillabel,
+      },
+    });
     let convertResultNew2 = resultNew2?.toJSON();
     //console.log("primera consulta", convertResultNew2);
     if (_.isEmpty(convertResultNew2)) {
@@ -115,7 +110,7 @@ export const createStock_detail_label = async (req, res) => {
           adjustment: 0,
           total_current_inventory_label: req.body.qtystockdetaillabel,
         },
-        transaction
+        { transaction }
       );
       //console.log("segunda", resultNew3);
       Object.entries(resultNew3).length === 0
@@ -134,16 +129,13 @@ export const createStock_detail_label = async (req, res) => {
         id_label_current_inventory_label: req.body.idlabelstockdetaillabel,
         total_current_inventory_label: totalNew,
       };
-      const resultUpdate = await Current_inventory_label.update(
-        obj,
-        {
-          where: {
-            id_label_current_inventory_label: req.body.idlabelstockdetaillabel,
-            id_stock_current_inventory_label: req.body.idstockstockdetaillabel,
-          },
+      const resultUpdate = await Current_inventory_label.update(obj, {
+        where: {
+          id_label_current_inventory_label: req.body.idlabelstockdetaillabel,
+          id_stock_current_inventory_label: req.body.idstockstockdetaillabel,
         },
-        transaction
-      );
+        transaction,
+      });
       if (resultUpdate[0] === 1) {
         resAllQuerys.push({
           Current_inventory_label: " Record was updated successfully",
@@ -181,34 +173,6 @@ export const createStock_detail_label = async (req, res) => {
 
 export const updateStock_detail_label = async (req, res) => {
   //esto no se usa hay que borrarla
-  try {
-    const obj = req.body;
-    const id_stock_detail_label = req.body.id_stock_detail_label;
-    let resultUpdate = await Stock_detail_label.update(obj, {
-      where: {
-        id_stock_detail_label: id_stock_detail_label,
-      },
-    });
-    if (resultUpdate[0] === 1) {
-      res.status(200).json({
-        message: "Status Update successfully",
-        resultUpdate: resultUpdate,
-      });
-    } else {
-      res.status(400).json({
-        error: "valor demasiado grande",
-        message: "Status not successfully",
-        resultUpdate: resultUpdate,
-      });
-    }
-  } catch (err) {
-    res.status(400).json({
-      error: "valor demasiado grande",
-      message: "Status not successfully",
-    });
-    console.log(err.stack);
-    console.log("aca solo el error", err);
-  }
 };
 
 export const deleteStock_detail_label = async (req, res) => {
@@ -226,6 +190,7 @@ export const deleteStock_detail_label = async (req, res) => {
       transaction,
     });
     resAllQuerys.push({ label: " Record was deleted successfully" });
+
     const resultNew2 = await Current_inventory_label.findOne({
       where: {
         id_label_current_inventory_label: req.body.idlabel,
