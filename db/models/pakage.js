@@ -1,5 +1,5 @@
-import {db} from '../conn.js';
-import { DataTypes } from 'sequelize';
+import { db } from "../conn.js";
+import { DataTypes } from "sequelize";
 
 export const Pakage = db.sequelize.define(
   "pakage",
@@ -30,6 +30,10 @@ export const Pakage = db.sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    code_two_pakage: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     name_pakage: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -40,6 +44,10 @@ export const Pakage = db.sequelize.define(
     },
     stock_pakage: {
       type: DataTypes.DECIMAL,
+      allowNull: false,
+    },
+    sku_pakage: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
     low_stock_pakage: {

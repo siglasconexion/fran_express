@@ -1,5 +1,5 @@
-import {db} from '../conn.js';
-import { DataTypes } from 'sequelize';
+import { db } from "../conn.js";
+import { DataTypes } from "sequelize";
 
 export const Essential_oil = db.sequelize.define(
   "essential_oil",
@@ -42,6 +42,10 @@ export const Essential_oil = db.sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    code_two_essential_oil: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     name_essential_oil: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -53,6 +57,10 @@ export const Essential_oil = db.sequelize.define(
     stock_essential_oil_two: {
       type: DataTypes.DECIMAL,
       allowNull: true,
+    },
+    sku_essential_oil: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   },
   {
