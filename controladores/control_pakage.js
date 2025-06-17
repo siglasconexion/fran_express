@@ -1,10 +1,8 @@
-import { Pakage } from '../db/models/pakage.js';
-import {
-  Current_inventory_pakage,
-} from '../db/models/current_inventory_pakage.js';
-import { QueryTypes } from 'sequelize';
-import {db} from '../db/conn.js';
-import _ from 'lodash';
+import { Pakage } from "../db/models/pakage.js";
+import { Current_inventory_pakage } from "../db/models/current_inventory_pakage.js";
+import { QueryTypes } from "sequelize";
+import { db } from "../db/conn.js";
+import _ from "lodash";
 
 export const getPakages = async (req, res) => {
   const data = await Pakage.findAll();
@@ -95,8 +93,10 @@ export const createPakage = async (req, res) => {
     id_measure_pakage: req.body.idmeasurepakage,
     id_family_pakage: req.body.idfamilypakage,
     code_pakage: req.body.codepakage,
+    code_two_pakage: req.body.codetwopakage,
     name_pakage: req.body.namepakage,
     stock_pakage: req.body.stockpakage,
+    sku_pakage: req.body.skupakage,
     low_stock_pakage: req.body.lowstockpakage,
     qty_pakage: req.body.qtypakage,
     weight_pakage: req.body.weightpakage,

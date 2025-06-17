@@ -128,7 +128,7 @@ export const createMade_item = async (req, res) => {
         other_refill_made_item: req.body.otherrefillmadeitem,
         observation_made_item: req.body.observationmadeitem,
       },
-      { type: QueryTypes.INSERT, transaction }
+      { transaction }
     );
     // fin tabla made_item
     let convert = resultNewItem?.toJSON(); // para obtener el id_creado
@@ -148,7 +148,7 @@ export const createMade_item = async (req, res) => {
           qty_refill: el.qty,
           observation: el.observation,
         },
-        { type: QueryTypes.INSERT, transaction }
+        { transaction }
       );
       resAllQuerys.push({ oil_refill: "creado correctamente" });
     }
@@ -166,7 +166,7 @@ export const createMade_item = async (req, res) => {
     const resultNew4 = await db.sequelize.query(
       ` UPDATE current_inventory_item SET production = production + ${cant} WHERE id_stock_current_inventory_item = ${idStockItem} AND id_item_current_inventory_item  = ${req.body.iditemmadeitem}`,
       {
-        //replacements: { `${campoStock}`, stockItem }, // Reemplazos seguros para evitar inyección SQL
+        //replacements: { stock_item: `${cant}` }, //Reemplazos seguros para evitar inyección SQL
         type: QueryTypes.UPDATE, // Tipo de consulta
         transaction, // Asocia la transacción a la consulta, si es necesario
       }
@@ -206,7 +206,8 @@ export const createMade_item = async (req, res) => {
       const resultNew2 = await db.sequelize.query(
         ` UPDATE ${nameTable} SET ${campoStock} = ${campoStock} - ${cant} WHERE ${nameTable}.${campoId} = ${el.id_part}`,
         {
-          //replacements: { `${campoStock}`, stockItem }, // Reemplazos seguros para evitar inyección SQL
+          //replacements: { `${campoStock}`, stockItem },
+          // // Reemplazos seguros para evitar inyección SQL
           type: QueryTypes.UPDATE, // Tipo de consulta
           transaction, // Asocia la transacción a la consulta, si es necesario
         }
@@ -250,7 +251,7 @@ export const createMade_item = async (req, res) => {
           qty: cantCI,
           date: req.body.startdatemadeitem,
         },
-        { type: QueryTypes.INSERT, transaction }
+        { transaction }
       );
     }
     // fin recorrido array data generado de item_part
@@ -269,7 +270,7 @@ export const createMade_item = async (req, res) => {
     // await transaction.rollback(); // Revierte la transacción en caso de error
     //console.log("error", error);
     //    res.status(500).json({
-    res.status(400).json({
+    return res.status(400).json({
       message: "Register is not created.....................",
       details: error.message,
       error: error.stack,
@@ -279,7 +280,7 @@ export const createMade_item = async (req, res) => {
   //  Object.entries(resultNew).length === 0
   //    ? res.json({ message: "Register is not created" })
   //    : res.json({ message: resultNew });
-  res.json({ message: resAllQuerys });
+  return res.json({ message: resAllQuerys });
 };
 
 export const updateMade_item = async (req, res) => {

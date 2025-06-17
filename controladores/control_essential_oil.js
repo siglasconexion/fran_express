@@ -1,7 +1,7 @@
-import { Essential_oil } from '../db/models/essential_oil.js';
-import {db} from '../db/conn.js';
-import xlsxj from 'xlsx-to-json';
-import fs from 'fs';
+import { Essential_oil } from "../db/models/essential_oil.js";
+import { db } from "../db/conn.js";
+import xlsxj from "xlsx-to-json";
+import fs from "fs";
 
 export const getEssential_oils = async (req, res) => {
   const data = await Essential_oil.findAll();
@@ -43,7 +43,9 @@ export const createEssential_oil = async (req, res) => {
     id_measure_essential_oil: req.body.idmeasureessentialoil,
     id_family_essential_oil: req.body.idfamilyessentialoil,
     code_essential_oil: req.body.codeessentialoil,
+    code_two_essential_oil: req.body.codetwoessentialoil,
     name_essential_oil: req.body.nameessentialoil,
+    sku_pakage: req.body.skupakage,
     //stock_essential_oil_one: req.body.stockessentialoilone,
     //stock_essential_oil_two: req.body.stockessentialoiltwo,
   });
