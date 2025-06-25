@@ -26,6 +26,10 @@ export const Pakage = db.sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    id_provider_pakage: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     code_pakage: {
       type: DataTypes.STRING,
       allowNull: false,

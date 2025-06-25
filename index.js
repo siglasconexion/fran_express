@@ -43,6 +43,8 @@ import made_itemRouter from "./routes/made_itemRouter.js";
 import move_inventoryRouter from "./routes/move_inventoryRouter.js";
 import type_move_inventoryRouter from "./routes/type_move_inventoryRouter.js";
 import other_move_itemRouter from "./routes/other_move_itemRouter.js";
+import providerRouter from "./routes/providerRouter.js";
+import ingredientRouter from "./routes/ingredientRouter.js";
 
 import { db } from "./db/conn.js";
 
@@ -99,6 +101,9 @@ app.use("/api/made_item", made_itemRouter);
 app.use("/api/move_inventory", move_inventoryRouter);
 app.use("/api/type_move_inventory", type_move_inventoryRouter);
 app.use("/api/other_move_item", other_move_itemRouter);
+
+app.use("/api/provider", providerRouter);
+app.use("/api/ingredient", ingredientRouter);
 
 app.listen(port, async () => {
   await db.sequelize;

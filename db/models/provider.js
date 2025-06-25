@@ -1,5 +1,5 @@
-import {db} from '../conn.js';
-import { DataTypes } from 'sequelize';
+import { db } from "../conn.js";
+import { DataTypes } from "sequelize";
 
 export const Provider = db.sequelize.define(
   "provider",
@@ -35,10 +35,6 @@ export const Provider = db.sequelize.define(
       allowNull: true,
     },
     provider_city: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
-    provider_state: {
       type: DataTypes.STRING,
       allowNull: true,
     },

@@ -1,5 +1,5 @@
-import {db} from '../conn.js';
-import { DataTypes } from 'sequelize';
+import { db } from "../conn.js";
+import { DataTypes } from "sequelize";
 
 export const Container = db.sequelize.define(
   "container",
@@ -29,6 +29,10 @@ export const Container = db.sequelize.define(
     id_department_container: {
       type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    level_container: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     },
     name_container: {
       type: DataTypes.STRING,

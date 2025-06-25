@@ -1,7 +1,7 @@
-import { Container } from '../db/models/container.js';
-import {db} from '../db/conn.js';
-import xlsxj from 'xlsx-to-json';
-import fs from 'fs';
+import { Container } from "../db/models/container.js";
+import { db } from "../db/conn.js";
+import xlsxj from "xlsx-to-json";
+import fs from "fs";
 
 export const getContainers = async (req, res) => {
   const data = await Container.findAll();
@@ -38,6 +38,7 @@ export const createContainer = async (req, res) => {
     id_family_container: req.body.idfamilycontainer,
     id_measure_container: req.body.idmeasurecontainer,
     id_department_container: req.body.iddepartmentcontainer,
+    level_container: req.body.levelcontainer,
     name_container: req.body.namecontainer,
     size_container: req.body.sizecontainer,
     qty_container: req.body.qtycontainer,

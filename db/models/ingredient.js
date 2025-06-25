@@ -1,92 +1,92 @@
 import { db } from "../conn.js";
 import { DataTypes } from "sequelize";
 
-export const Essential_oil = db.sequelize.define(
-  "essential_oil",
+export const Ingredient = db.sequelize.define(
+  "ingredient",
   {
     // Model attributes are defined here
-    id_essential_oil: {
+    id_ingredient: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    id_company_essential_oil: {
+    id_status_ingredient: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_status_essential_oil: {
+    id_company_ingredient: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_container_essential_oil_one: {
+    id_family_ingredient: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_container_essential_oil_two: {
+    id_measure_ingredient: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_helper_container_essential_oil: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    id_measure_essential_oil: {
+    id_container_ingredient: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_provider_essential_oil: {
+    id_provider_ingredient: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    id_family_essential_oil: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    code_essential_oil: {
+    code_ingredient: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    code_two_essential_oil: {
+    name_ingredient: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    name_essential_oil: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    description_essential_oil: {
+    description_ingredient: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    inci_essential_oil: {
+    inci_ingredient: {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    stock_essential_oil_one: {
+    stock_ingredient: {
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+    },
+    sku_ingredient: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    low_stock_ingredient: {
+      type: DataTypes.DECIMAL,
+      allowNull: false,
+    },
+    shelf_life_years_ingredient: {
       type: DataTypes.DECIMAL,
       allowNull: true,
     },
-    stock_essential_oil_two: {
+    shelf_life_months_ingredient: {
       type: DataTypes.DECIMAL,
       allowNull: true,
     },
-    low_stock_essential_oil: {
-      type: DataTypes.DECIMAL,
-      allowNull: true,
-    },
-    sku_essential_oil: {
+    shelf_life_desc_ingredient: {
       type: DataTypes.STRING,
+      allowNull: true,
+    },
+    weight_container_ingredient: {
+      type: DataTypes.DECIMAL,
       allowNull: false,
     },
-    shelf_life_months_essential_oil: {
+    gross_weight_ingredient: {
       type: DataTypes.DECIMAL,
-      allowNull: true,
+      allowNull: false,
     },
-    shelf_life_years_essential_oil: {
+    net_weight_ingredient: {
       type: DataTypes.DECIMAL,
-      allowNull: true,
+      allowNull: false,
     },
-    shelf_life_desc_essential_oil: {
+    observation_ingredient: {
       type: DataTypes.STRING,
       allowNull: true,
     },

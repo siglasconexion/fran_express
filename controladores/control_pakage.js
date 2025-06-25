@@ -101,6 +101,7 @@ export const createPakage = async (req, res) => {
     qty_pakage: req.body.qtypakage,
     weight_pakage: req.body.weightpakage,
     weight_box_pakage: req.body.weightboxpakage,
+    id_provider_pakage: req.body.idproviderpakage,
   });
   Object.entries(resultNew).length === 0
     ? res.json({ message: "Register is not created" })
