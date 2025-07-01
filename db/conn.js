@@ -1,6 +1,6 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
-import { Sequelize, DataTypes, Op } from 'sequelize';
+import { Sequelize, DataTypes, Op } from "sequelize";
 
 export const db = {};
 db.sequelize = new Sequelize(
@@ -10,6 +10,11 @@ db.sequelize = new Sequelize(
   {
     host: process.env.HOST,
     dialect: "mysql",
+    dialectOptions: {
+      connectTimeout: 10000, // 10 segundos
+    },
+
+    //    connectTimeout: 10000, // 10 segundos
   }
 );
 

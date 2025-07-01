@@ -49,11 +49,10 @@ export const createEssential_oil = async (req, res) => {
     inci_essential_oil: req.body.inciessentialoil,
     sku_essential_oil: req.body.skuessentialoil,
     id_provider_essential_oil: req.body.idprovideressentialoil,
-    shelf_live_months_essential_oil: req.body.shelflifemonthsessentialoil,
-    shelf_live_years_essential_oil: req.body.shelflifeyearsessentialoil,
-    shelf_live_desc_essential_oil: req.body.shelflifedescessentialoil,
+    shelf_life_months_essential_oil: req.body.shelflifemonthsessentialoil,
+    shelf_life_years_essential_oil: req.body.shelflifeyearsessentialoil,
+    shelf_life_desc_essential_oil: req.body.shelflifedescessentialoil,
     low_stock_essential_oil: req.body.lowstockessentialoil,
-
     //stock_essential_oil_one: req.body.stockessentialoilone,
     //stock_essential_oil_two: req.body.stockessentialoiltwo,
   });
