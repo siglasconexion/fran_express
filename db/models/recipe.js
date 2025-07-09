@@ -18,6 +18,10 @@ export const Recipe = db.sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    id_family_recipe: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     id_container_recipe: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -39,6 +43,10 @@ export const Recipe = db.sequelize.define(
       allowNull: true,
     },
     time_take_make_recipe: {
+      type: DataTypes.DECIMAL,
+      allowNull: true,
+    },
+    time_life_item_recipe: {
       type: DataTypes.DECIMAL,
       allowNull: true,
     },

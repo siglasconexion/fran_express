@@ -46,6 +46,7 @@ import other_move_itemRouter from "./routes/other_move_itemRouter.js";
 import providerRouter from "./routes/providerRouter.js";
 import ingredientRouter from "./routes/ingredientRouter.js";
 import recipeRouter from "./routes/recipeRouter.js";
+import recipe_partRouter from "./routes/recipe_partRouter.js";
 
 import { db } from "./db/conn.js";
 
@@ -105,6 +106,7 @@ app.use("/api/other_move_item", other_move_itemRouter);
 app.use("/api/provider", providerRouter);
 app.use("/api/ingredient", ingredientRouter);
 app.use("/api/recipe", recipeRouter);
+app.use("/api/recipe_part", recipe_partRouter);
 
 app.listen(port, async () => {
   await db.sequelize;

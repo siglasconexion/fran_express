@@ -38,12 +38,14 @@ export const createRecipe = async (req, res) => {
   const resultNew = await Recipe.create({
     id_company_recipe: req.body.idcompanyrecipe,
     id_status_recipe: req.body.idstatusrecipe,
+    id_family_recipe: req.body.idfamilyrecipe,
     id_container_recipe: req.body.idcontainerrecipe,
     name_recipe: req.body.namerecipe,
     code_recipe: req.body.coderecipe,
     sku_recipe: req.body.skurecipe,
     weight_container_full_recipe: req.body.weightcontainerfullrecipe,
     time_take_make_recipe: req.body.timetakemakerecipe,
+    time_life_item_recipe: req.body.timelifeitemrecipe,
     made_laboratory_recipe: req.body.madelaboratoryrecipe,
     observation_recipe: req.body.observationrecipe,
   });
