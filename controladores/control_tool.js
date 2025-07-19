@@ -1,12 +1,12 @@
-import { Family } from '../db/models/Family.js';
-import {db} from '../db/conn.js';
-import xlsxj from 'xlsx-to-json';
-import fs from 'fs';
+import { Tool } from "../db/models/tool.js";
+import { db } from "../db/conn.js";
+import xlsxj from "xlsx-to-json";
+import fs from "fs";
 import { QueryTypes } from "sequelize";
 
-export const getFamilys = async (req, res) => {
+export const getTools = async (req, res) => {
   const data = await db.sequelize.query(
-    "SELECT * FROM family ORDER BY name_family",
+    "SELECT * FROM tool ORDER BY tool_name",
     { type: QueryTypes.SELECT }
   );
   if (data.length <= 0) {
@@ -19,8 +19,8 @@ export const getFamilys = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getUserQuerySql = async (req, res) => {
-  const data = await db.sequelize.query("SELECT * FROM users");
+export const getToolQuerySql = async (req, res) => {
+  const data = await db.sequelize.query("SELECT * FROM tool");
   if (data.length <= 0) {
     res.status(204).json({
       code: 204,
@@ -31,10 +31,10 @@ export const getUserQuerySql = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getFamily = async (req, res) => {
-  let resultGetOne = await Family.findAll({
+export const getTool = async (req, res) => {
+  let resultGetOne = await Tool.findAll({
     where: {
-      id_family: req.body.id,
+      id_tool: req.body.id,
     },
   });
   if (resultGetOne.length <= 0) {
@@ -46,23 +46,22 @@ export const getFamily = async (req, res) => {
   res.json(resultGetOne);
 };
 
-export const createFamily = async (req, res) => {
-  const resultNew = await Family.create({
-    id_company_family: req.body.idcompanyfamily,
-    id_status_family: req.body.idstatusfamily,
-    id_department_family: req.body.iddepartmentfamily,
-    name_family: req.body.namefamily,
+export const createTool = async (req, res) => {
+  const resultNew = await Tool.create({
+    id_company_tool: req.body.idcompanytool,
+    id_status_tool: req.body.idstatustool,
+    tool_name: req.body.toolname,
   });
   Object.entries(resultNew).length === 0
     ? res.json({ message: "Register is not created" })
     : res.json({ message: resultNew });
 };
 
-export const updateFamily = async (req, res) => {
+export const updateTool = async (req, res) => {
   const obj = req.body;
-  let resultUpdate = await Family.update(obj, {
+  let resultUpdate = await Tool.update(obj, {
     where: {
-      id_family: req.body.id_family,
+      id_tool: req.body.id_tool,
     },
   });
   resultUpdate[0] === 1
@@ -76,12 +75,12 @@ export const updateFamily = async (req, res) => {
       });
 };
 
-export const deleteFamily = async (req, res) => {
+export const deleteTool = async (req, res) => {
   try {
-    const id_family = req.body.id;
-    let resultDelete = await Family.destroy({
+    const id_tool = req.body.id;
+    let resultDelete = await Tool.destroy({
       where: {
-        id_family,
+        id_tool,
       },
     });
     resultDelete === 1

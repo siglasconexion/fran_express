@@ -1,9 +1,9 @@
-import { Item_information } from '../db/models/item_information.js';
-import { QueryTypes } from 'sequelize';
-import {db} from '../db/conn.js';
-import xlsxj from 'xlsx-to-json';
-import fs from 'fs';
-import _ from 'lodash';
+import { Item_information } from "../db/models/item_information.js";
+import { QueryTypes } from "sequelize";
+import { db } from "../db/conn.js";
+import xlsxj from "xlsx-to-json";
+import fs from "fs";
+import _ from "lodash";
 
 export const getItem_informations = async (req, res) => {
   const data = await Item_information.findAll();
@@ -38,6 +38,7 @@ export const getItem_information = async (req, res) => {
 export const createItem_information = async (req, res) => {
   const resultNew = await Item_information.create({
     id_item: req.body.iditem,
+    id_recipe: req.body.idrecipe,
     wet_lab: req.body.wetlab,
     qty_x_batch: req.body.qtyxbatch,
     weight_bin_empty: req.body.wbinempty,

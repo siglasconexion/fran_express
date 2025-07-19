@@ -2,9 +2,13 @@ import { Essential_oil } from "../db/models/essential_oil.js";
 import { db } from "../db/conn.js";
 import xlsxj from "xlsx-to-json";
 import fs from "fs";
+import { QueryTypes } from "sequelize";
 
 export const getEssential_oils = async (req, res) => {
-  const data = await Essential_oil.findAll();
+  const data = await db.sequelize.query(
+    "SELECT * FROM essential_oil ORDER BY name_essential_oil",
+    { type: QueryTypes.SELECT }
+  );
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,
@@ -53,6 +57,7 @@ export const createEssential_oil = async (req, res) => {
     shelf_life_years_essential_oil: req.body.shelflifeyearsessentialoil,
     shelf_life_desc_essential_oil: req.body.shelflifedescessentialoil,
     low_stock_essential_oil: req.body.lowstockessentialoil,
+    density_essential_oil: req.body.densityessentialoil,
     //stock_essential_oil_one: req.body.stockessentialoilone,
     //stock_essential_oil_two: req.body.stockessentialoiltwo,
   });

@@ -1,10 +1,14 @@
-import { Measure } from  '../db/models/measure.js';
-import {db} from '../db/conn.js';
-import xlsxj from  'xlsx-to-json';
-import fs from  'fs';
+import { Measure } from "../db/models/measure.js";
+import { db } from "../db/conn.js";
+import xlsxj from "xlsx-to-json";
+import fs from "fs";
+import { QueryTypes } from "sequelize";
 
 export const getMeasures = async (req, res) => {
-  const data = await Measure.findAll();
+  const data = await db.sequelize.query(
+    "SELECT * FROM measure ORDER BY name_measure",
+    { type: QueryTypes.SELECT }
+  );
   if (data.length <= 0) {
     res.status(204).json({
       code: 204,
@@ -16,7 +20,9 @@ export const getMeasures = async (req, res) => {
 };
 
 export const getMeasureQuerySql2 = async (req, res) => {
-  const data = await db.sequelize.query("SELECT * FROM measure");
+  const data = await db.sequelize.query(
+    "SELECT * FROM measure ORDER BY name_measure"
+  );
   if (data.length <= 0) {
     res.status(204).json({
       code: 204,

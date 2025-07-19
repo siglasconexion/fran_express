@@ -1,12 +1,12 @@
-import { Recipe_part } from "../db/models/recipe_part.js";
+import { Recipe_tool } from "../db/models/recipe_tool.js";
 import { db } from "../db/conn.js";
 import _ from "lodash";
 import { QueryTypes } from "sequelize";
 
 //// ojo quitar de aca las funciones que no se usa y revisar otros archivos para hacer lo mismo
 
-export const getRecipe_parts = async (req, res) => {
-  const data = await Recipe_part.findAll();
+export const getRecipe_tools = async (req, res) => {
+  const data = await Recipe_tool.findAll();
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,
@@ -19,7 +19,7 @@ export const getRecipe_parts = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getRecipe_partQuerySql2 = async (req, res) => {
+export const getRecipe_toolQuerySql2 = async (req, res) => {
   const data = await db.sequelize.query(
     `SELECT  id_recipe_part, id_status_recipe_part, id_recipe_recipe_part, id_type_inventory_recipe_part, id_measure_recipe_part, id_part_recipe_part, quantity_recipe_part, name_measure FROM recipe_part INNER JOIN measure ON recipe_part.id_measure_recipe_part=measure.id_measure where id_recipe_recipe_part = ${variablefinal}`,
     { type: QueryTypes.SELECT }
@@ -34,11 +34,11 @@ export const getRecipe_partQuerySql2 = async (req, res) => {
   res.status(200).json(data);
 };
 
-export const getRecipe_part = async (req, res) => {
+export const getRecipe_tool = async (req, res) => {
   let variable = req.params.variable;
   console.log("req.body.idrecipe", req.params);
   const resultGetOne = await db.sequelize.query(
-    `SELECT  id_recipe_part, id_status_recipe_part, id_recipe_recipe_part, id_type_inventory_recipe_part, id_measure_recipe_part, id_part_recipe_part, quantity_recipe_part, name_measure FROM recipe_part INNER JOIN measure ON recipe_part.id_measure_recipe_part=measure.id_measure where id_recipe_recipe_part = ${variable} `,
+    `SELECT  id_recipe_tool, id_recipe_recipe_tool, id_tool_recipe_tool, quantity_recipe_tool, tool_name FROM recipe_tool INNER JOIN tool ON recipe_tool.id_tool_recipe_tool=tool.id_tool where id_recipe_recipe_tool = ${variable} `,
     { type: QueryTypes.SELECT }
   ); //
   if (resultGetOne.length <= 0) {
@@ -51,14 +51,12 @@ export const getRecipe_part = async (req, res) => {
   res.json(resultGetOne);
 };
 
-export const createRecipe_part = async (req, res) => {
+export const createRecipe_tool = async (req, res) => {
   // ojo colocar akika try cath
-  const previosResult = await Recipe_part.findOne({
+  const previosResult = await Recipe_tool.findOne({
     where: {
-      id_recipe_recipe_part: req.body.idreciperecipepart,
-      id_part_recipe_part: req.body.idpartrecipepart,
-      id_type_inventory_recipe_part: req.body.idtypeinventoryrecipepart,
-      id_measure_recipe_part: req.body.idmeasurerecipepart,
+      id_recipe_recipe_tool: req.body.idreciperecipetool,
+      id_tool_recipe_tool: req.body.idtoolrecipetool,
     },
   });
   console.log("previosResult", previosResult);
@@ -66,18 +64,11 @@ export const createRecipe_part = async (req, res) => {
   console.log("primera consulta", convertPreviosResult);
   //    if (_.isEmpty(convertPreviosResult)) {
   if (_.isEmpty(convertPreviosResult)) {
-    const resultNew = await Recipe_part.create({
-      id_recipe_recipe_part: req.body.idreciperecipepart,
-      id_measure_recipe_part: req.body.idmeasurerecipepart,
-      id_status_recipe_part: req.body.idstatusrecipepart,
-      id_part_recipe_part: req.body.idpartrecipepart,
-      id_type_inventory_recipe_part: req.body.idtypeinventoryrecipepart,
-      quantity_recipe_part: req.body.quantityrecipepart,
+    const resultNew = await Recipe_tool.create({
+      id_recipe_recipe_tool: req.body.idreciperecipetool,
+      id_tool_recipe_tool: req.body.idtoolrecipetool,
+      quantity_recipe_tool: req.body.quantityrecipetool,
     });
-    console.log("req.body.iditem", req.body.idrecipe);
-    console.log("req.body.idpart", req.body.idpart);
-    console.log("req.body.idtypeinventory", req.body.idtypeinventory);
-    console.log("req.body.qtyitem", req.body.qtyrecipe);
     let longitud = Object.entries(resultNew).length;
     console.log("resultNew", resultNew);
     Object.entries(resultNew).length === 0
@@ -98,11 +89,11 @@ export const createRecipe_part = async (req, res) => {
   }
 };
 
-export const updateRecipe_part = async (req, res) => {
+export const updateRecipe_tool = async (req, res) => {
   try {
     const obj = req.body;
     const id = req.body.id;
-    let resultUpdate = await Recipe_part.update(obj, {
+    let resultUpdate = await Recipe_tool.update(obj, {
       where: {
         id: id,
       },
@@ -130,12 +121,12 @@ export const updateRecipe_part = async (req, res) => {
   }
 };
 
-export const deleteRecipe_part = async (req, res) => {
+export const deleteRecipe_tool = async (req, res) => {
   try {
-    const id_recipe_part = req.body.idrecipe;
-    let resultDelete = await Recipe_part.destroy({
+    const id_recipe_tool = req.body.idrecipe;
+    let resultDelete = await Recipe_tool.destroy({
       where: {
-        id_recipe_part,
+        id_recipe_tool,
       },
     });
     resultDelete === 1

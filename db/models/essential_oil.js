@@ -58,6 +58,10 @@ export const Essential_oil = db.sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    density_essential_oil: {
+      type: DataTypes.DECIMAL,
+      allowNull: true,
+    },
     inci_essential_oil: {
       type: DataTypes.STRING,
       allowNull: true,

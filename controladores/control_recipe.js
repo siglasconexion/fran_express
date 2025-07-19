@@ -6,7 +6,10 @@ import fs from "fs";
 import _ from "lodash";
 
 export const getRecipes = async (req, res) => {
-  const data = await Recipe.findAll();
+  const data = await db.sequelize.query(
+    `SELECT  * from recipe ORDER BY name_recipe`,
+    { type: QueryTypes.SELECT }
+  ); //
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,

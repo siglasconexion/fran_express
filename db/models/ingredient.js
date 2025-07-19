@@ -90,6 +90,14 @@ export const Ingredient = db.sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    density_bulk_ingredient: {
+      type: DataTypes.DECIMAL,
+      allowNull: true,
+    },
+    density_compact_ingredient: {
+      type: DataTypes.DECIMAL,
+      allowNull: true,
+    },
   },
   {
     freezeTableName: true,

@@ -5,7 +5,10 @@ import { db } from "../db/conn.js";
 import _ from "lodash";
 
 export const getIngredients = async (req, res) => {
-  const data = await Ingredient.findAll();
+  const data = await db.sequelize.query(
+    "SELECT * FROM ingredient ORDER BY name_ingredient",
+    { type: QueryTypes.SELECT }
+  );
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,
@@ -55,6 +58,8 @@ export const createIngredient = async (req, res) => {
     weight_container_ingredient: req.body.weightcontaineringredient,
     gross_weight_ingredient: req.body.grossweightingredient,
     net_weight_ingredient: req.body.netweightingredient,
+    density_bulk_ingredient: req.body.densitybulkingredient,
+    density_compact_ingredient: req.body.densitycompactingredient,
   });
   Object.entries(resultNew).length === 0
     ? res.json({ message: "Register is not created" })

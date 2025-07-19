@@ -1,5 +1,5 @@
-import {db} from '../conn.js';
-import { DataTypes } from 'sequelize';
+import { db } from "../conn.js";
+import { DataTypes } from "sequelize";
 
 export const Item_information = db.sequelize.define(
   "item_information",
@@ -11,6 +11,10 @@ export const Item_information = db.sequelize.define(
       primaryKey: true,
     },
     id_item: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    id_recipe: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
