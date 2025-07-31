@@ -123,7 +123,7 @@ export const updateRecipe_tool = async (req, res) => {
 
 export const deleteRecipe_tool = async (req, res) => {
   try {
-    const id_recipe_tool = req.body.idrecipe;
+    const id_recipe_tool = req.body.idtool;
     let resultDelete = await Recipe_tool.destroy({
       where: {
         id_recipe_tool,

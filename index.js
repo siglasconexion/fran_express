@@ -49,6 +49,7 @@ import recipeRouter from "./routes/recipeRouter.js";
 import recipe_partRouter from "./routes/recipe_partRouter.js";
 import toolRouter from "./routes/toolRouter.js";
 import recipe_toolRouter from "./routes/recipe_toolRouter.js";
+import type_measureRouter from "./routes/type_measureRouter.js";
 
 import { db } from "./db/conn.js";
 
@@ -111,6 +112,7 @@ app.use("/api/recipe", recipeRouter);
 app.use("/api/recipe_part", recipe_partRouter);
 app.use("/api/tool", toolRouter);
 app.use("/api/recipe_tool", recipe_toolRouter);
+app.use("/api/type_measure", type_measureRouter);
 
 app.listen(port, async () => {
   await db.sequelize;

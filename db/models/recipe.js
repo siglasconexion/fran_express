@@ -58,6 +58,14 @@ export const Recipe = db.sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    in_process_check: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    final_product_check: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   {
     freezeTableName: true,

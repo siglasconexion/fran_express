@@ -34,6 +34,10 @@ export const Ingredient = db.sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+    id_recipe_ingredient: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
     code_ingredient: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -96,6 +100,10 @@ export const Ingredient = db.sequelize.define(
     },
     density_compact_ingredient: {
       type: DataTypes.DECIMAL,
+      allowNull: true,
+    },
+    lote_code_ingredient: {
+      type: DataTypes.STRING,
       allowNull: true,
     },
   },

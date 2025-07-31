@@ -44,6 +44,7 @@ export const createIngredient = async (req, res) => {
     id_family_ingredient: req.body.idfamilyingredient,
     id_provider_ingredient: req.body.idprovideringredient,
     id_container_ingredient: req.body.idcontaineringredient,
+    id_recipe_ingredient: req.body.idrecipeingredient,
     code_ingredient: req.body.codeingredient,
     name_ingredient: req.body.nameingredient,
     description_ingredient: req.body.descriptioningredient,

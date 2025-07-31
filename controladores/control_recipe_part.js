@@ -6,7 +6,11 @@ import { QueryTypes } from "sequelize";
 //// ojo quitar de aca las funciones que no se usa y revisar otros archivos para hacer lo mismo
 
 export const getRecipe_parts = async (req, res) => {
-  const data = await Recipe_part.findAll();
+  const data = await db.sequelize.query(
+    `SELECT  id_recipe_part, id_status_recipe_part, id_recipe_recipe_part, id_type_inventory_recipe_part, id_measure_recipe_part, id_part_recipe_part, quantity_recipe_part, name_measure, desc_type_measure, id_type_measure FROM recipe_part INNER JOIN measure ON recipe_part.id_measure_recipe_part=measure.id_measure INNER JOIN type_measure on measure.id_type_measure_measure = type_measure.id_type_measure`,
+    { type: QueryTypes.SELECT }
+  ); //
+  //  const data = await Recipe_part.findAll();
   if (data.length <= 0) {
     res.status(201).json({
       code: 201,
@@ -37,6 +41,9 @@ export const getRecipe_partQuerySql2 = async (req, res) => {
 export const getRecipe_part = async (req, res) => {
   let variable = req.params.variable;
   console.log("req.body.idrecipe", req.params);
+  /*   `SELECT  id_recipe_part, id_status_recipe_part, id_recipe_recipe_part, id_type_inventory_recipe_part, id_measure_recipe_part, id_part_recipe_part, quantity_recipe_part, name_measure, desc_type_measure, id_type_measure FROM recipe_part INNER JOIN measure ON recipe_part.id_measure_recipe_part=measure.id_measure INNER JOIN type_measure on measure.id_type_measure_measure = type_measure.id_type_measure where id_recipe_recipe_part = ${variable}`,
+    esta parte la estaba adaptando para el archivo made a batch*/
+
   const resultGetOne = await db.sequelize.query(
     `SELECT  id_recipe_part, id_status_recipe_part, id_recipe_recipe_part, id_type_inventory_recipe_part, id_measure_recipe_part, id_part_recipe_part, quantity_recipe_part, name_measure FROM recipe_part INNER JOIN measure ON recipe_part.id_measure_recipe_part=measure.id_measure where id_recipe_recipe_part = ${variable} `,
     { type: QueryTypes.SELECT }

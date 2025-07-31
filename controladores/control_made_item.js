@@ -141,8 +141,8 @@ export const createMade_item = async (req, res) => {
       const resultNewMoveRefill = await Move_refill.create(
         {
           id_user: req.body.idusermadeitem,
-          id_type_recharge: 1,
-          id_product: el.idoil,
+          id_type_recharge: el.idtypeinventory,
+          id_product: el.id,
           id_made_item: convert.id_made_item,
           date: req.body.startdatemadeitem,
           qty_refill: el.qty,

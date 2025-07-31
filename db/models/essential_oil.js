@@ -94,6 +94,10 @@ export const Essential_oil = db.sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    lote_code_essential_oil: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   {
     freezeTableName: true,
